@@ -1,3 +1,7 @@
+@php
+$jobs = include resource_path('views/data/jobs.blade.php');
+@endphp
+
 <section class="px-6 py-12 bg-[#f7eee7]">
     <div class="container mx-auto">
         <!-- Header -->
@@ -14,27 +18,37 @@
             @include('components.jobcategories')
 
             <!-- Job Cards -->
-            <div class="col-span-2 flex flex-col gap-6">
-                <div class="space-y-4">
-                    @php
-                    $jobs = [
-                    ['type' => 'Full Time', 'border' => 'border-orange-400', 'ring' => 'ring-blue-500', 'edu' => 'S1-S2'],
-                    ['type' => 'Part Time', 'border' => 'border-red-300', 'ring' => '', 'edu' => 'D1-D3'],
-                    ['type' => 'Freelance', 'border' => 'border-yellow-300', 'ring' => '', 'edu' => 'SMA/K'],
-                    ];
-                    @endphp
+            <div class="col-span-2 flex flex-col gap-6"
+                x-data="{
+                    page: 1,
+                    perPage: 3,
+                    total: {{ count($jobs) }},
+                    get totalPages() {
+                        return Math.ceil(this.total / this.perPage);
+                    },
+                    get paginatedJobs() {
+                        return {{ Js::from($jobs) }}.slice((this.page - 1) * this.perPage, this.page * this.perPage);
+                    }
+                }"
+                x-init="$watch('page', () => { window.scrollTo({ top: $el.offsetTop - 100, behavior: 'smooth' }); })" data-aos="fade-left" data-aos-duration="700">
 
-                    @foreach ($jobs as $index => $job)
-                    <x-job_card :job="$job" :index="$index" />
-                    @endforeach
-                </div>
+                <template x-for="(job, index) in paginatedJobs" :key="index">
+                    <div x-html="`@include('components.jobcard')`"></div>
+                </template>
 
                 <!-- Navigasi -->
-                <div class="flex justify-between items-center mt-4" data-aos="fade-up" data-aos-duration="700">
-                    <button class="text-yellow-500 font-semibold flex items-center gap-2">
+                <div class="flex justify-between items-center mt-4">
+                    <button class="text-yellow-500 font-semibold flex items-center gap-2"
+                        :disabled="page <= 1"
+                        :class="{ 'opacity-50 cursor-not-allowed': page <= 1 }"
+                        @click="page = Math.max(page - 1, 1)">
                         <span class="text-xl">⬅</span> Sebelumnya
                     </button>
-                    <button class="text-yellow-500 font-semibold flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Halaman <span x-text="page"></span> / <span x-text="totalPages"></span></span>
+                    <button class="text-yellow-500 font-semibold flex items-center gap-2"
+                        :disabled="page >= totalPages"
+                        :class="{ 'opacity-50 cursor-not-allowed': page >= totalPages }"
+                        @click="page++">
                         Selanjutnya <span class="text-xl">➡</span>
                     </button>
                 </div>
