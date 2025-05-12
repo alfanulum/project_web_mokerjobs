@@ -1,3 +1,8 @@
+@php
+use App\Models\Category;
+$categories = Category::all();
+@endphp
+
 <!-- Categories Dropdown Component -->
 <div x-data="{ open: false }" class="relative w-full md:w-1/2 z-[999]">
   <!-- Trigger -->
@@ -10,19 +15,18 @@
   </div>
 
   <!-- Dropdown Menu -->
-  <div
-    x-show="open"
-    @click.outside="open = false"
-    x-transition
-    class="absolute mt-2 w-[700px] bg-[#fdf4ed] rounded-2xl shadow-2xl z-[999] p-6 max-h-[450px] overflow-y-auto">
-    <div class="grid grid-cols-2 gap-x-10 gap-y-2">
+  <div x-show="open" @click.outside="open = false" x-transition class="absolute mt-2 w-full md:w-[700px] bg-white rounded-2xl shadow-2xl z-[999] p-4 max-h-[450px] overflow-y-auto">
+    <div class="bg-orange-100 px-3 py-2 rounded-t-md mb-2">
+      <h3 class="text-sm font-bold text-gray-800">Kategori Lowongan</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-orange-50 px-3 py-3 rounded-b-md">
       @foreach ($categories as $category)
-      <label class="flex justify-between items-center space-x-2 text-sm text-gray-800 hover:bg-orange-100 px-3 py-2 rounded cursor-pointer transition">
+      <label class="flex justify-between items-center text-sm text-gray-800 hover:bg-orange-200 px-3 py-2 rounded cursor-pointer transition">
         <div class="flex items-center gap-2">
-          <input type="radio" name="job_category" class="form-radio text-orange-500 focus:ring-0" />
+          <input type="radio" name="job_category" value="{{ $category->id }}" class="text-orange-500 focus:ring-0" />
           <span>{{ $category->name }}</span>
         </div>
-        <span class="text-gray-400 text-xs">(000)</span>
+        <span class="text-gray-400 text-xs">(000)</span> {{-- jumlah dummy --}}
       </label>
       @endforeach
     </div>
