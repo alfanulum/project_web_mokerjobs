@@ -6,7 +6,7 @@ $navLinks = [
 ];
 @endphp
 
-<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-white shadow-sm transition-all duration-300 px-4 md:px-6 py-4">
+<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-white shadow-sm transition-all duration-300 px-4 md:px-6 py-5">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
         <!-- Logo -->
         <a href="{{ route('overview') }}" class="flex items-center space-x-2">

@@ -2,8 +2,8 @@
 $categories = include resource_path('views/data/categories.blade.php');
 @endphp
 
-<!-- Category Dropdown Component -->
-<div x-data="{ open: false }" class="relative w-full md:w-1/2 z-50">
+<!-- Categories Dropdown Component -->
+<div x-data="{ open: false }" class="relative w-full md:w-1/2 z-[999]">
   <!-- Trigger -->
   <div @click="open = !open" class="flex items-center border border-orange-500 px-4 py-2 rounded-full cursor-pointer bg-white relative z-20">
     <img src="{{ asset('images/iconkategori.png') }}" class="w-5 h-5 mr-2" alt="Category Icon">
@@ -18,7 +18,7 @@ $categories = include resource_path('views/data/categories.blade.php');
     x-show="open"
     @click.outside="open = false"
     x-transition
-    class="absolute mt-2 w-[700px] bg-[#fdf4ed] rounded-2xl shadow-2xl z-50 p-6 max-h-[450px] overflow-y-auto">
+    class="absolute mt-2 w-[700px] bg-[#fdf4ed] rounded-2xl shadow-2xl z-[999] p-6 max-h-[450px] overflow-y-auto">
     <div class="grid grid-cols-2 gap-x-10 gap-y-2">
       @foreach ($categories as $category)
       <label class="flex justify-between items-center space-x-2 text-sm text-gray-800 hover:bg-orange-100 px-3 py-2 rounded cursor-pointer transition">
