@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-@include('components.homepage')
-@include('components.newest_job')
-@include('components.feedback')
+@include('pages.homepage')
+@include('pages.newest_job')
+@include('pages.feedback')
 @include('components.footer')
 @endsection

@@ -1,7 +1,3 @@
-@php
-$categories = include resource_path('views/data/categories.blade.php');
-@endphp
-
 <!-- Categories Dropdown Component -->
 <div x-data="{ open: false }" class="relative w-full md:w-1/2 z-[999]">
   <!-- Trigger -->
@@ -24,7 +20,7 @@ $categories = include resource_path('views/data/categories.blade.php');
       <label class="flex justify-between items-center space-x-2 text-sm text-gray-800 hover:bg-orange-100 px-3 py-2 rounded cursor-pointer transition">
         <div class="flex items-center gap-2">
           <input type="radio" name="job_category" class="form-radio text-orange-500 focus:ring-0" />
-          <span>{{ $category['name'] }}</span>
+          <span>{{ $category->name }}</span>
         </div>
         <span class="text-gray-400 text-xs">(000)</span>
       </label>

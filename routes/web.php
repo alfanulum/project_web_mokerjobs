@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('overview');
-})->name('overview');
+use App\Http\Controllers\JobController;
+
+Route::get('/', [JobController::class, 'overview'])->name('overview');
+
 
 Route::get('find_job', function () {
     return view('find_job');
@@ -25,3 +26,7 @@ Route::get('sign_up', function () {
 Route::get('admin', function () {
     return view('admin');
 })->name('admin');
+
+use App\Http\Controllers\FeedbackController;
+
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.submit');
