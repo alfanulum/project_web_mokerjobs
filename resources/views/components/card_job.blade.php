@@ -1,3 +1,5 @@
+@props(['job'])
+
 @php
 $typeColors = [
 'Full Time' => ['border' => 'border-orange-400', 'bg' => 'bg-orange-100', 'text' => 'text-orange-700'],
@@ -8,7 +10,7 @@ $type = $job['type'] ?? 'Full Time';
 $color = $typeColors[$type] ?? ['border' => 'border-gray-300', 'bg' => 'bg-gray-100', 'text' => 'text-gray-700'];
 @endphp
 
-<div class="transition-transform duration-300 hover:scale-[1.015] hover:shadow-xl border-l-4 rounded-2xl overflow-hidden {{ $color['border'] }}">
+<div class="transition-transform duration-300 hover:scale-[1.015] hover:shadow-xl border-l-4 rounded-2xl overflow-hidden {{ $color['border'] }} mb-4">
     <div class="bg-white shadow-inner p-6 rounded-2xl relative ring-1 ring-gray-100">
         <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-5">
             <div class="flex items-start gap-4">

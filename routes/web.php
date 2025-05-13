@@ -6,10 +6,7 @@ use App\Http\Controllers\JobController;
 
 Route::get('/', [JobController::class, 'overview'])->name('overview');
 
-
-Route::get('find_job', function () {
-    return view('find_job');
-})->name('find_job');
+Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
 Route::get('post_job', function () {
     return view('post_job');

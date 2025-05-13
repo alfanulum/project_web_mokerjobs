@@ -69,43 +69,28 @@
         <h2 class="text-2xl font-bold text-gray-800">Loker Terbaru</h2>
         <p class="text-sm text-gray-600">Temukan lowongan pekerjaan yang disarankan</p>
       </div>
-      <a href="#" class="mt-4 md:mt-0 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">Selengkapnya</a>
+      <a href="{{ route('find_job') }}" class="mt-4 md:mt-0 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+        Selengkapnya
+      </a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {{-- Sidebar Kategori --}}
       @include('components.categories_job')
 
+      {{-- Job Cards dan Pagination --}}
       <div class="col-span-2 flex flex-col min-h-[700px] gap-6" data-aos="fade-left" data-aos-duration="700">
         <div class="flex flex-col gap-6 flex-1">
-          @foreach($jobs as $job)
+          @forelse($jobs as $job)
           @include('components.card_job', ['job' => $job])
-          @endforeach
+          @empty
+          <p class="text-center text-gray-500">Tidak ada lowongan ditemukan.</p>
+          @endforelse
         </div>
 
-        <!-- Pagination dengan desain custom -->
+        {{-- Pagination --}}
         <div class="mt-auto">
-          <div class="flex justify-center items-center mt-8 gap-6">
-            {{-- Tombol Sebelumnya --}}
-            <a href="{{ $jobs->previousPageUrl() ? $jobs->previousPageUrl() . '#jobs' : '#' }}"
-              class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 shadow-sm hover:shadow-md bg-white text-gray-700 font-medium transition-all duration-200 {{ $jobs->onFirstPage() ? 'opacity-40 cursor-not-allowed pointer-events-none' : '' }}">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-              <span>Sebelumnya</span>
-            </a>
-
-            {{-- Info Halaman --}}
-            <span class="text-sm text-gray-600">Halaman {{ $jobs->currentPage() }} / {{ $jobs->lastPage() }}</span>
-
-            {{-- Tombol Selanjutnya --}}
-            <a href="{{ $jobs->nextPageUrl() ? $jobs->nextPageUrl() . '#jobs' : '#' }}"
-              class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 shadow-sm hover:shadow-md bg-white text-gray-700 font-medium transition-all duration-200 {{ $jobs->hasMorePages() ? '' : 'opacity-40 cursor-not-allowed pointer-events-none' }}">
-              <span>Selanjutnya</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
+          @include('components.pagination', ['paginator' => $jobs])
         </div>
       </div>
     </div>
