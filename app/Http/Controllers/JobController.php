@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 
 class JobController extends Controller
 {
     public function overview(Request $request)
     {
         // Data dummy sementara (nanti akan diganti dari database)
-        $jobs = [
+        $allJobs = [
             [
                 'type' => 'Full Time',
                 'title' => 'Frontend Developer',
@@ -134,30 +137,51 @@ class JobController extends Controller
             // Tambah data dummy lainnya sesuai kebutuhan
         ];
 
-        // Data dummy kategori
-        $categories = Category::all();
-        // Ambil semua lokasi unik dari data job
-        $locations = array_unique(array_column($jobs, 'location'));
-
-        // Filter jika user memilih kategori
+        // Filter berdasarkan kategori (judul)
         if ($request->filled('kategori')) {
-            $jobs = array_filter($jobs, function ($job) use ($request) {
-                return str_contains(strtolower($job['title']), strtolower($request->kategori));
-            });
+            $kategori = strtolower($request->kategori);
+            $allJobs = array_filter(
+                $allJobs,
+                fn($job) =>
+                str_contains(strtolower($job['title']), $kategori)
+            );
         }
 
-        // Filter jika user memilih lokasi
+        // Filter berdasarkan lokasi
         if ($request->filled('lokasi')) {
-            $jobs = array_filter($jobs, function ($job) use ($request) {
-                return strtolower($job['location']) === strtolower($request->lokasi);
-            });
+            $lokasi = strtolower($request->lokasi);
+            $allJobs = array_filter(
+                $allJobs,
+                fn($job) =>
+                strtolower($job['location']) === $lokasi
+            );
         }
 
-        // Kirim ke overview
-        return view('overview', [
-            'jobs' => $jobs,
-            'categories' => $categories,
-            'locations' => $locations,
-        ]);
+        // Pagination manual
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 3;
+        $offset = ($page - 1) * $perPage;
+        $items = array_slice($allJobs, $offset, $perPage);
+
+        $jobs = new LengthAwarePaginator(
+            $items,
+            count($allJobs),
+            $perPage,
+            $page,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(),
+                'fragment' => 'jobs',
+            ]
+        );
+
+
+        // Ambil data kategori dari DB (jika ada model Category)
+        $categories = Category::all();
+
+        // Ambil daftar lokasi unik dari data
+        $locations = array_unique(array_column($allJobs, 'location'));
+
+        return view('overview', compact('jobs', 'categories', 'locations'));
     }
 }
