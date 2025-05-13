@@ -3,16 +3,16 @@
 @section('content')
 
 {{-- Header & Search Section --}}
-<section class="relative bg-[#fdfdfd] py-18 px-4 overflow-hidden">
+<section class="relative bg-[#fdfdfd] py-18 px-4 overflow-visible">
 
   {{-- Dekorasi Lingkaran Besar --}}
-  <div class="absolute -right-20 -top--10 w-[450px] h-[450px] rounded-full border-[60px] border-gray-200 opacity-30 z-0"></div>
+  <div class="absolute -right-20 top-15 w-[450px] h-[225px] rounded-t-full border-[60px] border-b-0 border-gray-200 opacity-30 z-0"></div>
 
   {{-- Judul dan Garis Putus-Putus --}}
   <div class="relative z-10 max-w-5xl mx-auto mb-10 px-4">
     <div class="flex flex-col md:flex-row items-center md:items-end justify-start gap-4">
       {{-- Judul dengan underline tipis biru --}}
-      <h1 class="text-2xl md:text-3xl font-semibold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-blue-500">
+      <h1 class="text-2xl md:text-3xl font-semibold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full">
         Find Your <span class="text-orange-500 font-bold">Dream Job</span> Here
       </h1>
 
@@ -28,9 +28,10 @@
   </div>
 
   {{-- Search & Dropdown --}}
-  <div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 mt-10 mb-6 max-w-4xl mx-auto">
+  <div class="relative z-20 flex flex-col md:flex-row items-center justify-center gap-4 mt-10 mb-6 max-w-4xl mx-auto">
     @include('components.search')
     @include('components.dropdown_location')
+
     <button class="w-full md:w-auto bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
       Cari
     </button>
