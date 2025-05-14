@@ -2,6 +2,8 @@
 
 @section('content')
 
+@include('components.navbar')
+
 <!-- Homepage -->
 <section class="bg-white py-16 px-6 mb-20">
   <div class="relative z-10 max-w-6xl mx-auto mb-20">

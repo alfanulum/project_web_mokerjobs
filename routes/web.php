@@ -12,12 +12,12 @@ Route::get('post_job', function () {
     return view('post_job');
 })->name('post_job');
 
-Route::get('sign_in', function () {
-    return view('sign_in');
+Route::get('/sign_in', function () {
+    return view('auth.sign_in'); // path: resources/views/auth/login.blade.php
 })->name('sign_in');
 
-Route::get('sign_up', function () {
-    return view('sign_up');
+Route::get('/sign_up', function () {
+    return view('auth.sign_up');
 })->name('sign_up');
 
 Route::get('admin', function () {

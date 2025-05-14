@@ -2,6 +2,8 @@
 
 @section('content')
 
+@include('components.navbar')
+
 {{-- Header & Search Section --}}
 <section class="relative bg-[#fdfdfd] py-18 px-4 overflow-visible">
 

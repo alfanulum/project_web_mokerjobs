@@ -13,7 +13,6 @@
 </head>
 
 <body class="bg-white text-black font-sans">
-    @include('components.navbar')
     <main>
         @yield('content')
     </main>
