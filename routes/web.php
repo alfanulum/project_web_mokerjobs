@@ -8,9 +8,17 @@ Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
-Route::get('post_job', function () {
-    return view('post_job');
+Route::get('/post_job', function () {
+    return view('post_job_pages.post_job');
 })->name('post_job');
+
+Route::get('/post_job/form', function () {
+    return view('post_job_pages.form_postjob_1');
+})->name('form_postjob_1');
+
+Route::get('/post_job/form', function () {
+    return view('post_job_pages.form_postjob_2');
+})->name('form_postjob_2');
 
 Route::get('/sign_in', function () {
     return view('auth.sign_in'); // path: resources/views/auth/login.blade.php

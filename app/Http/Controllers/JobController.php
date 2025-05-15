@@ -49,6 +49,27 @@ class JobController extends Controller
         $categories = Category::all();
         $locations = array_unique(array_column($allJobs, 'location'));
 
+        $jobTypes = [
+            ['label' => 'Full Time', 'value' => 'full_time', 'count' => 123],
+            ['label' => 'Part Time', 'value' => 'part_time', 'count' => 45],
+            ['label' => 'Freelance', 'value' => 'freelance', 'count' => 30],
+        ];
+
+        $workTypes = [
+            ['label' => 'Hybrid', 'value' => 'hybrid', 'count' => 50],
+            ['label' => 'On-site', 'value' => 'onsite', 'count' => 70],
+            ['label' => 'Remote', 'value' => 'remote', 'count' => 40],
+        ];
+
+        $educations = [
+            ['label' => 'D1-D3', 'value' => 'd3', 'count' => 20],
+            ['label' => 'S1/D4', 'value' => 's1', 'count' => 30],
+            ['label' => 'S2/Profesi', 'value' => 's2', 'count' => 15],
+            ['label' => 'SMA/K', 'value' => 'smak', 'count' => 25],
+            ['label' => 'SD-SMP', 'value' => 'sd', 'count' => 10],
+        ];
+
+
         // Ambil semua kategori dari database
         $categories = Category::all()->map(function ($category) use ($allJobs) {
             $count = collect($allJobs)->where('category', $category->name)->count();
@@ -60,7 +81,14 @@ class JobController extends Controller
             ];
         });
 
-        return view('find_job', compact('jobs', 'categories', 'locations'));
+        return view('find_job', compact(
+            'jobs',
+            'categories',
+            'locations',
+            'jobTypes',
+            'workTypes',
+            'educations'
+        ));
     }
 
     // 🧩 Fungsi untuk pagination manual

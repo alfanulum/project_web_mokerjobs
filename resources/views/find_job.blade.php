@@ -50,36 +50,23 @@
       <h2 class="text-xl font-bold mb-4">Filter</h2>
 
       <div class="space-y-4">
+
         @include('components.filter_dropdown', [
         'title' => 'Job Type',
         'name' => 'job_type',
-        'options' => [
-        ['value' => 'fulltime', 'label' => 'Full Time', 'count' => 123],
-        ['value' => 'parttime', 'label' => 'Part Time', 'count' => 34],
-        ['value' => 'freelance', 'label' => 'Freelance', 'count' => 56],
-        ]
+        'options' => $jobTypes
         ])
 
         @include('components.filter_dropdown', [
         'title' => 'Work Type',
         'name' => 'work_type',
-        'options' => [
-        ['value' => 'hybrid', 'label' => 'Hybrid', 'count' => 22],
-        ['value' => 'onsite', 'label' => 'On-site', 'count' => 89],
-        ['value' => 'remote', 'label' => 'Remote', 'count' => 77],
-        ]
+        'options' => $workTypes
         ])
 
         @include('components.filter_dropdown', [
         'title' => 'Education',
         'name' => 'education',
-        'options' => [
-        ['value' => 'd1', 'label' => 'D1-D3', 'count' => 23],
-        ['value' => 's1', 'label' => 'S1/D4', 'count' => 87],
-        ['value' => 's2', 'label' => 'S2/Profesi', 'count' => 12],
-        ['value' => 'sma', 'label' => 'SMA/K', 'count' => 33],
-        ['value' => 'sd', 'label' => 'SD-SMP', 'count' => 9],
-        ]
+        'options' => $educations
         ])
 
         @include('components.filter_dropdown', [
@@ -87,6 +74,7 @@
         'name' => 'category',
         'options' => $categories
         ])
+
       </div>
     </aside>
 
