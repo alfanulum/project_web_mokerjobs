@@ -12,7 +12,7 @@ Route::get('/post_job', function () {
     return view('post_job_pages.post_job');
 })->name('post_job');
 
-Route::get('/post_job/form', function () {
+Route::get('/postjob/step1', function () {
     return view('post_job_pages.form_postjob_1');
 })->name('form_postjob_1');
 
