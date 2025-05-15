@@ -90,3 +90,27 @@ VITE_APP_NAME="MokerJobs"
 ## 📄 Lisensi
 
 Proyek ini dilisensikan di bawah MIT License.
+
+## 🔐 Tips: Backup dan Restore .env Sebelum Melakukan Git Pull
+
+Sebelum melakukan `git pull`, sangat disarankan untuk **backup file `.env` lokal**, karena file ini tidak ikut terupload ke GitHub dan mungkin perlu disesuaikan ulang setelah update.
+
+### ✅ Cara Backup .env sebelum Git Pull
+
+```bash
+cp .env .env.backup
+```
+
+### 🔄 Lakukan Git Pull
+
+```bash
+git pull origin main
+```
+
+### ♻️ Restore .env (Jika Terhapus atau Terubah)
+
+```bash
+mv .env.backup .env
+```
+
+Ini membantu agar konfigurasi lokal kamu (database, key, dll.) tidak hilang setelah melakukan `git pull`.
