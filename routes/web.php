@@ -8,13 +8,11 @@ Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
+Route::get('/post_job_pages/form_postjob_step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
+
 Route::get('/post_job', function () {
     return view('post_job_pages.post_job');
 })->name('post_job');
-
-Route::get('/postjob/step1', function () {
-    return view('post_job_pages.form_postjob_1');
-})->name('form_postjob_1');
 
 Route::get('/post_job/form', function () {
     return view('post_job_pages.form_postjob_2');

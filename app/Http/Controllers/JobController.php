@@ -91,6 +91,38 @@ class JobController extends Controller
         ));
     }
 
+    public function formPostJobStep1(Request $request)
+    {
+        $allJobs = $this->getDummyJobs();
+
+        // Sama: bisa tambahkan filter kategori/lokasi juga kalau ingin
+        $jobs = $this->paginate($allJobs, 8, $request);
+        $categories = Category::all();
+
+        $jobTypes = [
+            ['label' => 'Full Time', 'value' => 'full_time', 'count' => 123],
+            ['label' => 'Part Time', 'value' => 'part_time', 'count' => 45],
+            ['label' => 'Freelance', 'value' => 'freelance', 'count' => 30],
+        ];
+
+        // Ambil semua kategori dari database
+        $categories = Category::all()->map(function ($category) use ($allJobs) {
+            $count = collect($allJobs)->where('category', $category->name)->count();
+
+            return [
+                'value' => strtolower(str_replace(' ', '_', $category->name)), // contoh: IT & Engineering → it_engineering
+                'label' => $category->name,
+                'count' => $count,
+            ];
+        });
+
+        return view('post_job_pages.form_postjob_step1', compact(
+            'jobs',
+            'categories',
+            'jobTypes'
+        ));
+    }
+
     // 🧩 Fungsi untuk pagination manual
     private function paginate(array $items, int $perPage, Request $request)
     {

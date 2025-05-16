@@ -19,7 +19,7 @@
         Connect with tens of thousands of talents in Mojokerto through a modern, easy to use job platform making hiring and job searching faster than ever.
       </p>
 
-      <a href="{{ route('form_postjob_1') }}"
+      <a href="{{ route('form_postjob_step1') }}"
         class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full text-lg shadow transition-transform duration-200 hover:scale-105">
         Post a job
       </a>
