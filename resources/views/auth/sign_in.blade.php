@@ -11,7 +11,7 @@
       <div class="absolute left-[-100px] bottom-0 w-[400px] h-[220px] rounded-t-full border-[75px] border-b-0 border-white opacity-20 z-0"></div>
 
       <!-- GAMBAR -->
-      <img src="{{ asset('images/sign_image.png') }}" alt="Job Search" class="w-145 mb-6 relative z-10">
+      <img src="{{ asset('images/sign_image.svg') }}" alt="Job Search" class="w-145 mb-6 relative z-10">
     </div>
 
     <!-- KANAN: Form Login -->
