@@ -7,7 +7,7 @@ Aplikasi web lowongan kerja berbasis Laravel dan Tailwind CSS.
 1. Clone repository ini
 
 ```bash
-git clone https://github.com/username/repo-kamu.git
+git clone https://github.com/username/https://github.com/alfanulum/project_web_mokerjobs.git.git
 cd repo-kamu
 ```
 
