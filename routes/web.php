@@ -10,13 +10,15 @@ Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
 Route::get('/post_job_pages/form_postjob_step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
 
+Route::post('/post_job_pages/form_postjob_step1', [JobController::class, 'storeStep1'])->name('form_postjob_step1.store');
+
+Route::get('/post_job_pages/form_postjob_step2', [JobController::class, 'formPostJobStep2'])->name('form_postjob_step2');
+
+Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
+
 Route::get('/post_job', function () {
     return view('post_job_pages.post_job');
 })->name('post_job');
-
-Route::get('/post_job/form', function () {
-    return view('post_job_pages.form_postjob_2');
-})->name('form_postjob_2');
 
 Route::get('/sign_in', function () {
     return view('auth.sign_in'); // path: resources/views/auth/login.blade.php

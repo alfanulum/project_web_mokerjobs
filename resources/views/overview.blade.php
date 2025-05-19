@@ -14,22 +14,22 @@
         <h1 class="text-3xl md:text-6xl font-bold leading-snug">
           Cari <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Pekerjaan Impian</span> Anda di Mojokerto.
         </h1>
-
+    
         <!-- Form Input -->
-        <div class="flex flex-col gap-4 mt-6">
+        <form action="{{ route('overview') }}" method="GET" class="flex flex-col gap-4 mt-6">
           @include('components.search')
           <div class="flex flex-col md:flex-row gap-4">
-            @include('components.dropdown_location')
-            @include('components.dropdown_category')
+              @include('components.dropdown_location')
+              @include('components.dropdown_category')
           </div>
-        </div>
-
-        <!-- Tombol search -->
-        <button class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-10 py-3 rounded-full shadow-md w-full md:w-fit">
-          Search
-        </button>
-      </div>
-
+      
+          <!-- Search button -->
+          <button type="submit" class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-10 py-3 rounded-full shadow-md w-full md:w-fit">
+              Search
+          </button>
+      </form>
+      </div> <!-- <-- Penutupan div kolom kiri di sini -->
+    
       <!-- Kolom Kanan: Gambar -->
       <div class="relative z-0 flex justify-center items-center md:h-full h-64" data-aos="fade-left">
         <img
@@ -38,7 +38,7 @@
           class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl object-contain md:object-cover rounded-xl" />
       </div>
     </div>
-  </div>
+    
 
   <!-- Employer & Candidate Cards -->
   <div class="grid md:grid-cols-2 gap-x-6 gap-y-6 max-w-6xl mx-auto mt-12">

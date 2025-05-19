@@ -1,16 +1,38 @@
 @props(['job'])
 
 @php
-$typeColors = [
-'Full Time' => ['border' => 'border-orange-400', 'bg' => 'bg-orange-100', 'text' => 'text-orange-700'],
-'Part Time' => ['border' => 'border-rose-400', 'bg' => 'bg-rose-100', 'text' => 'text-rose-700'],
-'Freelance' => ['border' => 'border-yellow-400', 'bg' => 'bg-yellow-100', 'text' => 'text-yellow-700'],
+    $typeColors = [
+        'Full Time' => [
+            'border' => 'border-orange-400',
+            'bg' => 'bg-orange-100',
+            'text' => 'text-orange-700',
+        ],
+        'Part Time' => [
+            'border' => 'border-green-400',
+            'bg' => 'bg-green-100',
+            'text' => 'text-green-700',
+        ],
+        'Internship' => [
+            'border' => 'border-blue-400',
+            'bg' => 'bg-blue-100',
+            'text' => 'text-blue-700',
+        ],
+        'Freelance' => [
+            'border' => 'border-purple-400',
+            'bg' => 'bg-purple-100',
+            'text' => 'text-purple-700',
+        ],
+    ];
+
+    $type = $job['type'] ?? 'Full Time';  // tetap bisa simpan kalau perlu
+    $color = [
+        'border' => 'border-orange-400',
+        'bg' => 'bg-orange-100',
+        'text' => 'text-orange-700',
 ];
-$type = $job['type'] ?? 'Full Time';
-$color = $typeColors[$type] ?? ['border' => 'border-gray-300', 'bg' => 'bg-gray-100', 'text' => 'text-gray-700'];
 @endphp
 
-<div class="transition-transform duration-300 hover:scale-[1.015] hover:shadow-xl border-l-4 rounded-2xl overflow-hidden {{ $color['border'] }} mb-4">
+<div class="transition-transform duration-300 hover:scale-[1.015] hover:shadow-xl border-l-4 rounded-2xl overflow-hidden mb-4 {{ $color['border'] }}">
     <div class="bg-white shadow-inner p-6 rounded-2xl relative ring-1 ring-gray-100">
         <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-5">
             <div class="flex items-start gap-4">
