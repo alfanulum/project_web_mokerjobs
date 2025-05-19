@@ -5,7 +5,7 @@
         return this.selected === '' ? 'Lokasi' : this.selected;
     },
     selectLocation(value) {
-        this.selected = value;
+        this.selected = this.selected === value ? '' : value;
         this.open = false;
     }
 }" class="relative w-full md:w-1/2 z-[1000]">
@@ -19,7 +19,7 @@
   </div>
 
   <!-- Dropdown -->
-  <div x-show="open" @click.outside="open = false" class="absolute mt-2 w-[350px] bg-white rounded-xl shadow-xl z-50 p-4 space-y-4 max-h-96 overflow-y-auto" style="display:none;">
+  <div x-show="open" @click.outside="open = false" class="absolute mt-2 w-[350px] bg-white rounded-xl shadow-xl z-50 p-4 space-y-4 max-h-96 overflow-y-auto" x-cloak>
     
     <!-- Kota Mojokerto -->
     <div>
@@ -28,15 +28,15 @@
       </div>
       <div class="bg-orange-50 px-3 py-2 space-y-2">
         <label class="flex items-center text-sm">
-          <input type="radio" name="lokasi" value="Prajurit Kulon" class="mr-2" 
-            @if(request('lokasi') === 'Prajurit Kulon') checked @endif
+          <input type="radio" name="lokasi" value="Prajurit Kulon" class="mr-2"
+            :checked="selected === 'Prajurit Kulon'"
             @click="selectLocation('Prajurit Kulon')"
           >
           Prajurit Kulon
         </label>
         <label class="flex items-center text-sm">
           <input type="radio" name="lokasi" value="Magersari" class="mr-2"
-            @if(request('lokasi') === 'Magersari') checked @endif
+            :checked="selected === 'Magersari'"
             @click="selectLocation('Magersari')"
           >
           Magersari
@@ -61,7 +61,7 @@
         @foreach($kabupatenLocations as $loc)
           <label class="flex items-center">
             <input type="radio" name="lokasi" value="{{ $loc }}" class="mr-2"
-              @if(request('lokasi') === $loc) checked @endif
+              :checked="selected === '{{ $loc }}'"
               @click="selectLocation('{{ $loc }}')"
             >
             {{ $loc }}
