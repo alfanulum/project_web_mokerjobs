@@ -12,7 +12,7 @@ class JobController extends Controller
     {
         $query = Lowongan::query();
 
-        // General search across multiple fields
+        // General search across multiple fields (optional)
         if ($request->filled('search')) {
             $search = strtolower($request->search);
             $query->where(function ($q) use ($search) {
@@ -23,28 +23,31 @@ class JobController extends Controller
             });
         }
 
-        // Category filter (exact match)
+        // Filter kategori (optional)
         if ($request->filled('kategori')) {
             $kategori = strtolower($request->kategori);
             $query->whereRaw('LOWER(category_job) = ?', [$kategori]);
         }
 
-        // Location filter
+        // Filter lokasi (dari dropdown)
         if ($request->filled('lokasi') && is_string($request->lokasi)) {
             $lokasi = strtolower($request->lokasi);
             $query->whereRaw('LOWER(location) = ?', [$lokasi]);
         }
 
+        // Ambil data pekerjaan terbaru setelah filter
         $allJobs = $query->latest()->get()->map(function ($job) {
             return $this->mapJobData($job);
         })->toArray();
 
+        // Pagination manual karena sudah map ke array
         $jobs = $this->paginate($allJobs, 3, $request);
+
+        // Ambil lokasi unik untuk dropdown (jika dibutuhkan)
         $locations = Lowongan::select('location')->distinct()->pluck('location')->toArray();
 
         return view('overview', compact('jobs', 'locations'));
     }
-
     public function findJob(Request $request)
     {
         $query = Lowongan::query();
