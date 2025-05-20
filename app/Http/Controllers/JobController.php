@@ -172,7 +172,16 @@ class JobController extends Controller
         return view('post_job_pages.form_postjob_step3');
     }
 
-    public function storeStep3(Request $request)
+/*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Handle the form submission for step 3 of the multi-step form for posting a job.
+     * Validate the input data, merge it with the data from the previous steps,
+     * and save it to the database.
+     * Redirect to the first step of the form with a success message.
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+/*******  b288f321-182f-4fd5-889c-1cf52e931c9b  *******/    public function storeStep3(Request $request)
     {
         $validated = $request->validate([
             'lokasi' => 'required|string',
