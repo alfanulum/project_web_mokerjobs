@@ -8,10 +8,6 @@ Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
-// Route::get('/post_job_pages/form_postjob_step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
-
-// Route::get('/post_job_pages/form_postjob_step2', [JobController::class, 'formPostJobStep2'])->name('form_postjob_step2');
-
 Route::get('/post-job/step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
 Route::post('/post-job/step1', [JobController::class, 'storeStep1'])->name('store_step1');
 Route::get('/post-job/step2', [JobController::class, 'formPostJobStep2'])->name('form_postjob_step2');

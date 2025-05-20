@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Form Lowongan Kerja - Step 3</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-5">
+{{-- resources/views/form3.blade.php --}}
+@extends('layouts.app')
+
+@section('content')
+<div class="bg-gray-100 min-h-screen flex items-center justify-center p-5">
 
   <div class="bg-white rounded-lg shadow-md w-full max-w-4xl flex flex-col min-h-[750px]">
 
@@ -16,7 +11,8 @@
       <img src="{{ asset('images/LOGO.png') }}" alt="MokerJobs Logo" class="h-10" />
     </div>
 
-    <form method="POST" action="{{ route('job.store') }}" class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
+<form method="POST" action="{{ route('store_step3') }}"
+class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
           open: false,
           selected: '',
           selectedLabel() {
@@ -27,24 +23,29 @@
               this.open = false;
               $refs.hiddenLokasi.value = value;
           }
-      }">
+      }" novalidate>
       @csrf
 
       <!-- Job Description -->
       <div class="mb-8">
-        <label class="block text-gray-700 font-semibold mb-2">Job Description</label>
-        <textarea name="job_description" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job description" required>{{ old('job_description') }}</textarea>
+        <label for="job_description" class="block text-gray-700 font-semibold mb-2">Job Description</label>
+        <textarea id="job_description" name="job_description" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job description" required>{{ old('job_description') }}</textarea>
+        @error('job_description')
+          <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+        @enderror
       </div>
 
       <!-- Job Requirements -->
       <div class="mb-8">
-        <label class="block text-gray-700 font-semibold mb-2">Job Requirements</label>
-        <textarea name="job_requirements" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job requirements" required>{{ old('job_requirements') }}</textarea>
+        <label for="job_requirements" class="block text-gray-700 font-semibold mb-2">Job Requirements</label>
+        <textarea id="job_requirements" name="job_requirements" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job requirements" required>{{ old('job_requirements') }}</textarea>
+        @error('job_requirements')
+          <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+        @enderror
       </div>
 
       <!-- Location Dropdown -->
       <div class="mb-8 relative">
-
         <label class="block text-gray-700 font-semibold mb-2">Location</label>
 
         <!-- Dropdown Trigger -->
@@ -59,6 +60,10 @@
         <!-- Hidden input untuk lokasi -->
         <input type="hidden" name="lokasi" x-ref="hiddenLokasi" :value="selected" required>
 
+        @error('lokasi')
+          <p class="text-red-600 text-sm mt-1">Lokasi harus dipilih.</p>
+        @enderror
+
         <!-- Dropdown Content -->
         <div x-show="open" @click.outside="open = false" x-transition class="absolute mt-2 w-[350px] bg-white rounded-xl shadow-xl z-50 p-4 space-y-4 max-h-96 overflow-y-auto">
 
@@ -68,11 +73,11 @@
               <h3 class="text-sm font-bold text-gray-800">Kota Mojokerto</h3>
             </div>
             <div class="bg-orange-50 px-3 py-2 space-y-2">
-              <label class="flex items-center text-sm">
+              <label class="flex items-center text-sm cursor-pointer">
                 <input type="radio" name="lokasi_radio" value="Prajurit Kulon" class="mr-2" @click="selectLocation('Prajurit Kulon')">
                 Prajurit Kulon
               </label>
-              <label class="flex items-center text-sm">
+              <label class="flex items-center text-sm cursor-pointer">
                 <input type="radio" name="lokasi_radio" value="Magersari" class="mr-2" @click="selectLocation('Magersari')">
                 Magersari
               </label>
@@ -93,7 +98,7 @@
                 ];
               @endphp
               @foreach($kabupatenLocations as $loc)
-                <label class="flex items-center">
+                <label class="flex items-center cursor-pointer">
                   <input type="radio" name="lokasi_radio" value="{{ $loc }}" class="mr-2" @click="selectLocation('{{ $loc }}')">
                   {{ $loc }}
                 </label>
@@ -107,22 +112,23 @@
       <!-- Salary Range -->
       <div class="grid grid-cols-2 gap-4 mb-8">
         <div>
-          <label class="block text-gray-700 font-semibold mb-1">Minimum Salary (Rp)</label>
-          <input type="number" name="min_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter minimum salary" value="{{ old('min_salary') }}">
+          <label for="min_salary" class="block text-gray-700 font-semibold mb-1">Minimum Salary (Rp)</label>
+          <input id="min_salary" type="number" name="min_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter minimum salary" value="{{ old('min_salary') }}">
+          @error('min_salary')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+          @enderror
         </div>
         <div>
-          <label class="block text-gray-700 font-semibold mb-1">Maximum Salary (Rp)</label>
-          <input type="number" name="max_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter maximum salary" value="{{ old('max_salary') }}">
+          <label for="max_salary" class="block text-gray-700 font-semibold mb-1">Maximum Salary (Rp)</label>
+          <input id="max_salary" type="number" name="max_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter maximum salary" value="{{ old('max_salary') }}">
+          @error('max_salary')
+            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+          @enderror
         </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="mb-8">
-        <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-lg font-semibold hover:bg-orange-500 transition">Simpan Lowongan</button>
       </div>
 
       <!-- Error Messages -->
-      @if ($errors->any())
+      @if ($errors->any() && !$errors->hasAny(['job_description', 'job_requirements', 'lokasi', 'min_salary', 'max_salary']))
         <div class="mb-4 text-red-600">
           <ul>
             @foreach ($errors->all() as $error)
@@ -139,8 +145,28 @@
         </div>
       @endif
 
+      <!-- Footer: tombol Previous & Next -->
+      <div class="flex justify-between px-4 py-5 border-t border-gray-200 mt-8">
+        <button type="button" onclick="goBack()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+          Previous
+        </button>
+        <button type="submit" onclick="goNext()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+          Next
+        </button>
+      </div>
+
     </form>
   </div>
 
-</body>
-</html>
+</div>
+
+<script>
+  function goBack() {
+    window.location.href = "{{ route('form_postjob_step2') }}";
+  }
+  function goNext() {
+    // Optional: validasi manual di JS jika perlu sebelum submit
+    // Form akan tetap disubmit karena tombol Next adalah tombol type="submit"
+  }
+</script>
+@endsection
