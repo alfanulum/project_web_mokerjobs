@@ -8,14 +8,13 @@ Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
-// Route::get('/post_job_pages/form_postjob_step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
-
-// Route::get('/post_job_pages/form_postjob_step2', [JobController::class, 'formPostJobStep2'])->name('form_postjob_step2');
-
 Route::get('/post-job/step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
 Route::post('/post-job/step1', [JobController::class, 'storeStep1'])->name('store_step1');
 Route::get('/post-job/step2', [JobController::class, 'formPostJobStep2'])->name('form_postjob_step2');
+Route::post('/post-job/step2', [JobController::class, 'storeStep2'])->name('store_step2');
+
 Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
+
 
 Route::get('/post_job', function () {
     return view('post_job_pages.post_job');
@@ -34,8 +33,8 @@ Route::get('admin', function () {
 })->name('admin');
 
 //form3
-Route::get('/job/create', [JobController::class, 'create'])->name('job.create');
-Route::post('/job/store', [JobController::class, 'store'])->name('job.store');
+Route::get('/post-job/step3', [JobController::class, 'formPostJobStep3'])->name('form_postjob_step3');
+Route::post('/post-job/step3', [JobController::class, 'storeStep3'])->name('store_step3');
 
 use App\Http\Controllers\FeedbackController;
 

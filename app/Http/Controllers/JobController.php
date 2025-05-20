@@ -147,41 +147,52 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step2');
     }
 
-    public function formPostJobStep2()
-    {
-        return view('post_job_pages.form_postjob_step2');
-    }
+public function formPostJobStep2()
+{
+    return view('post_job_pages.form_postjob_step2');
+}
 
+public function storeStep2(Request $request)
+{
+    $validated = $request->validate([
+        'workType' => 'required|string',
+        'gender' => 'required|string',
+        'education' => 'required|string',
+        'experience' => 'required|string',
+        'age' => 'required|string',
+    ]);
 
-public function create()
+    $request->session()->put('job_step2', $validated);
+
+    return redirect()->route('form_postjob_step3');
+}
+
+public function formPostJobStep3()
 {
     return view('post_job_pages.form_postjob_step3');
 }
-    // Terima data form dan simpan
-    public function store(Request $request)
-    {
-        // Validasi data
-        $validated = $request->validate([
-            'lokasi' => 'required|string',
-            'job_description' => 'required|string',
-            'job_requirements' => 'required|string',
-            'min_salary' => 'nullable|integer',
-            'max_salary' => 'nullable|integer',
-        ]);
 
-        // Simpan ke database lowongan
-        Lowongan::create([
-            'lokasi' => $validated['lokasi'],
-            'job_description' => $validated['job_description'],
-            'job_requirements' => $validated['job_requirements'],
-            'min_salary' => $validated['min_salary'] ?? null,
-            'max_salary' => $validated['max_salary'] ?? null,
-        ]);
+public function storeStep3(Request $request)
+{
+    $validated = $request->validate([
+        'lokasi' => 'required|string',
+        'job_description' => 'required|string',
+        'job_requirements' => 'required|string',
+        'min_salary' => 'nullable|integer',
+        'max_salary' => 'nullable|integer',
+    ]);
 
-        // Redirect misal ke halaman daftar lowongan
-        return redirect()->route('job.create')->with('success', 'Lowongan berhasil disimpan!');
-    }
+    // Gabungkan data dari semua step
+    $step1 = $request->session()->get('job_step1', []);
+    $step2 = $request->session()->get('job_step2', []);
 
+    $allData = array_merge($step1, $step2, $validated);
+
+    // Simpan ke database
+    Lowongan::create($allData);
+
+    return redirect()->route('form_postjob_step1')->with('success', 'Lowongan berhasil disimpan!');
+}
 
 
     public static function getCategoryIcon($category)

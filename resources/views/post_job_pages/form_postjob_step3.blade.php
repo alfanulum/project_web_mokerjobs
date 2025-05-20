@@ -11,7 +11,8 @@
       <img src="{{ asset('images/LOGO.png') }}" alt="MokerJobs Logo" class="h-10" />
     </div>
 
-    <form method="POST" action="{{ route('job.store') }}" class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
+<form method="POST" action="{{ route('store_step3') }}"
+class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
           open: false,
           selected: '',
           selectedLabel() {
@@ -45,7 +46,6 @@
 
       <!-- Location Dropdown -->
       <div class="mb-8 relative">
-
         <label class="block text-gray-700 font-semibold mb-2">Location</label>
 
         <!-- Dropdown Trigger -->
@@ -127,12 +127,7 @@
         </div>
       </div>
 
-      <!-- Submit Button -->
-      <div class="mb-8">
-        <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-lg font-semibold hover:bg-orange-500 transition">Simpan Lowongan</button>
-      </div>
-
-      <!-- Error Messages (if any other than field errors) -->
+      <!-- Error Messages -->
       @if ($errors->any() && !$errors->hasAny(['job_description', 'job_requirements', 'lokasi', 'min_salary', 'max_salary']))
         <div class="mb-4 text-red-600">
           <ul>
@@ -150,8 +145,28 @@
         </div>
       @endif
 
+      <!-- Footer: tombol Previous & Next -->
+      <div class="flex justify-between px-4 py-5 border-t border-gray-200 mt-8">
+        <button type="button" onclick="goBack()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+          Previous
+        </button>
+        <button type="submit" onclick="goNext()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+          Next
+        </button>
+      </div>
+
     </form>
   </div>
 
 </div>
+
+<script>
+  function goBack() {
+    window.location.href = "{{ route('form_postjob_step2') }}";
+  }
+  function goNext() {
+    // Optional: validasi manual di JS jika perlu sebelum submit
+    // Form akan tetap disubmit karena tombol Next adalah tombol type="submit"
+  }
+</script>
 @endsection

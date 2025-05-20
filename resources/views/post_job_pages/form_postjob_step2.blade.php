@@ -94,23 +94,22 @@
     </form>
 
     <!-- Footer: tombol Previous & Next -->
-    <div class="flex justify-between px-10 py-5 border-t border-gray-200">
-      <button onclick="goBack()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-        Previous
-      </button>
-      <button onclick="goNext()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-        Next
-      </button>
-    </div>
-
+    <!-- Footer: tombol Previous & Next -->
+<div class="flex justify-between px-10 py-5 border-t border-gray-200">
+  <button onclick="goBack()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+    Previous
+  </button>
+  <button onclick="goNext()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
+    Next
+  </button>
 </div>
 
 <script>
   function goBack() {
-    window.location.href = "{{ url('form_postjob_step1') }}";
+    window.location.href = "{{ route('form_postjob_step1') }}";
   }
   function goNext() {
-    window.location.href = "{{ url('form_postjob_step3') }}";
+    window.location.href = "{{ route('form_postjob_step3') }}";
   }
 </script>
 @endsection
