@@ -107,45 +107,56 @@ class JobController extends Controller
             'educations'
         ));
     }
-    public function formPostJobStep1()
-    {
-        $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
+public function formPostJobStep1(Request $request)
+{
+    // Daftar pilihan job type
+    $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
 
-        $categories = [
-            'Admin & Operations',
-            'Business Dev & Sales',
-            'CS & Hospitality',
-            'Data & Product',
-            'Design & Creative',
-            'Education & Training',
-            'Finance & Accounting',
-            'Food & Beverage',
-            'HR & Recruiting',
-            'Health & Science',
-            'IT & Engineering',
-            'Marketing & PR',
-            'Home Service',
-            'Technical Work',
-            'Retail & Merchandising',
-            'Transportation & Logistic'
-        ];
+    // Daftar kategori pekerjaan
+    $categories = [
+        'Admin & Operations',
+        'Business Dev & Sales',
+        'CS & Hospitality',
+        'Data & Product',
+        'Design & Creative',
+        'Education & Training',
+        'Finance & Accounting',
+        'Food & Beverage',
+        'HR & Recruiting',
+        'Health & Science',
+        'IT & Engineering',
+        'Marketing & PR',
+        'Home Service',
+        'Technical Work',
+        'Retail & Merchandising',
+        'Transportation & Logistic'
+    ];
 
-        return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories'));
-    }
+    // Ambil data dari session jika tersedia untuk pre-fill form
+    $oldData = $request->session()->get('job_step1', [
+        'job_name' => '',
+        'job_type' => '',
+        'category' => '',
+    ]);
 
-    public function storeStep1(Request $request)
-    {
-        $validated = $request->validate([
-            'job_name' => 'required|string|max:255',
-            'job_type' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-        ]);
+    return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories', 'oldData'));
+}
 
-        // Store in session for multi-step form
-        $request->session()->put('job_step1', $validated);
+public function storeStep1(Request $request)
+{
+    // Validasi input dari user
+    $validated = $request->validate([
+        'job_name' => 'required|string|max:255',
+        'job_type' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('form_postjob_step2');
-    }
+    // Simpan data step 1 ke dalam session
+    $request->session()->put('job_step1', $validated);
+
+    // Redirect ke form step 2 (ganti 'form_postjob_step2' dengan nama rute yang sesuai)
+    return redirect()->route('form_postjob_step2');
+}
 
     public function formPostJobStep2()
     {
