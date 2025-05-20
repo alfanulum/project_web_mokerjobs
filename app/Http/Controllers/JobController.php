@@ -158,6 +158,40 @@ class JobController extends Controller
         return view('post_job_pages.form_postjob_step2');
     }
 
+
+public function create()
+{
+    return view('post_job_pages.form_postjob_step3');
+}
+
+
+    // Terima data form dan simpan
+    public function store(Request $request)
+    {
+        // Validasi data
+        $validated = $request->validate([
+            'lokasi' => 'required|string',
+            'job_description' => 'required|string',
+            'job_requirements' => 'required|string',
+            'min_salary' => 'nullable|integer',
+            'max_salary' => 'nullable|integer',
+        ]);
+
+        // Simpan ke database lowongan
+        Lowongan::create([
+            'lokasi' => $validated['lokasi'],
+            'job_description' => $validated['job_description'],
+            'job_requirements' => $validated['job_requirements'],
+            'min_salary' => $validated['min_salary'] ?? null,
+            'max_salary' => $validated['max_salary'] ?? null,
+        ]);
+
+        // Redirect misal ke halaman daftar lowongan
+        return redirect()->route('job.create')->with('success', 'Lowongan berhasil disimpan!');
+    }
+
+
+
     public static function getCategoryIcon($category)
     {
         $icons = [

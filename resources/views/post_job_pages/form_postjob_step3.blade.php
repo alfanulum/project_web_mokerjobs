@@ -2,39 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Step 2 Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Lowongan Kerja - Step 3</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> <!-- Tambahkan ini -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-5">
 
-   <div class="bg-white rounded-lg shadow-md w-full max-w-10xl flex flex-col min-h-[750px]">
+  <div class="bg-white rounded-lg shadow-md w-full max-w-4xl flex flex-col min-h-[750px]">
 
-    <!-- Header: logo kiri, back kanan -->
+    <!-- Header -->
     <div class="flex justify-between items-center p-5 border-b border-gray-100">
       <img src="{{ asset('images/LOGO.png') }}" alt="MokerJobs Logo" class="h-10" />
-      <button onclick="goBack()" class="text-yellow-500 text-2xl font-bold hover:text-yellow-600 transition">←</button>
-  
-      <div class="absolute right-10 bottom-[650px] w-[450px] h-[225px] rounded-b-full border-[60px] border-t-0 border-gray-200 opacity-30 z-0"></div>
     </div>
 
-    <form class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto">
-
-      <!-- Job Description -->
-      <div class="mb-8">
-        <label class="block text-gray-700 font-semibold mb-2">Job Description</label>
-        <textarea class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job description"></textarea>
-      </div>
-
-      <!-- Job Requirements -->
-      <div class="mb-8">
-        <label class="block text-gray-700 font-semibold mb-2">Job Requirements</label>
-        <textarea class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job requirements"></textarea>
-      </div>
-
-      <!-- Location Dropdown with Alpine.js -->
-      <div class="mb-8 relative" x-data="{
+    <form method="POST" action="{{ route('job.store') }}" class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
           open: false,
           selected: '',
           selectedLabel() {
@@ -46,6 +28,23 @@
               $refs.hiddenLokasi.value = value;
           }
       }">
+      @csrf
+
+      <!-- Job Description -->
+      <div class="mb-8">
+        <label class="block text-gray-700 font-semibold mb-2">Job Description</label>
+        <textarea name="job_description" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job description" required>{{ old('job_description') }}</textarea>
+      </div>
+
+      <!-- Job Requirements -->
+      <div class="mb-8">
+        <label class="block text-gray-700 font-semibold mb-2">Job Requirements</label>
+        <textarea name="job_requirements" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job requirements" required>{{ old('job_requirements') }}</textarea>
+      </div>
+
+      <!-- Location Dropdown -->
+      <div class="mb-8 relative">
+
         <label class="block text-gray-700 font-semibold mb-2">Location</label>
 
         <!-- Dropdown Trigger -->
@@ -57,8 +56,8 @@
           </svg>
         </div>
 
-        <!-- Hidden input -->
-        <input type="hidden" name="lokasi" x-ref="hiddenLokasi">
+        <!-- Hidden input untuk lokasi -->
+        <input type="hidden" name="lokasi" x-ref="hiddenLokasi" :value="selected" required>
 
         <!-- Dropdown Content -->
         <div x-show="open" @click.outside="open = false" x-transition class="absolute mt-2 w-[350px] bg-white rounded-xl shadow-xl z-50 p-4 space-y-4 max-h-96 overflow-y-auto">
@@ -109,36 +108,39 @@
       <div class="grid grid-cols-2 gap-4 mb-8">
         <div>
           <label class="block text-gray-700 font-semibold mb-1">Minimum Salary (Rp)</label>
-          <input type="number" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter minimum salary">
+          <input type="number" name="min_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter minimum salary" value="{{ old('min_salary') }}">
         </div>
         <div>
           <label class="block text-gray-700 font-semibold mb-1">Maximum Salary (Rp)</label>
-          <input type="number" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter maximum salary">
+          <input type="number" name="max_salary" class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter maximum salary" value="{{ old('max_salary') }}">
         </div>
       </div>
 
+      <!-- Submit Button -->
+      <div class="mb-8">
+        <button type="submit" class="w-full bg-orange-400 text-white py-3 rounded-lg font-semibold hover:bg-orange-500 transition">Simpan Lowongan</button>
+      </div>
+
+      <!-- Error Messages -->
+      @if ($errors->any())
+        <div class="mb-4 text-red-600">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>• {{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <!-- Success Message -->
+      @if(session('success'))
+        <div class="mb-4 text-green-600 font-semibold">
+          {{ session('success') }}
+        </div>
+      @endif
+
     </form>
-
-    <!-- Footer -->
-    <div class="flex justify-between px-10 py-5 border-t border-gray-200">
-      <button onclick="goBack()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-        Previous
-      </button>
-      <button onclick="goNext()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-        Next
-      </button>
-    </div>
-
   </div>
-
-<script>
-  function goBack() {
-    window.location.href = "form_postjob_step1.blade.php";
-  }
-  function goNext() {
-    window.location.href = "form_postjob_step3.blade.php";
-  }
-</script>
 
 </body>
 </html>

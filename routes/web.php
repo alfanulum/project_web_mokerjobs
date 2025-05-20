@@ -32,6 +32,10 @@ Route::get('admin', function () {
     return view('admin');
 })->name('admin');
 
+//form3
+Route::get('/job/create', [JobController::class, 'create'])->name('job.create');
+Route::post('/job/store', [JobController::class, 'store'])->name('job.store');
+
 use App\Http\Controllers\FeedbackController;
 
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.submit');
