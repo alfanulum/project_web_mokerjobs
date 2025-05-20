@@ -107,11 +107,28 @@ class JobController extends Controller
             'educations'
         ));
     }
-
     public function formPostJobStep1()
     {
-        $jobTypes = ['Full Time', 'Part Time', 'Internship', 'Freelance'];
-        $categories = Lowongan::select('category_job')->distinct()->pluck('category_job')->toArray();
+        $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
+
+        $categories = [
+            'Admin & Operations',
+            'Business Dev & Sales',
+            'CS & Hospitality',
+            'Data & Product',
+            'Design & Creative',
+            'Education & Training',
+            'Finance & Accounting',
+            'Food & Beverage',
+            'HR & Recruiting',
+            'Health & Science',
+            'IT & Engineering',
+            'Marketing & PR',
+            'Home Service',
+            'Technical Work',
+            'Retail & Merchandising',
+            'Transportation & Logistic'
+        ];
 
         return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories'));
     }
@@ -120,35 +137,12 @@ class JobController extends Controller
     {
         $validated = $request->validate([
             'job_name' => 'required|string|max:255',
-            'job_type' => 'required|string',
-            'category' => 'required|string',
+            'job_type' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
         ]);
 
-        Lowongan::create([
-            'job_name' => $validated['job_name'],
-            'job_type' => $validated['job_type'],
-            'category_job' => $validated['category'],
-            'place_work' => '-',
-            'type_gender' => '-',
-            'education_minimal' => '-',
-            'experience_minimal' => '-',
-            'age' => '-',
-            'job_description' => '-',
-            'job_requirements' => '-',
-            'salary_minimal_range' => 0,
-            'maximum_salary_range' => 0,
-            'location' => '-',
-            'company_name' => '-',
-            'company_description' => '-',
-            'company_address' => '-',
-            'social_media_company' => '-',
-            'company_industry' => '-',
-            'email_company' => '-',
-            'no_wa_company' => '-',
-            'image_banner' => null,
-            'company_logo_image' => null,
-            'delivery_limit' => now()->addDays(30),
-        ]);
+        // Store in session for multi-step form
+        $request->session()->put('job_step1', $validated);
 
         return redirect()->route('form_postjob_step2');
     }
