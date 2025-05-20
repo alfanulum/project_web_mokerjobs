@@ -22,60 +22,77 @@
       <div class="hidden md:flex flex-1 items-center gap-[6px]">
         <div class="w-3 h-2 bg-orange-400 rounded-l-md"></div> {{-- Ujung kiri melengkung --}}
         @for($i = 0; $i < 12; $i++)
-          <div class="w-5 h-2 bg-orange-400">
+          <div class="w-5 h-2 bg-orange-400"></div>
+        @endfor
       </div>
-      @endfor
     </div>
-  </div>
   </div>
 
   {{-- Search & Dropdown --}}
-  <form action="{{ route('overview') }}" method="GET" class="w-full flex flex-col md:flex-row items-center justify-center gap-4 mt-10 mb-6 max-w-4xl mx-auto">
+  <form action="{{ route('find_job') }}" method="GET" class="relative z-10 w-full flex flex-col md:flex-row items-center justify-center gap-4 mt-10 mb-6 max-w-4xl mx-auto">
     @include('components.search')
     @include('components.dropdown_location')
 
-    <button type="submit" class="w-full md:w-auto bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
-        Cari
+    <button
+      type="submit"
+      class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 focus-visible:bg-orange-600 active:bg-orange-700 text-white px-6 py-2 rounded-full transition duration-300"
+    >
+      Cari
     </button>
 </form>
+
 
 </section>
 
 {{-- Main Content --}}
 <section class="px-4 py-12 bg-[#fdf5f2]">
   <div class="flex flex-col lg:flex-row gap-8">
-
     {{-- Filter Sidebar --}}
     <aside class="w-full lg:w-1/4">
-      <h2 class="text-xl font-bold mb-4">Filter</h2>
+      <form id="filterForm" action="{{ route('find_job') }}" method="GET">
+        <h2 class="text-xl font-bold mb-4">Filter</h2>
+        <div class="space-y-4">
+          @include('components.filter_dropdown', [
+            'title' => 'Job Type',
+            'name' => 'job_type',
+            'options' => $jobTypes,
+            'selected' => request('job_type')
+          ])
 
-      <div class="space-y-4">
+          @include('components.filter_dropdown', [
+            'title' => 'Work Type',
+            'name' => 'place_work',
+            'options' => $workTypes,
+            'selected' => request('place_work')
+          ])
 
-        @include('components.filter_dropdown', [
-        'title' => 'Job Type',
-        'name' => 'job_type',
-        'options' => $jobTypes
-        ])
+          @include('components.filter_dropdown', [
+            'title' => 'Education',
+            'name' => 'education_minimal',
+            'options' => $educations,
+            'selected' => request('education_minimal')
+          ])
 
-        @include('components.filter_dropdown', [
-        'title' => 'Work Type',
-        'name' => 'work_type',
-        'options' => $workTypes
-        ])
+          @include('components.filter_dropdown', [
+            'title' => 'Category',
+            'name' => 'kategori',  // Changed to match controller
+            'options' => $categories,
+            'selected' => request('kategori')
+          ])
 
-        @include('components.filter_dropdown', [
-        'title' => 'Education',
-        'name' => 'education',
-        'options' => $educations
-        ])
+          <input type="hidden" name="search" value="{{ request('search') }}">
+          <input type="hidden" name="lokasi" value="{{ request('lokasi') }}">
 
-        @include('components.filter_dropdown', [
-        'title' => 'Category',
-        'name' => 'category',
-        'options' => $categories
-        ])
-
-      </div>
+          <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded-md">
+            Apply Filters
+          </button>
+          @if(request()->has('job_type') || request()->has('place_work') || request()->has('education_minimal') || request()->has('kategori'))
+            <a href="{{ route('find_job') }}" class="block w-full text-center text-orange-500 py-2">
+              Clear Filters
+            </a>
+          @endif
+        </div>
+      </form>
     </aside>
 
     {{-- Job Section --}}
@@ -88,9 +105,9 @@
       {{-- Card Job --}}
       <div class="flex flex-col gap-6 min-h-[400px]">
         @forelse($jobs as $job)
-        @include('components.card_job', ['job' => $job])
+          @include('components.card_job', ['job' => $job])
         @empty
-        <p class="text-center text-gray-500">Tidak ada lowongan ditemukan.</p>
+          <p class="text-center text-gray-500">Tidak ada lowongan ditemukan.</p>
         @endforelse
       </div>
 

@@ -12,7 +12,7 @@
     <input type="text" name="job_name" value="{{ old('job_name') }}"
       class="w-full border border-orange-500 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 mb-8"
       required>
-    @error('job_name') <p class="text-red-600">{{ $message }}</p> @enderror
+    @error('job_name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
 
     <!-- Job Type -->
     <h2 class="text-2xl font-bold mb-4">Job Type</h2>
@@ -30,12 +30,12 @@
     @error('job_type') <p class="text-red-600">{{ $message }}</p> @enderror
   </div>
 
-  <!-- Right: Category Selection -->
-  <div class="w-full lg:w-1/2 bg-orange-500 text-white p-8">
-    <h2 class="text-2xl font-bold mb-2">Category</h2>
-    <p class="text-white mb-6">Enter the category of the job or position to be posted.</p>
+  <!-- Right: Category -->
+  <div class="w-full lg:w-1/2 bg-orange-500 text-white p-10 relative">
+    <h2 class="text-xl font-bold mb-2">Category</h2>
+    <p class="mb-6">Enter the category of the job or position to be posted.</p>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-20">
       @foreach ($categories as $category)
       <label
         class="cursor-pointer bg-white text-orange-600 px-4 py-2 rounded-lg font-medium hover:bg-orange-100 block text-center">
@@ -45,7 +45,7 @@
       </label>
       @endforeach
     </div>
-    @error('category') <p class="text-red-600">{{ $message }}</p> @enderror
+    @error('category') <p class="text-red-200 text-sm absolute bottom-24">{{ $message }}</p> @enderror
 
     <!-- Only One Form: Submit -->
     <div class="text-right">
