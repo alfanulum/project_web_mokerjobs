@@ -163,8 +163,6 @@ public function create()
 {
     return view('post_job_pages.form_postjob_step3');
 }
-
-
     // Terima data form dan simpan
     public function store(Request $request)
     {
