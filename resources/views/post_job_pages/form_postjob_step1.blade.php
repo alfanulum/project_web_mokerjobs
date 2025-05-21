@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row min-h-screen w-full">
         <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
             @csrf
 
@@ -18,8 +18,7 @@
                         <p class="text-sm text-gray-600 mb-3">Enter the name of the job or position to be posted.</p>
                         <input type="text" name="job_name" id="job_name"
                             class="w-full px-4 py-3 border-2 border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}"
-                            placeholder="Job Name" required>
+                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}" placeholder="Job Name" required>
                         @error('job_name')
                             <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
                         @enderror
@@ -93,7 +92,8 @@
                                             border border-gray-300 rounded-xl text-sm font-semibold text-center 
                                             cursor-pointer peer-checked:bg-orange-200 peer-checked:text-white 
                                             hover:bg-orange-100 transition duration-200 space-y-2">
-                                        <i class="{{ $icon }} text-orange-500 peer-checked:text-white transition text-xl"></i>
+                                        <i
+                                            class="{{ $icon }} text-orange-500 peer-checked:text-white transition text-xl"></i>
                                         <span>{{ $category }}</span>
                                     </label>
                                 </div>
@@ -107,7 +107,7 @@
 
                     <!-- Next Button -->
                     <div class="text-right mt-6">
-                        <button type="submit" 
+                        <button type="submit"
                             class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
                             Next
                         </button>

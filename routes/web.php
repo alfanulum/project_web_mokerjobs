@@ -17,6 +17,11 @@ Route::post('/post-job/step2', [JobController::class, 'storeStep2'])->name('stor
 //form 3
 Route::get('/post-job/step3', [JobController::class, 'formPostJobStep3'])->name('form_postjob_step3');
 Route::post('/post-job/step3', [JobController::class, 'storeStep3'])->name('store_step3');
+// form 4
+Route::get('/post-job/step4', [JobController::class, 'formPostJobStep4'])->name('form_postjob_step4');
+Route::post('/post-job/step4', [JobController::class, 'storeStep4'])->name('store_postjob_step4');
+
+
 
 Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
 
@@ -26,7 +31,7 @@ Route::get('/post_job', function () {
 })->name('post_job');
 
 Route::get('/sign_in', function () {
-    return view('auth.sign_in'); 
+    return view('auth.sign_in');
 })->name('sign_in');
 
 Route::get('admin', function () {
