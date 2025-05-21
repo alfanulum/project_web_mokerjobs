@@ -164,9 +164,9 @@ class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
   function goBack() {
     window.location.href = "{{ route('form_postjob_step2') }}";
   }
+
   function goNext() {
-    // Optional: validasi manual di JS jika perlu sebelum submit
-    // Form akan tetap disubmit karena tombol Next adalah tombol type="submit"
+    window.location.href = "{{ route('form_postjob_step4') }}";
   }
 </script>
 @endsection

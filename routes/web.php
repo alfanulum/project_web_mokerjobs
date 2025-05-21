@@ -21,8 +21,6 @@ Route::post('/post-job/step3', [JobController::class, 'storeStep3'])->name('stor
 Route::get('/post-job/step4', [JobController::class, 'formPostJobStep4'])->name('form_postjob_step4');
 Route::post('/post-job/step4', [JobController::class, 'storeStep4'])->name('store_postjob_step4');
 
-
-
 Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
 
 
