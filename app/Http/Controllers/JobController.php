@@ -144,7 +144,7 @@ public function storeStep1(Request $request)
     $validated = $request->validate([
         'job_name' => 'required|string|max:255',
         'job_type' => 'required|string|max:255',
-        'category' => 'required|string|max:255',
+        'category_job' => 'required|string|max:255',
     ]);
 
     // Simpan ke session untuk diambil di form selanjutnya atau saat kembali ke form ini
@@ -168,10 +168,10 @@ public function formPostJobStep2(Request $request)
 public function storeStep2(Request $request)
 {
     $validated = $request->validate([
-        'work_type' => 'required|string',
-        'gender' => 'required|string',
-        'min_education' => 'required|string',
-        'experience_level' => 'required|string',
+        'place_work' => 'required|string',
+        'type_Gender' => 'required|string',
+        'education_min' => 'required|string',
+        'experience_min' => 'required|string',
         'age' => 'required|string',
     ]);
 
@@ -195,11 +195,11 @@ public function formPostJobStep3(Request $request)
 public function storeStep3(Request $request)
 {
     $validated = $request->validate([
-        'lokasi' => 'required|string',
+        'location' => 'required|string',
         'job_description' => 'required|string',
         'job_requirements' => 'required|string',
-        'min_salary' => 'nullable|integer',
-        'max_salary' => 'nullable|integer',
+        'salary_minimal' => 'integer',
+        'maximum_salary' => 'integer',
     ]);
 
     $request->session()->put('job_step3', $validated);
