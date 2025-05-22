@@ -40,7 +40,8 @@
                                 </summary>
 
                                 <div class="px-4 pb-4 pt-2">
-                                    <div class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
+                                    <div
+                                        class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
                                         @foreach ($jobTypes as $type)
                                             <label class="flex items-center gap-2 text-gray-800 cursor-pointer">
                                                 <input type="radio" name="job_type" value="{{ $type }}"
@@ -64,10 +65,10 @@
                 <div class="w-full md:w-1/2 bg-orange-500 px-8 py-12 text-white relative">
                     <!-- Back Button -->
                     <a href="{{ route('post_job') }}"
-                        class="absolute top-6 right-6 text-white hover:text-yellow-300 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        class="absolute top-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-black rounded-full p-2 transition duration-200 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
                     </a>
 
