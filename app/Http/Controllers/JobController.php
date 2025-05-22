@@ -107,6 +107,10 @@ class JobController extends Controller
             'educations'
         ));
     }
+
+
+
+    //form 1
 public function formPostJobStep1(Request $request)
 {
     $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
@@ -205,48 +209,37 @@ public function storeStep3(Request $request)
 
 
 
+// Tampilkan form step 4
+    public function formPostJobStep4(Request $request)
+{
+    $step4 = $request->session()->get('job_step4', []);
+    return view('post_job_pages.form_postjob_step4', compact('step4'));
+}
 
-    public function formPostJobStep4()
-    {
-        return view('post_job_pages.form_postjob_step4');
+
+   public function storeStep4(Request $request)
+{
+    $validated = $request->validate([
+        'company_name' => 'required|string|max:255',
+        'company_description' => 'required|string',
+        'company_address' => 'required|string',
+        'company_industry' => 'required|string',
+        'company_website' => 'nullable|url',
+        'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    // Handle file upload
+    if ($request->hasFile('company_logo')) {
+        $path = $request->file('company_logo')->store('company_logos', 'public');
+        $validated['company_logo'] = $path;
     }
 
-    public function storeStep4(Request $request)
-    {
-        $validated = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'company_description' => 'required|string',
-            'company_address' => 'required|string',
-            'company_industry' => 'required|string',
-            'company_website' => 'nullable|url',
-            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+    $request->session()->put('job_step4', $validated);
 
-        // Handle file upload
-        if ($request->hasFile('company_logo')) {
-            $path = $request->file('company_logo')->store('company_logos', 'public');
-            $validated['company_logo'] = $path;
-        }
+    // Redirect to step 5 instead of saving
+    return redirect()->route('form_postjob_step5');
+}
 
-        $request->session()->put('job_step4', $validated);
-
-        // Combine all steps and save to database
-        $step1 = $request->session()->get('job_step1', []);
-        $step2 = $request->session()->get('job_step2', []);
-        $step3 = $request->session()->get('job_step3', []);
-        $step4 = $request->session()->get('job_step4', []);
-
-        $allData = array_merge($step1, $step2, $step3, $step4);
-
-        // Save to database
-        Lowongan::create($allData);
-
-        // Clear the session
-        $request->session()->forget(['job_step1', 'job_step2', 'job_step3', 'job_step4']);
-
-        return redirect()->route('form_postjob_step1')->with('success', 'Job posting created successfully!');
-        
-    }
 
     public static function getCategoryIcon($category)
     {
