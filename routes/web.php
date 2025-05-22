@@ -20,6 +20,9 @@ Route::post('/post-job/step3', [JobController::class, 'storeStep3'])->name('stor
 // form 4
 Route::get('/post-job/step4', [JobController::class, 'formPostJobStep4'])->name('form_postjob_step4');
 Route::post('/post-job/step4', [JobController::class, 'storeStep4'])->name('store_postjob_step4');
+// form 5
+Route::get('/post-job/step5', [JobController::class, 'formPostJobStep5'])->name('form_postjob_step5');
+Route::post('/post-job/step5', [JobController::class, 'storeStep5'])->name('store_postjob_step5');
 
 Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
 
