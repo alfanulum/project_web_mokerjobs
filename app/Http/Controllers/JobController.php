@@ -200,25 +200,8 @@ public function storeStep3(Request $request)
 
     $request->session()->put('job_step3', $validated);
 
-    $step1 = $request->session()->get('job_step1', []);
-    $step2 = $request->session()->get('job_step2', []);
-
-    $allData = array_merge($step1, $step2, $validated);
-
-    // Jika key 'category' ada, ubah menjadi 'category_job'
-    if (isset($allData['category'])) {
-        $allData['category_job'] = $allData['category'];
-        unset($allData['category']);
-    }
-
-    Lowongan::create($allData);
-
-    $request->session()->forget(['job_step1', 'job_step2', 'job_step3']);
-
-    return redirect()->route('form_postjob_step1')->with('success', 'Lowongan berhasil disimpan!');
+    return redirect()->route('form_postjob_step4');
 }
-
-
 
 
 
