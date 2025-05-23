@@ -110,11 +110,7 @@ class JobController extends Controller
 
 
 
-<<<<<<< HEAD
-        // FORM STEP 1
-=======
     // FORM STEP 1
->>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
     public function formPostJobStep1(Request $request)
     {
         $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
@@ -155,10 +151,6 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step2');
     }
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
     // FORM STEP 2
     public function formPostJobStep2(Request $request)
     {
@@ -193,11 +185,7 @@ class JobController extends Controller
             'location' => 'required|string',
             'job_description' => 'required|string',
             'job_requirements' => 'required|string',
-<<<<<<< HEAD
-            'salary_minimal'  => 'nullable|integer',
-=======
             'salary_minimal' => 'nullable|integer',
->>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
             'maximum_salary' => 'nullable|integer',
         ]);
 
@@ -212,27 +200,47 @@ class JobController extends Controller
         return view('post_job_pages.form_postjob_step4', compact('step4'));
     }
 
-    public function storeStep4(Request $request)
-{
-    $validated = $request->validate([
-        'company_name' => 'required|string|max:255',
-        'company_description' => 'required|string',
-        'company_address' => 'required|string',
-        'company_industry' => 'required|string',
-        'company_website' => 'nullable|url',
-        'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
 
-    if ($request->hasFile('company_logo')) {
-        $path = $request->file('company_logo')->store('company_logos', 'public');
-        $validated['company_logo'] = $path;
+
+    public function storeStep4(Request $request)
+    {
+        $validated = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'company_description' => 'required|string',
+            'company_address' => 'required|string',
+            'company_industry' => 'required|string',
+            'company_website' => 'nullable|url',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $step4Session = $request->session()->get('job_step4', []);
+
+        if ($request->hasFile('company_logo')) {
+            // Upload file baru
+            $path = $request->file('company_logo')->store('company_logos', 'public');
+            $validated['company_logo_image'] = $path;
+        } else if (isset($step4Session['company_logo_image'])) {
+
+            // Tidak upload file baru, gunakan path logo yang lama
+            $validated['company_logo_image'] = $step4Session['company_logo_image'];
+        }
+
+        // Hilangkan UploadedFile instance sebelum simpan ke session
+        if (isset($validated['company_logo'])) {
+            unset($validated['company_logo']);
+        }
+
+        // Simpan data ke session
+        $request->session()->put('job_step4', $validated);
+
+
+        return redirect()->route('form_postjob_step5');
     }
 
-    $request->session()->put('job_step4', $validated);
-    return redirect()->route('form_postjob_step5'); // Pastikan nama route ini sesuai
-}
 
-    // FORM STEP 5 - UPDATED FOR STEP 6 FLOW
+
+
+    // FORM STEP 5
     public function formPostJobStep5(Request $request)
     {
         $step5 = $request->session()->get('job_step5', []);
@@ -248,66 +256,13 @@ class JobController extends Controller
             'email_company' => 'required|email',
             'no_wa_company' => 'required|string',
             'social_media_company' => 'nullable|url',
-            'deadline' => 'required|date',
+            'deadline' => 'required|date|after:today',
         ]);
 
         $request->session()->put('job_step5', $validated);
-        
-        // Now redirect to preview step (step 6) instead of saving
+
+        // Pastikan redirectnya benar
         return redirect()->route('form_postjob_step6');
-    }
-
-    // NEW FORM STEP 6 - PREVIEW
-    public function formPostJobStep6(Request $request)
-    {
-        // Verify all steps are completed
-        if (!$request->session()->has('job_step1') || 
-            !$request->session()->has('job_step2') || 
-            !$request->session()->has('job_step3') || 
-            !$request->session()->has('job_step4') || 
-            !$request->session()->has('job_step5')) {
-            return redirect()->route('form_postjob_step1')->with('error', 'Please complete all steps first');
-        }
-
-        return view('post_job_pages.form_postjob_step6');
-    }
-
-    // NEW FINAL SUBMISSION METHOD
-    public function submitJob(Request $request)
-    {
-        // Combine all steps data
-        $step1 = $request->session()->get('job_step1', []);
-        $step2 = $request->session()->get('job_step2', []);
-        $step3 = $request->session()->get('job_step3', []);
-        $step4 = $request->session()->get('job_step4', []);
-        $step5 = $request->session()->get('job_step5', []);
-
-        $allData = array_merge($step1, $step2, $step3, $step4, $step5);
-
-        // Normalize category field if needed
-        if (isset($allData['category'])) {
-            $allData['category_job'] = $allData['category'];
-            unset($allData['category']);
-        }
-
-        // Handle company logo
-        if (isset($step4['company_logo'])) {
-            $allData['company_logo_image'] = $step4['company_logo'];
-        }
-
-        // Create the job listing
-        Lowongan::create($allData);
-
-        // Clear session data
-        $request->session()->forget([
-            'job_step1',
-            'job_step2',
-            'job_step3',
-            'job_step4',
-            'job_step5'
-        ]);
-
-        return redirect()->route('form_postjob_step1')->with('success', 'Job posted successfully!');
     }
 
     // FORM STEP 6 - PREVIEW
@@ -436,7 +391,7 @@ class JobController extends Controller
                 'query' => $request->query(),
                 'fragment' => 'jobs',
             ]
-        ); 
+        );
     }
 
     private function getFilterOptions($column)

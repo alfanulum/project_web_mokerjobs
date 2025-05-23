@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-    @section('content')
-        <div class="flex flex-col md:flex-row min-h-screen w-full">
-            <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
-                @csrf
+@section('content')
+    <div class="flex flex-col md:flex-row min-h-screen w-full">
+        <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
+            @csrf
 
             <!-- Left Panel -->
             <div class="w-full md:w-1/2 bg-white px-8 py-12">
@@ -49,24 +39,15 @@
                                 </svg>
                             </summary>
 
-                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                                @foreach ($categories as $category)
-                                    @php
-                                        $icon = \App\Http\Controllers\JobController::getCategoryIcon($category);
-                                    @endphp
-                                    <div>
-                                        <input type="radio" name="category_job" id="category_{{ Str::slug($category) }}"
-                                            value="{{ $category }}" class="hidden peer"
-                                            {{ old('category', $oldData['category'] ?? '') == $category ? 'checked' : '' }}
-                                            required>
-                                        <label for="category_{{ Str::slug($category) }}"
-                                            class="flex flex-col items-center justify-center w-full h-24 px-4 py-3 bg-white text-black 
-                                                border border-gray-300 rounded-xl text-sm font-semibold text-center 
-                                                cursor-pointer peer-checked:bg-orange-200 peer-checked:text-white 
-                                                hover:bg-orange-100 transition duration-200 space-y-2">
-                                            <i
-                                                class="{{ $icon }} text-orange-500 peer-checked:text-white transition text-xl"></i>
-                                            <span>{{ $category }}</span>
+                            <div class="px-4 pb-4 pt-2">
+                                <div class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
+                                    @foreach ($jobTypes as $type)
+                                        <label class="flex items-center gap-2 text-gray-800 cursor-pointer">
+                                            <input type="radio" name="job_type" value="{{ $type }}"
+                                                class="accent-orange-500"
+                                                {{ old('job_type', $oldData['job_type'] ?? '') == $type ? 'checked' : '' }}
+                                                required />
+                                            <span>{{ $type }}</span>
                                         </label>
                                     @endforeach
                                 </div>
