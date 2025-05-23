@@ -1,175 +1,315 @@
-
 @extends('layouts.app')
 @section('content')
-    <div class="bg-gray-100 min-h-screen flex items-center justify-center p-5">
-        <div class="bg-white rounded-lg shadow-md w-full max-w-4xl flex flex-col min-h-[750px]">
-            <!-- Header -->
-            <div class="flex justify-between items-center p-5 border-b border-gray-100">
-                <img src="{{ asset('images/LOGO.png') }}" alt="MokerJobs Logo" class="h-10" />
-            </div>
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
+        </div>
 
-            <form method="POST" action="{{ route('store_step3') }}"
-                class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
-                    open: false,
-                    selected: '{{ old('location', $step3['location'] ?? '') }}',
-                    selectedLabel() {
-                        return this.selected === '' ? 'Pilih Lokasi' : this.selected;
-                    },
-                    selectLocation(value) {
-                        this.selected = value;
-                        this.open = false;
-                        $refs.hiddenLokasi.value = value;
-                    }
-                }" novalidate>
+        <!-- FORM WRAPPER -->
+        <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+            <form id="main-form" method="POST" action="{{ route('store_step3') }}" x-data="{
+                open: false,
+                selected: '{{ old('location', $step3['location'] ?? '') }}',
+                selectedLabel() {
+                    return this.selected === '' ? 'Location' : this.selected;
+                },
+                selectLocation(value) {
+                    this.selected = value;
+                    this.open = false;
+                    $refs.hiddenLokasi.value = value;
+                }
+            }" novalidate>
                 @csrf
 
                 <!-- Job Description -->
-                <div class="mb-8">
-                    <label for="job_description" class="block text-gray-700 font-semibold mb-2">Job Description</label>
-                    <textarea id="job_description" name="job_description" class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32"
-                        placeholder="Enter job description" required>{{ old('job_description', $step3['job_description'] ?? '') }}</textarea>
+                <div class="mb-6">
+                    <label for="job_description" class="block font-semibold text-black mb-2">Job Description</label>
+                    <div class="relative">
+                        <!-- Toolbar -->
+                        <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
+                            <!-- Bold -->
+                            <button type="button" onclick="formatText('job_description_editor', 'bold')"
+                                class="p-1 hover:bg-orange-600" title="Bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 3.633h1.89c1.384 0 2.085.935 2.085 2.239 0 1.315-1.164 2.11-2.72 2.11H5.907V8.307z" />
+                                </svg>
+                            </button>
+
+                            <!-- Italic -->
+                            <button type="button" onclick="formatText('job_description_editor', 'italic')"
+                                class="p-1 hover:bg-orange-600" title="Italic">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
+                                </svg>
+                            </button>
+
+                            <!-- Align Left -->
+                            <button type="button" onclick="formatText('job_description_editor', 'justifyLeft')"
+                                class="p-1 hover:bg-orange-600" title="Align Left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Center -->
+                            <button type="button" onclick="formatText('job_description_editor', 'justifyCenter')"
+                                class="p-1 hover:bg-orange-600" title="Center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Align Right -->
+                            <button type="button" onclick="formatText('job_description_editor', 'justifyRight')"
+                                class="p-1 hover:bg-orange-600" title="Align Right">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Indent Left (←) -->
+                            <button type="button" onclick="formatText('job_description_editor', 'outdent')"
+                                class="p-1 hover:bg-orange-600" title="Decrease Indent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M5.854 4.146a.5.5 0 0 1 0 .708L2.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0z" />
+                                    <path fill-rule="evenodd" d="M2 8.5h11a.5.5 0 0 0 0-1H2a.5.5 0 0 0 0 1z" />
+                                </svg>
+                            </button>
+
+                            <!-- Indent Right (→) -->
+                            <button type="button" onclick="formatText('job_description_editor', 'indent')"
+                                class="p-1 hover:bg-orange-600" title="Increase Indent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M10.146 4.146a.5.5 0 0 1 .708 0l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L13.293 8l-3.147-3.146a.5.5 0 0 1 0-.708z" />
+                                    <path fill-rule="evenodd" d="M14 8.5H3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Editable Content -->
+                        <div id="job_description_editor" contenteditable="true"
+                            class="w-full border-none rounded-none h-32 p-4 bg-white shadow-inner resize-none focus:outline-none overflow-auto"
+                            oninput="syncContent('job_description')">{!! old('job_description', $step3['job_description'] ?? '') !!}</div>
+
+                        <!-- Hidden input to store the real value -->
+                        <input type="hidden" id="job_description" name="job_description"
+                            value="{{ old('job_description', $step3['job_description'] ?? '') }}">
+                    </div>
                     @error('job_description')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Job Requirements -->
-                <div class="mb-8">
-                    <label for="job_requirements" class="block text-gray-700 font-semibold mb-2">Job Requirements</label>
-                    <textarea id="job_requirements" name="job_requirements"
-                        class="w-full border border-orange-400 rounded-lg px-3 py-2 h-32" placeholder="Enter job requirements" required>{{ old('job_requirements', $step3['job_requirements'] ?? '') }}</textarea>
+                <div class="mb-6">
+                    <label for="job_requirements" class="block font-semibold text-black mb-2">Job Requirements</label>
+                    <div class="relative">
+                        <!-- Toolbar (same as above) -->
+                        <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
+                            <!-- Bold -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'bold')"
+                                class="p-1 hover:bg-orange-600" title="Bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 3.633h1.89c1.384 0 2.085.935 2.085 2.239 0 1.315-1.164 2.11-2.72 2.11H5.907V8.307z" />
+                                </svg>
+                            </button>
+
+                            <!-- Italic -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'italic')"
+                                class="p-1 hover:bg-orange-600" title="Italic">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path
+                                        d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
+                                </svg>
+                            </button>
+
+                            <!-- Align Left -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyLeft')"
+                                class="p-1 hover:bg-orange-600" title="Align Left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Center -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyCenter')"
+                                class="p-1 hover:bg-orange-600" title="Center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Align Right -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyRight')"
+                                class="p-1 hover:bg-orange-600" title="Align Right">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </button>
+
+                            <!-- Indent Left (←) -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'outdent')"
+                                class="p-1 hover:bg-orange-600" title="Decrease Indent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M5.854 4.146a.5.5 0 0 1 0 .708L2.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0z" />
+                                    <path fill-rule="evenodd" d="M2 8.5h11a.5.5 0 0 0 0-1H2a.5.5 0 0 0 0 1z" />
+                                </svg>
+                            </button>
+
+                            <!-- Indent Right (→) -->
+                            <button type="button" onclick="formatText('job_requirements_editor', 'indent')"
+                                class="p-1 hover:bg-orange-600" title="Increase Indent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M10.146 4.146a.5.5 0 0 1 .708 0l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L13.293 8l-3.147-3.146a.5.5 0 0 1 0-.708z" />
+                                    <path fill-rule="evenodd" d="M14 8.5H3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Editable Content -->
+                        <div id="job_requirements_editor" contenteditable="true"
+                            class="w-full border-none rounded-none h-32 p-4 bg-white shadow-inner resize-none focus:outline-none overflow-auto"
+                            oninput="syncContent('job_requirements')">{!! old('job_requirements', $step3['job_requirements'] ?? '') !!}</div>
+
+                        <!-- Hidden input to store the real value -->
+                        <input type="hidden" id="job_requirements" name="job_requirements"
+                            value="{{ old('job_requirements', $step3['job_requirements'] ?? '') }}">
+                    </div>
                     @error('job_requirements')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Location Dropdown -->
-                <div class="mb-8 relative">
-                    <label class="block text-gray-700 font-semibold mb-2">Location</label>
+
+                <!-- Location -->
+                <div class="mb-6">
+                    <label class="block font-semibold text-black mb-2">Location</label>
                     <div @click="open = !open"
-                        class="flex items-center border border-orange-400 px-4 py-2 rounded-full cursor-pointer bg-white relative z-20">
-                        <img src="{{ asset('images/iconlokasi.png') }}" class="w-4 h-5 mr-2" alt="Location Icon">
-                        <span class="text-gray-700" x-text="selectedLabel()"></span>
-                        <svg class="ml-auto w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        class="flex items-center justify-between w-full border border-orange-400 rounded-lg px-4 py-2 bg-white cursor-pointer">
+                        <span x-text="selectedLabel()" class="text-gray-700"></span>
+                        <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.66a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-
                     <input type="hidden" name="location" x-ref="hiddenLokasi" :value="selected" required>
 
+                    <!-- Dropdown -->
+                    <div x-show="open" @click.outside="open = false" x-transition
+                        class="mt-2 bg-white border rounded-lg shadow-lg p-4 space-y-3 max-h-96 overflow-y-auto z-50 relative">
+                        <template
+                            x-for="loc in ['Prajurit Kulon','Magersari','Dawarblandong','Kemlagi','Jetis','Gedeg','Mojoanyar','Sooko','Bangsal','Puri','Trowulan','Jatirejo','Dlanggu','Mojosari','Pungging','Kutorejo','Ngoro','Gondang','Trawas','Pacet']">
+                            <label class="flex items-center text-sm space-x-2 cursor-pointer">
+                                <input type="radio" name="lokasi_radio" :value="loc"
+                                    @click="selectLocation(loc)">
+                                <span x-text="loc"></span>
+                            </label>
+                        </template>
+                    </div>
                     @error('location')
                         <p class="text-red-600 text-sm mt-1">Location must be selected.</p>
                     @enderror
+                </div>
 
-                    <!-- Dropdown Content -->
-                    <div x-show="open" @click.outside="open = false" x-transition
-                        class="absolute mt-2 w-[350px] bg-white rounded-xl shadow-xl z-50 p-4 space-y-4 max-h-96 overflow-y-auto">
-                        <!-- Kota Mojokerto -->
-                        <div>
-                            <div class="bg-orange-100 px-3 py-2 rounded-t-md">
-                                <h3 class="text-sm font-bold text-gray-800">Kota Mojokerto</h3>
-                            </div>
-                            <div class="bg-orange-50 px-3 py-2 space-y-2">
-                                <label class="flex items-center text-sm cursor-pointer">
-                                    <input type="radio" name="lokasi_radio" value="Prajurit Kulon" class="mr-2"
-                                        @click="selectLocation('Prajurit Kulon')"
-                                        {{ old('location', $step3['location'] ?? '') == 'Prajurit Kulon' ? 'checked' : '' }}>
-                                    Prajurit Kulon
-                                </label>
-                                <label class="flex items-center text-sm cursor-pointer">
-                                    <input type="radio" name="lokasi_radio" value="Magersari" class="mr-2"
-                                        @click="selectLocation('Magersari')"
-                                        {{ old('location', $step3['location'] ?? '') == 'Magersari' ? 'checked' : '' }}>
-                                    Magersari
-                                </label>
-                            </div>
+                <!-- Salary -->
+                <div class="mb-8 grid grid-cols-2 gap-4">
+                    <div class="relative">
+                        <label for="salary_minimal" class="block font-semibold text-black mb-1">Salary Range</label>
+                        <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
+                            <span class="mr-2 text-gray-500">Rp.</span>
+                            <input id="salary_minimal" type="number" name="salary_minimal"
+                                class="w-full border-none outline-none" placeholder="Minimum Salary"
+                                value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
                         </div>
-
-                        <!-- Kabupaten Mojokerto -->
-                        <div>
-                            <div class="bg-orange-100 px-3 py-2 rounded-t-md mt-4">
-                                <h3 class="text-sm font-bold text-gray-800">Kabupaten Mojokerto</h3>
-                            </div>
-                            <div class="bg-orange-50 px-3 py-2 grid grid-cols-2 gap-2 text-sm">
-                                @php
-                                    $kabupatenLocations = [
-                                        'Dawarblandong',
-                                        'Kemlagi',
-                                        'Jetis',
-                                        'Gedeg',
-                                        'Mojoanyar',
-                                        'Sooko',
-                                        'Bangsal',
-                                        'Puri',
-                                        'Trowulan',
-                                        'Jatirejo',
-                                        'Dlanggu',
-                                        'Mojosari',
-                                        'Pungging',
-                                        'Kutorejo',
-                                        'Ngoro',
-                                        'Gondang',
-                                        'Trawas',
-                                        'Pacet',
-                                    ];
-                                @endphp
-                                @foreach ($kabupatenLocations as $loc)
-                                    <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="lokasi_radio" value="{{ $loc }}"
-                                            class="mr-2" @click="selectLocation('{{ $loc }}')"
-                                            {{ old('location', $step3['location'] ?? '') == $loc ? 'checked' : '' }}>
-                                        {{ $loc }}
-                                    </label>
-                                @endforeach
-                            </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block font-semibold text-black mb-1 invisible">Max Salary</label>
+                        <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
+                            <span class="mr-2 text-gray-500">Rp.</span>
+                            <input id="maximum_salary" type="number" name="maximum_salary"
+                                class="w-full border-none outline-none" placeholder="Maximum Salary"
+                                value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
                         </div>
                     </div>
                 </div>
 
-                <!-- Salary Range -->
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div>
-                        <label for="salary_minimal" class="block text-gray-700 font-semibold mb-1">Minimum Salary
-                            (Rp)</label>
-                        <input id="salary_minimal" type="number" name="salary_minimal"
-                            class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter minimum salary"
-                            value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
-                        @error('salary_minimal')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label for="maximum_salary" class="block text-gray-700 font-semibold mb-1">Maximum Salary
-                            (Rp)</label>
-                        <input id="maximum_salary" type="number" name="maximum_salary"
-                            class="w-full border border-orange-400 rounded-lg px-3 py-2" placeholder="Enter maximum salary"
-                            value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
-                        @error('maximum_salary')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Footer: tombol Previous & Next -->
-                <div class="flex justify-between px-4 py-5 border-t border-gray-200 mt-8">
-                    <button type="button" onclick="goBack()"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-                        Previous
-                    </button>
-                    <button type="submit"
-                        class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-                        Next
-                    </button>
-                </div>
             </form>
+        </div>
+        <!-- NAVIGATION BUTTONS -->
+        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="flex justify-between">
+                <a href="{{ route('form_postjob_step1') }}"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    ← Previous
+                </a>
+                <button type="submit" form="main-form"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    Next →
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         function goBack() {
             window.location.href = "{{ route('form_postjob_step2') }}";
+        }
+    </script>
+    <script>
+        function formatText(editorId, command) {
+            const editor = document.getElementById(editorId);
+
+            // Focus the editor first
+            editor.focus();
+
+            // Save current selection
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+
+            // Execute the command
+            document.execCommand(command, false, null);
+
+            // Restore selection if it was lost
+            if (selection.rangeCount === 0) {
+                selection.addRange(range);
+            }
+
+            // Sync the content
+            syncContent(editorId.replace('_editor', ''));
+        }
+
+        function syncContent(fieldId) {
+            const editor = document.getElementById(fieldId + '_editor');
+            const hiddenInput = document.getElementById(fieldId);
+            hiddenInput.value = editor.innerHTML;
         }
     </script>
 @endsection

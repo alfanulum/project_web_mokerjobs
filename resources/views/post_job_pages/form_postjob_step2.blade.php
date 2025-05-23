@@ -1,145 +1,115 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-white rounded-lg shadow-md w-full max-w-7xl flex flex-col min-h-[750px] mx-auto mt-10">
-        <!-- Header: logo kiri, back kanan -->
-        <div class="flex justify-between items-center p-5 border-b border-gray-100 relative">
-            <img src="{{ asset('images/LOGO.png') }}" alt="MokerJobs Logo" class="h-10" />
-            <button type="button" onclick="goBack()"
-                class="text-yellow-500 text-2xl font-bold hover:text-yellow-600 transition">←</button>
-
-            <div
-                class="absolute right-10 bottom-[650px] w-[450px] h-[225px] rounded-b-full border-[60px] border-t-0 border-gray-200 opacity-30 z-0">
-            </div>
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
         </div>
 
-        <form class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" method="POST"
-            action="{{ route('store_step2') }}">
-            @csrf
+        <!-- FORM WRAPPER -->
+        <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+        
 
-            <!-- Work type -->
-            <div class="mb-6">
-                <label class="block text-gray-700 font-semibold mb-2 text-center">Work type</label>
-                <div class="flex justify-center items-center border border-orange-400 rounded-full overflow-hidden">
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer relative">
-                        <input type="radio" name="place_work" value="Remote" class="accent-orange-400 peer sr-only"
-                            {{ old('place_work', $step2['place_work'] ?? '') == 'Remote' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">Remote</span>
-                        <span class="hidden md:block absolute right-0 top-1/4 h-1/2 border-r border-orange-400"></span>
-                    </label>
+            <!-- FORM -->
+            <form id="main-form" method="POST" action="{{ route('store_step2') }}" class="space-y-10">
+                @csrf
 
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer relative">
-                        <input type="radio" name="place_work" value="OnSite" class="accent-orange-400 peer sr-only"
-                            {{ old('place_work', $step2['place_work'] ?? '') == 'OnSite' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">On Site</span>
-                        <span class="hidden md:block absolute right-0 top-1/4 h-1/2 border-r border-orange-400"></span>
-                    </label>
-
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer">
-                        <input type="radio" name="place_work" value="Hybrid" class="accent-orange-400 peer sr-only"
-                            {{ old('place_work', $step2['place_work'] ?? '') == 'Hybrid' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">Hybrid</span>
-                    </label>
+                <!-- Work Type -->
+                <div class="text-center">
+                    <label class="block font-bold text-xl mb-4 text-gray-700">Work Type</label>
+                    <div
+                        class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
+                        @foreach (['Remote', 'OnSite' => 'On Site', 'Hybrid'] as $val => $label)
+                            @php $value = is_string($val) ? $val : $label; @endphp
+                            <label class="flex-1 text-center py-2 cursor-pointer hover:bg-yellow-50 transition">
+                                <input type="radio" name="place_work" value="{{ $value }}" class="sr-only peer"
+                                    {{ old('place_work', $step2['place_work'] ?? '') == $value ? 'checked' : '' }}>
+                                <span class="peer-checked:text-orange-500 font-bold">{{ $label }}</span>
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <!-- Gender -->
-            <div class="mb-6">
-                <label class="block text-gray-700 font-semibold mb-2 text-center">Gender</label>
-                <div class="flex justify-center items-center border border-orange-400 rounded-full overflow-hidden">
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer relative">
-                        <input type="radio" name="type_gender" value="Man" class="accent-orange-400 peer sr-only"
-                            {{ old('type_gender', $step2['type_gender'] ?? '') == 'Man' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">Man</span>
-                        <span class="hidden md:block absolute right-0 top-1/4 h-1/2 border-r border-orange-400"></span>
-                    </label>
-
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer relative">
-                        <input type="radio" name="type_gender" value="Woman" class="accent-orange-400 peer sr-only"
-                            {{ old('type_gender', $step2['type_gender'] ?? '') == 'Woman' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">Woman</span>
-                        <span class="hidden md:block absolute right-0 top-1/4 h-1/2 border-r border-orange-400"></span>
-                    </label>
-
-                    <label class="flex items-center justify-center gap-2 flex-1 py-2 cursor-pointer">
-                        <input type="radio" name="type_gender" value="Man/Woman" class="accent-orange-400 peer sr-only"
-                            {{ old('type_gender', $step2['type_gender'] ?? '') == 'Man/Woman' ? 'checked' : '' }} />
-                        <span class="peer-checked:text-yellow-500 font-semibold">Man/Woman</span>
-                    </label>
+                <!-- Gender -->
+                <div class="text-center">
+                    <label class="block font-bold text-xl mb-4 text-gray-700">Gender</label>
+                    <div
+                        class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
+                        @foreach (['Man', 'Woman', 'Man/Woman'] as $value)
+                            <label class="flex-1 text-center py-2 cursor-pointer hover:bg-yellow-50 transition">
+                                <input type="radio" name="type_gender" value="{{ $value }}" class="sr-only peer"
+                                    {{ old('type_gender', $step2['type_gender'] ?? '') == $value ? 'checked' : '' }}>
+                                <span class="peer-checked:text-orange-500 font-bold">{{ $value }}</span>
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <!-- Dropdowns -->
-            <div class="grid grid-cols-3 gap-4 border border-orange-400 rounded-lg p-4 mb-8">
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Minimum education</label>
-                    <select name="education_minimal" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="High School"
-                            {{ old('education_minimal', $step2['education_minimal'] ?? '') == 'High School' ? 'selected' : '' }}>
-                            High School</option>
-                        <option value="Diploma"
-                            {{ old('education_minimal', $step2['education_minimal'] ?? '') == 'Diploma' ? 'selected' : '' }}>
-                            Diploma</option>
-                        <option value="Bachelor's"
-                            {{ old('education_minimal', $step2['education_minimal'] ?? '') == "Bachelor's" ? 'selected' : '' }}>
-                            Bachelor's</option>
-                        <option value="Master's"
-                            {{ old('education_minimal', $step2['education_minimal'] ?? '') == "Master's" ? 'selected' : '' }}>
-                            Master's</option>
-                        <option value="Doctorate"
-                            {{ old('education_minimal', $step2['education_minimal'] ?? '') == 'Doctorate' ? 'selected' : '' }}>
-                            Doctorate</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Experience Level</label>
-                    <select name="experience_min" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="0-1 Years"
-                            {{ old('experience_min', $step2['experience_min'] ?? '') == '0-1 Years' ? 'selected' : '' }}>
-                            0-1 Years</option>
-                        <option value="2-3 Years"
-                            {{ old('experience_min', $step2['experience_min'] ?? '') == '2-3 Years' ? 'selected' : '' }}>
-                            2-3 Years</option>
-                        <option value="4-5 Years"
-                            {{ old('experience_min', $step2['experience_min'] ?? '') == '4-5 Years' ? 'selected' : '' }}>
-                            4-5 Years</option>
-                        <option value="5+ Years"
-                            {{ old('experience_min', $step2['experience_min'] ?? '') == '5+ Years' ? 'selected' : '' }}>
-                            5+ Years</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-700 font-semibold mb-1">Age</label>
-                    <select name="age" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="18-25" {{ old('age', $step2['age'] ?? '') == '18-25' ? 'selected' : '' }}>18-25
-                        </option>
-                        <option value="26-35" {{ old('age', $step2['age'] ?? '') == '26-35' ? 'selected' : '' }}>26-35
-                        </option>
-                        <option value="36-45" {{ old('age', $step2['age'] ?? '') == '36-45' ? 'selected' : '' }}>36-45
-                        </option>
-                        <option value="46+" {{ old('age', $step2['age'] ?? '') == '46+' ? 'selected' : '' }}>46+
-                        </option>
-                    </select>
-                </div>
-            </div>
+                <!-- Table-style Dropdowns -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    @php
+                        $selects = [
+                            [
+                                'label' => 'Minimum Education',
+                                'name' => 'education_minimal',
+                                'options' => ['SD-SMP', 'SMA/SMK', 'D1-D3', 'S1/D4', 'S2/Profesi'],
+                            ],
+                            [
+                                'label' => 'Experience Level',
+                                'name' => 'experience_min',
+                                'options' => [
+                                    'Tanpa Pengalaman',
+                                    'Kurang dari 1 Tahun',
+                                    '2 - 3 Tahun',
+                                    '4 - 9 Tahun',
+                                    '10+ Tahun',
+                                ],
+                            ],
+                            [
+                                'label' => 'Age',
+                                'name' => 'age',
+                                'options' => [
+                                    'Di bawah 18 Tahun',
+                                    '18 - 30 Tahun',
+                                    '18 - 35 Tahun',
+                                    '41 - 60 Tahun',
+                                    'Lebih dari 60 Tahun',
+                                    'Semua Usia',
+                                ],
+                            ],
+                        ];
+                    @endphp
 
-            <div class="flex justify-between px-4 py-5 border-t border-gray-200 mt-8">
-                <button type="button" onclick="goBack()"
-                    class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-                    Previous
-                </button>
-                <button type="submit"
-                    class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-full">
-                    Next
+                    @foreach ($selects as $select)
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-orange-200">
+                            <label class="block font-bold mb-2 text-gray-600">{{ $select['label'] }}</label>
+                            <select name="{{ $select['name'] }}"
+                                class="w-full rounded-md border border-gray-300 focus:ring-orange-400 focus:border-orange-400 text-sm px-2 py-1">
+                                @foreach ($select['options'] as $opt)
+                                    <option value="{{ $opt }}"
+                                        {{ old($select['name'], $step2[$select['name']] ?? '') == $opt ? 'selected' : '' }}>
+                                        {{ $opt }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+                </div>
+            </form>
+        </div>
+
+        <!-- NAVIGATION BUTTONS -->
+        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="flex justify-between">
+                <a href="{{ route('form_postjob_step1') }}"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    ← Previous
+                </a>
+                <button type="submit" form="main-form"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    Next →
                 </button>
             </div>
-        </form>
+        </div>
     </div>
-
-    <script>
-        function goBack() {
-            window.location.href = "{{ route('form_postjob_step1') }}";
-        }
-    </script>
 @endsection
-
