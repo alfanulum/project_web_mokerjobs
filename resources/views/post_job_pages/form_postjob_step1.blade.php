@@ -25,38 +25,62 @@
                     </div>
 
                     <!-- Job Type -->
-                    <div class="mb-8">
-                        <h2 class="text-xl font-bold text-black mb-2">Job Type</h2>
-                        <p class="text-sm text-gray-600 mb-3">Enter the type of the job or position to be posted.</p>
-                        <details class="bg-white rounded-md shadow-sm">
-                            <summary
-                                class="cursor-pointer px-4 py-3 font-semibold flex justify-between items-center border border-gray-300 rounded-md text-sm">
-                                Select Job Type
-                                <svg class="w-4 h-4 transform transition-transform duration-200 group-open:rotate-180"
-                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </summary>
+              <div class="mb-8">
+    <h2 class="text-xl font-bold text-black mb-2">Job Type</h2>
+    <p class="text-sm text-gray-600 mb-3">Enter the type of the job or position to be posted.</p>
 
-                            <div class="px-4 pb-4 pt-2">
-                                <div class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
-                                    @foreach ($jobTypes as $type)
-                                        <label class="flex items-center gap-2 text-gray-800 cursor-pointer">
-                                            <input type="radio" name="job_type" value="{{ $type }}"
-                                                class="accent-orange-500"
-                                                {{ old('job_type', $oldData['job_type'] ?? '') == $type ? 'checked' : '' }}
-                                                required />
-                                            <span>{{ $type }}</span>
-                                        </label>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </details>
-                        @error('job_type')
-                            <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
-                        @enderror
-                    </div>
+    <details class="bg-white rounded-md shadow-sm" id="jobTypeDetails">
+        <summary
+            id="jobTypeSummary"
+            class="cursor-pointer px-4 py-3 font-semibold flex justify-between items-center border border-gray-300 rounded-md text-sm">
+            <span id="jobTypeLabel">Select Job Type</span>
+            <svg class="w-4 h-4 transform transition-transform duration-200"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </summary>
+
+        <div class="px-4 pb-4 pt-2">
+            <div class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
+                @foreach ($jobTypes as $type)
+                    <label class="flex items-center gap-2 text-gray-800 cursor-pointer">
+                        <input type="radio" name="job_type" value="{{ $type }}"
+                            class="accent-orange-500 job-type-radio"
+                            {{ old('job_type', $oldData['job_type'] ?? '') == $type ? 'checked' : '' }}
+                            required />
+                        <span>{{ $type }}</span>
+                    </label>
+                @endforeach
+            </div>
+        </div>
+    </details>
+
+    @error('job_type')
+        <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
+    @enderror
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radios = document.querySelectorAll('.job-type-radio');
+        const labelSpan = document.getElementById('jobTypeLabel');
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.checked) {
+                    labelSpan.textContent = this.value;
+                }
+            });
+
+            // Tampilkan pilihan sebelumnya (old value)
+            if (radio.checked) {
+                labelSpan.textContent = radio.value;
+            }
+        });
+    });
+</script>
+
                 </div>
             </div>
 
