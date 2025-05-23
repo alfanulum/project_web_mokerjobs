@@ -2,15 +2,12 @@
 
 @section('content')
     <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
-        <div class="mb-10">
-            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
+        <div class="mb-10 pl-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
 
         <!-- FORM WRAPPER -->
         <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center border-b pb-4 border-gray-200">
-                Company / Business Information
-            </h2>
 
             <!-- FORM -->
             <form id="main-form" action="{{ route('store_postjob_step4') }}" method="POST" enctype="multipart/form-data"
@@ -19,38 +16,39 @@
 
                 <!-- Company Name -->
                 <div>
-                    <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Perusahaan</label>
                     <input type="text" id="company_name" name="company_name"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="e.g. MokerJobs Company"
+                        placeholder="Contoh: MokerJobs Company"
                         value="{{ old('company_name', $step4['company_name'] ?? '') }}">
                 </div>
 
                 <!-- Description -->
                 <div>
-                    <label for="company_description"
-                        class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <label for="company_description" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi
+                        Perusahaan</label>
                     <textarea id="company_description" name="company_description" rows="4"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="e.g. MokerJobs is an industry...">{{ old('company_description', $step4['company_description'] ?? '') }}</textarea>
+                        placeholder="Contoh: MokerJobs adalah perusahaan yang bergerak di bidang...">{{ old('company_description', $step4['company_description'] ?? '') }}</textarea>
                 </div>
 
                 <!-- Address -->
                 <div>
-                    <label for="company_address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <label for="company_address" class="block text-sm font-medium text-gray-700 mb-1">Alamat
+                        Perusahaan</label>
                     <input type="text" id="company_address" name="company_address"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="e.g. Jl. Meri, Magersari, Mojokerto"
+                        placeholder="Contoh: Jl. Meri, Magersari, Mojokerto"
                         value="{{ old('company_address', $step4['company_address'] ?? '') }}">
                 </div>
 
                 <!-- Industry -->
                 <div>
-                    <label for="company_industry" class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                    <label for="company_industry" class="block text-sm font-medium text-gray-700 mb-1">Industri</label>
                     <select id="company_industry" name="company_industry"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition text-gray-600">
-                        <option value="" disabled selected>Choose one</option>
-                        @foreach (['Telecommunications', 'Garment or Textile Manufacturing', 'Fitness & Lifestyle', 'Nonprofit Organizations', 'Energy & Environment', 'Law & Legal Consulting', 'Finance & Banking', 'Events & Entertainment', 'Agribusiness', 'Construction & Property', 'Healthcare', 'Startups & Information Technology', 'Transportation & Logistics', 'Retail & E-commerce', 'Food & Beverage Production', 'Media & Creative', 'Tourism & Hospitality', 'Restaurants & Cafes', 'Education & Training'] as $industry)
+                        <option value="" disabled selected>Pilih salah satu</option>
+                        @foreach (['Telekomunikasi', 'Industri Garmen atau Tekstil', 'Kesehatan & Gaya Hidup', 'Organisasi Nonprofit', 'Energi & Lingkungan', 'Hukum & Konsultasi Hukum', 'Keuangan & Perbankan', 'Acara & Hiburan', 'Agribisnis', 'Konstruksi & Properti', 'Layanan Kesehatan', 'Startup & Teknologi Informasi', 'Transportasi & Logistik', 'Ritel & E-commerce', 'Produksi Makanan & Minuman', 'Media & Kreatif', 'Pariwisata & Perhotelan', 'Restoran & Kafe', 'Pendidikan & Pelatihan'] as $industry)
                             <option value="{{ $industry }}" @if (old('company_industry', $step4['company_industry'] ?? '') == $industry) selected @endif>
                                 {{ $industry }}
                             </option>
@@ -60,18 +58,18 @@
 
                 <!-- Website -->
                 <div>
-                    <label for="company_website" class="block text-sm font-medium text-gray-700 mb-1">Website / Social
-                        Media</label>
+                    <label for="company_website" class="block text-sm font-medium text-gray-700 mb-1">Website / Media
+                        Sosial</label>
                     <input type="url" id="company_website" name="company_website"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="https://instagram.com/yourcompany"
+                        placeholder="https://instagram.com/perusahaananda"
                         value="{{ old('company_website', $step4['company_website'] ?? '') }}">
                 </div>
 
                 <!-- Logo Upload -->
                 <div>
-                    <label for="company_logo" class="block text-sm font-medium text-gray-800 mb-2">Company/Business
-                        logo</label>
+                    <label for="company_logo" class="block text-sm font-medium text-gray-800 mb-2">Logo Perusahaan /
+                        Usaha</label>
                     <label
                         class="flex flex-col items-center justify-center w-32 h-32 bg-gray-200 border-2 border-dashed border-black/60 rounded-md cursor-pointer hover:border-orange-600 transition">
                         @if (isset($step4['company_logo_image']))
@@ -90,10 +88,10 @@
                         @if (isset($step4['company_logo_image']))
                             {{ basename($step4['company_logo_image']) }}
                         @else
-                            No file chosen
+                            Belum ada file yang dipilih
                         @endif
                     </span>
-                    <p class="mt-1 text-xs text-gray-400">PNG, JPG, JPEG up to 2MB</p>
+                    <p class="mt-1 text-xs text-gray-400">Format PNG, JPG, JPEG maksimal 2MB</p>
                 </div>
             </form>
         </div>
@@ -103,20 +101,20 @@
             <div class="flex justify-between">
                 <a href="{{ route('form_postjob_step3') }}"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    ← Previous
+                    ← Sebelumnya
                 </a>
                 <button type="submit" form="main-form"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    Next →
+                    Selanjutnya →
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Show uploaded file name
+        // Tampilkan nama file yang diunggah
         document.getElementById('company_logo')?.addEventListener('change', function(e) {
-            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Belum ada file yang dipilih';
             document.getElementById('file-name').textContent = fileName;
         });
     </script>

@@ -1,126 +1,130 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#FAFAFA] py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-sm text-gray-800 font-semibold">
-                {{ $jobData['step4']['company_name'] ?? 'Nama Perusahaan' }}
-            </h2>
+    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12">
+
+        <!-- Logo Website -->
+        <div class="mb-10 pl-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
 
-        <!-- Card Wrapper -->
-        <div class="bg-white mt-6 rounded-2xl shadow-md border border-gray-200 max-w-4xl mx-auto p-6">
-            <!-- Header Logo & Job Info -->
-            <div class="flex items-start gap-4">
-                {{-- LOGO PERUSAHAAN --}}
-                <div class="bg-[#E5F3FF] p-2 rounded-xl flex items-center justify-center w-16 h-16">
+        <!-- Pembungkus Kartu -->
+        <div class="bg-white rounded-3xl shadow-lg border border-gray-100 max-w-5xl mx-auto p-8 sm:p-10 space-y-8">
+
+            <!-- Nama Perusahaan -->
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-4 mt-4">
+                    {{ $jobData['step4']['company_name'] ?? 'Nama Perusahaan' }}
+                </h2>
+            </div>
+
+            <!-- Bagian Header -->
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <!-- Logo Perusahaan -->
+                <div
+                    class="flex-shrink-0 bg-[#E5F3FF] rounded-2xl w-36 h-36 md:w-44 md:h-44 flex items-center justify-center overflow-hidden">
                     @if (!empty($jobData['step4']['company_logo_image']))
-                        <img src="{{ asset('storage/' . ($jobData['step4']['company_logo_image'] ?? 'default-logo.png')) }}"
+                        <img src="{{ asset('storage/' . $jobData['step4']['company_logo_image']) }}"
                             alt="Logo {{ $jobData['step4']['company_name'] ?? 'Perusahaan' }}"
-                            class="object-cover rounded-md w-full h-full">
+                            class="object-cover w-full h-full rounded-xl">
                     @else
-                        <div class="text-sm font-bold text-blue-600 text-center">Logo</div>
+                        <span class="text-blue-600 font-bold text-lg">LOGO</span>
                     @endif
                 </div>
 
-
-                <div class="text-left">
-                    <h3 class="text-xl font-semibold text-gray-900">{{ $jobData['step1']['job_name'] ?? 'Job Name' }}</h3>
-                    <p class="text-sm text-orange-500 font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20"
-                            fill="currentColor">
+                <!-- Informasi Pekerjaan -->
+                <div class="flex-1 space-y-2">
+                    <h3 class="text-2xl font-bold text-gray-900">
+                        {{ $jobData['step1']['job_name'] ?? 'Nama Pekerjaan' }}
+                    </h3>
+                    <div class="text-orange-600 font-medium flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                 clip-rule="evenodd" />
                         </svg>
                         {{ $jobData['step3']['location'] ?? 'Magersari' }}
-                    </p>
-                    <p class="text-sm text-gray-600 mt-2">
-                        {{ $jobData['step4']['company_description'] ?? 'company description...' }}
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        {{ $jobData['step4']['company_description'] ?? 'Deskripsi perusahaan...' }}
                     </p>
                 </div>
             </div>
 
-            <!-- Badges -->
-            <div class="flex justify-center gap-4 mt-6">
-                <div class="bg-orange-500 text-white px-6 py-2 rounded-xl font-semibold">
-                    {{ $jobData['step1']['job_type'] ?? 'Freelance' }}</div>
-                <div class="bg-orange-500 text-white px-6 py-2 rounded-xl font-semibold">
-                    {{ $jobData['step2']['place_work'] ?? 'Remote' }}</div>
-                <div class="bg-orange-500 text-white px-6 py-2 rounded-xl font-semibold">
-                    {{ $jobData['step2']['education_minimal'] ?? 'S1/D4' }}</div>
+            <!-- Lencana -->
+            <div class="flex flex-wrap justify-center gap-4">
+                @php
+                    $badges = [
+                        $jobData['step1']['job_type'] ?? 'Freelance',
+                        $jobData['step2']['place_work'] ?? 'Remote',
+                        $jobData['step2']['education_minimal'] ?? 'S1/D4',
+                    ];
+                @endphp
+                @foreach ($badges as $badge)
+                    <span class="bg-orange-500 text-white px-5 py-2 rounded-full font-medium shadow-sm">
+                        {{ $badge }}
+                    </span>
+                @endforeach
             </div>
 
-            <!-- Salary -->
-            <div class="text-center mt-4 text-gray-900 font-bold">
-                Rp. {{ number_format($jobData['step3']['salary_minimal'] ?? 0, 0, ',', '.') }} - Rp.
-                {{ number_format($jobData['step3']['maximum_salary'] ?? 0, 0, ',', '.') }}
+            <!-- Gaji -->
+            <div class="text-center text-xl font-bold text-gray-800">
+                Rp. {{ number_format($jobData['step3']['salary_minimal'] ?? 0, 0, ',', '.') }} -
+                Rp. {{ number_format($jobData['step3']['maximum_salary'] ?? 0, 0, ',', '.') }}
             </div>
 
-            <!-- Job Description -->
-            <div class="mt-8">
-                <h4 class="text-lg font-bold text-gray-800 mb-2">Job Description</h4>
-                <p class="text-sm text-gray-700">{{ $jobData['step3']['job_description'] ?? 'Job description details...' }}
+            <!-- Deskripsi Pekerjaan -->
+            <div>
+                <h4 class="text-lg font-bold text-gray-900 mb-1">Deskripsi Pekerjaan</h4>
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    {{ $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...' }}
                 </p>
             </div>
 
-            <!-- Job Requirements -->
-            <div class="mt-6">
-                <h4 class="text-lg font-bold text-gray-800 mb-2">Job Requirements</h4>
-                <p class="text-sm text-gray-700">
-                    {{ $jobData['step3']['job_requirements'] ?? 'Job requirements details...' }}</p>
+            <!-- Persyaratan Pekerjaan -->
+            <div>
+                <h4 class="text-lg font-bold text-gray-900 mb-1">Persyaratan Pekerjaan</h4>
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    {{ $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...' }}
+                </p>
             </div>
 
-            <!-- Company Info Table -->
-            <div class="bg-yellow-50 p-4 rounded-xl mt-6">
-                <table class="w-full text-sm text-left text-gray-700">
-                    <tbody>
-                        <tr>
-                            <td class="font-semibold w-1/3">Experience Level</td>
-                            <td>: {{ $jobData['step2']['experience_min'] ?? 'Less Than 1 Year' }}</td>
+            <!-- Tabel Informasi Perusahaan -->
+            <div class="bg-yellow-50 rounded-2xl p-6">
+                <table class="w-full text-sm text-gray-800">
+                    @php
+                        $info = [
+                            'Tingkat Pengalaman' => $jobData['step2']['experience_min'] ?? 'Kurang dari 1 Tahun',
+                            'Usia' => $jobData['step2']['age'] ?? '18 - 30 Tahun',
+                            'Kategori' => $jobData['step1']['category_job'] ?? 'Desain & Kreatif',
+                            'Industri Perusahaan' => $jobData['step4']['company_industry'] ?? 'Telekomunikasi',
+                            'Alamat Perusahaan' => $jobData['step4']['company_address'] ?? 'Jalan Mojokerto',
+                            'Email Perusahaan' => $jobData['step5']['email_company'] ?? 'mokerjobs@mail.com',
+                            'Formulir Online' =>
+                                $jobData['step5']['social_media_company'] ?? 'https://forms.gle/abc1234EFGH5678',
+                            'WhatsApp' => $jobData['step5']['no_wa_company'] ?? '+6281234567890',
+                        ];
+                    @endphp
+                    @foreach ($info as $label => $value)
+                        <tr class="border-t border-gray-200">
+                            <td class="font-semibold py-2 w-1/3">{{ $label }}</td>
+                            <td class="py-2">: {{ $value }}</td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold">Age</td>
-                            <td>: {{ $jobData['step2']['age'] ?? '18 - 30 Years' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Category</td>
-                            <td>: {{ $jobData['step1']['category_job'] ?? 'Design & Creative' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Company Industry</td>
-                            <td>: {{ $jobData['step4']['company_industry'] ?? 'Telecommunications' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Address</td>
-                            <td>: {{ $jobData['step4']['company_address'] ?? 'Mojokerto Street' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Email</td>
-                            <td>: {{ $jobData['step5']['email_company'] ?? 'mokerjobs@mail.com' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">Online Form</td>
-                            <td>: {{ $jobData['step5']['social_media_company'] ?? 'https://forms.gle/abc1234EFGH5678' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">WhatsApp</td>
-                            <td>: {{ $jobData['step5']['no_wa_company'] ?? '+6281234567890' }}</td>
-                        </tr>
-                    </tbody>
+                    @endforeach
                 </table>
             </div>
 
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between items-center mt-8">
+            <!-- Tombol Navigasi -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4">
                 <a href="{{ route('form_postjob_step5') }}"
-                    class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-full">Previous</a>
-                <form action="{{ route('submit_job') }}" method="POST">
+                    class="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-full text-center transition">
+                    ← Sebelumnya
+                </a>
+                <form action="{{ route('submit_job') }}" method="POST" class="w-full sm:w-auto">
                     @csrf
                     <button type="submit"
-                        class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full">
-                        Next
+                        class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
+                        Kirim →
                     </button>
                 </form>
             </div>

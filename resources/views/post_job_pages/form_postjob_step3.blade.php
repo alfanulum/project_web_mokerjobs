@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
-        <div class="mb-10">
-            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
+        <div class="mb-10 pl-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
 
         <!-- FORM WRAPPER -->
@@ -11,7 +11,7 @@
                 open: false,
                 selected: '{{ old('location', $step3['location'] ?? '') }}',
                 selectedLabel() {
-                    return this.selected === '' ? 'Location' : this.selected;
+                    return this.selected === '' ? 'Lokasi' : this.selected;
                 },
                 selectLocation(value) {
                     this.selected = value;
@@ -23,13 +23,13 @@
 
                 <!-- Job Description -->
                 <div class="mb-6">
-                    <label for="job_description" class="block font-semibold text-black mb-2">Job Description</label>
+                    <label for="job_description" class="block font-semibold text-black mb-2">Deskripsi Pekerjaan</label>
                     <div class="relative">
                         <!-- Toolbar -->
                         <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
                             <!-- Bold -->
                             <button type="button" onclick="formatText('job_description_editor', 'bold')"
-                                class="p-1 hover:bg-orange-600" title="Bold">
+                                class="p-1 hover:bg-orange-600" title="Tebal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path
@@ -39,7 +39,7 @@
 
                             <!-- Italic -->
                             <button type="button" onclick="formatText('job_description_editor', 'italic')"
-                                class="p-1 hover:bg-orange-600" title="Italic">
+                                class="p-1 hover:bg-orange-600" title="Miring">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path
@@ -49,7 +49,7 @@
 
                             <!-- Align Left -->
                             <button type="button" onclick="formatText('job_description_editor', 'justifyLeft')"
-                                class="p-1 hover:bg-orange-600" title="Align Left">
+                                class="p-1 hover:bg-orange-600" title="Rata Kiri">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -59,7 +59,7 @@
 
                             <!-- Center -->
                             <button type="button" onclick="formatText('job_description_editor', 'justifyCenter')"
-                                class="p-1 hover:bg-orange-600" title="Center">
+                                class="p-1 hover:bg-orange-600" title="Rata Tengah">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -69,7 +69,7 @@
 
                             <!-- Align Right -->
                             <button type="button" onclick="formatText('job_description_editor', 'justifyRight')"
-                                class="p-1 hover:bg-orange-600" title="Align Right">
+                                class="p-1 hover:bg-orange-600" title="Rata Kanan">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -79,7 +79,7 @@
 
                             <!-- Indent Left (←) -->
                             <button type="button" onclick="formatText('job_description_editor', 'outdent')"
-                                class="p-1 hover:bg-orange-600" title="Decrease Indent">
+                                class="p-1 hover:bg-orange-600" title="Kurangi Indentasi">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -90,7 +90,7 @@
 
                             <!-- Indent Right (→) -->
                             <button type="button" onclick="formatText('job_description_editor', 'indent')"
-                                class="p-1 hover:bg-orange-600" title="Increase Indent">
+                                class="p-1 hover:bg-orange-600" title="Tambah Indentasi">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -116,13 +116,13 @@
 
                 <!-- Job Requirements -->
                 <div class="mb-6">
-                    <label for="job_requirements" class="block font-semibold text-black mb-2">Job Requirements</label>
+                    <label for="job_requirements" class="block font-semibold text-black mb-2">Persyaratan Pekerjaan</label>
                     <div class="relative">
                         <!-- Toolbar (same as above) -->
                         <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
                             <!-- Bold -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'bold')"
-                                class="p-1 hover:bg-orange-600" title="Bold">
+                                class="p-1 hover:bg-orange-600" title="Tebal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path
@@ -132,7 +132,7 @@
 
                             <!-- Italic -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'italic')"
-                                class="p-1 hover:bg-orange-600" title="Italic">
+                                class="p-1 hover:bg-orange-600" title="Miring">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path
@@ -142,7 +142,7 @@
 
                             <!-- Align Left -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'justifyLeft')"
-                                class="p-1 hover:bg-orange-600" title="Align Left">
+                                class="p-1 hover:bg-orange-600" title="Rata Kiri">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -152,7 +152,7 @@
 
                             <!-- Center -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'justifyCenter')"
-                                class="p-1 hover:bg-orange-600" title="Center">
+                                class="p-1 hover:bg-orange-600" title="Rata Tengah">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -162,7 +162,7 @@
 
                             <!-- Align Right -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'justifyRight')"
-                                class="p-1 hover:bg-orange-600" title="Align Right">
+                                class="p-1 hover:bg-orange-600" title="Rata Kanan">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -172,7 +172,7 @@
 
                             <!-- Indent Left (←) -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'outdent')"
-                                class="p-1 hover:bg-orange-600" title="Decrease Indent">
+                                class="p-1 hover:bg-orange-600" title="Kurangi Indentasi">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -183,7 +183,7 @@
 
                             <!-- Indent Right (→) -->
                             <button type="button" onclick="formatText('job_requirements_editor', 'indent')"
-                                class="p-1 hover:bg-orange-600" title="Increase Indent">
+                                class="p-1 hover:bg-orange-600" title="Tambah Indentasi">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -210,7 +210,7 @@
 
                 <!-- Location -->
                 <div class="mb-6">
-                    <label class="block font-semibold text-black mb-2">Location</label>
+                    <label class="block font-semibold text-black mb-2">Lokasi</label>
                     <div @click="open = !open"
                         class="flex items-center justify-between w-full border border-orange-400 rounded-lg px-4 py-2 bg-white cursor-pointer">
                         <span x-text="selectedLabel()" class="text-gray-700"></span>
@@ -235,27 +235,27 @@
                         </template>
                     </div>
                     @error('location')
-                        <p class="text-red-600 text-sm mt-1">Location must be selected.</p>
+                        <p class="text-red-600 text-sm mt-1">Lokasi harus dipilih.</p>
                     @enderror
                 </div>
 
                 <!-- Salary -->
                 <div class="mb-8 grid grid-cols-2 gap-4">
                     <div class="relative">
-                        <label for="salary_minimal" class="block font-semibold text-black mb-1">Salary Range</label>
+                        <label for="salary_minimal" class="block font-semibold text-black mb-1">Rentang Gaji</label>
                         <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
                             <span class="mr-2 text-gray-500">Rp.</span>
                             <input id="salary_minimal" type="number" name="salary_minimal"
-                                class="w-full border-none outline-none" placeholder="Minimum Salary"
+                                class="w-full border-none outline-none" placeholder="Gaji Minimum"
                                 value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
                         </div>
                     </div>
                     <div class="relative">
-                        <label class="block font-semibold text-black mb-1 invisible">Max Salary</label>
+                        <label class="block font-semibold text-black mb-1 invisible">Gaji Maksimum</label>
                         <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
                             <span class="mr-2 text-gray-500">Rp.</span>
                             <input id="maximum_salary" type="number" name="maximum_salary"
-                                class="w-full border-none outline-none" placeholder="Maximum Salary"
+                                class="w-full border-none outline-none" placeholder="Gaji Maksimum"
                                 value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
                         </div>
                     </div>
@@ -266,13 +266,13 @@
         <!-- NAVIGATION BUTTONS -->
         <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
             <div class="flex justify-between">
-                <a href="{{ route('form_postjob_step1') }}"
+                <a href="{{ route('form_postjob_step2') }}"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    ← Previous
+                    ← Sebelumnya
                 </a>
                 <button type="submit" form="main-form"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    Next →
+                    Selanjutnya →
                 </button>
             </div>
         </div>

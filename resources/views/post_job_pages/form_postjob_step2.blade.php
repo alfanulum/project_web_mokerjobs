@@ -2,13 +2,13 @@
 
 @section('content')
     <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
-        <div class="mb-10">
-            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
+        <div class="mb-10 pl-10">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
+
 
         <!-- FORM WRAPPER -->
         <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
-        
 
             <!-- FORM -->
             <form id="main-form" method="POST" action="{{ route('store_step2') }}" class="space-y-10">
@@ -16,10 +16,10 @@
 
                 <!-- Work Type -->
                 <div class="text-center">
-                    <label class="block font-bold text-xl mb-4 text-gray-700">Work Type</label>
+                    <label class="block font-bold text-xl mb-4 text-gray-700">Jenis Pekerjaan</label>
                     <div
                         class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
-                        @foreach (['Remote', 'OnSite' => 'On Site', 'Hybrid'] as $val => $label)
+                        @foreach (['Remote', 'OnSite' => 'Di Kantor', 'Hybrid'] as $val => $label)
                             @php $value = is_string($val) ? $val : $label; @endphp
                             <label class="flex-1 text-center py-2 cursor-pointer hover:bg-yellow-50 transition">
                                 <input type="radio" name="place_work" value="{{ $value }}" class="sr-only peer"
@@ -32,14 +32,14 @@
 
                 <!-- Gender -->
                 <div class="text-center">
-                    <label class="block font-bold text-xl mb-4 text-gray-700">Gender</label>
+                    <label class="block font-bold text-xl mb-4 text-gray-700">Jenis Kelamin</label>
                     <div
                         class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
-                        @foreach (['Man', 'Woman', 'Man/Woman'] as $value)
+                        @foreach (['Man' => 'Laki-laki', 'Woman' => 'Perempuan', 'Man/Woman' => 'Laki-laki/Perempuan'] as $value => $label)
                             <label class="flex-1 text-center py-2 cursor-pointer hover:bg-yellow-50 transition">
                                 <input type="radio" name="type_gender" value="{{ $value }}" class="sr-only peer"
                                     {{ old('type_gender', $step2['type_gender'] ?? '') == $value ? 'checked' : '' }}>
-                                <span class="peer-checked:text-orange-500 font-bold">{{ $value }}</span>
+                                <span class="peer-checked:text-orange-500 font-bold">{{ $label }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -50,12 +50,12 @@
                     @php
                         $selects = [
                             [
-                                'label' => 'Minimum Education',
+                                'label' => 'Pendidikan Minimal',
                                 'name' => 'education_minimal',
                                 'options' => ['SD-SMP', 'SMA/SMK', 'D1-D3', 'S1/D4', 'S2/Profesi'],
                             ],
                             [
-                                'label' => 'Experience Level',
+                                'label' => 'Tingkat Pengalaman',
                                 'name' => 'experience_min',
                                 'options' => [
                                     'Tanpa Pengalaman',
@@ -66,7 +66,7 @@
                                 ],
                             ],
                             [
-                                'label' => 'Age',
+                                'label' => 'Usia',
                                 'name' => 'age',
                                 'options' => [
                                     'Di bawah 18 Tahun',
@@ -103,11 +103,11 @@
             <div class="flex justify-between">
                 <a href="{{ route('form_postjob_step1') }}"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    ← Previous
+                    ← Sebelumnya
                 </a>
                 <button type="submit" form="main-form"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    Next →
+                    Selanjutnya →
                 </button>
             </div>
         </div>
