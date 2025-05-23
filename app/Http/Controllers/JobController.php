@@ -110,7 +110,7 @@ class JobController extends Controller
 
 
 
-    //form 1
+    // FORM STEP 1
     public function formPostJobStep1(Request $request)
     {
         $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
@@ -134,11 +134,11 @@ class JobController extends Controller
             'Transportation & Logistic'
         ];
 
-        // Ambil data lama dari session untuk diisi ulang ke form
         $oldData = $request->session()->get('job_step1', []);
 
         return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories', 'oldData'));
     }
+
     public function storeStep1(Request $request)
     {
         $validated = $request->validate([
@@ -147,39 +147,32 @@ class JobController extends Controller
             'category_job' => 'required|string|max:255',
         ]);
 
-        // Simpan ke session untuk diambil di form selanjutnya atau saat kembali ke form ini
         $request->session()->put('job_step1', $validated);
-
-        // Redirect ke form berikutnya
         return redirect()->route('form_postjob_step2');
     }
 
-    // Tampilkan form step 2 dengan data lama dari session (optional)
+    // FORM STEP 2
     public function formPostJobStep2(Request $request)
     {
         $step2 = $request->session()->get('job_step2', []);
         return view('post_job_pages.form_postjob_step2', compact('step2'));
     }
 
-    // Simpan data step 2 ke session lalu redirect ke step 3
     public function storeStep2(Request $request)
     {
         $validated = $request->validate([
             'place_work' => 'required|string',
             'type_gender' => 'required|string',
-            'education_min' => 'required|string',
+            'education_minimal' => 'required|string',
             'experience_min' => 'required|string',
             'age' => 'required|string',
         ]);
 
         $request->session()->put('job_step2', $validated);
-
         return redirect()->route('form_postjob_step3');
     }
 
-
-
-    // Tampilkan form step 3
+    // FORM STEP 3
     public function formPostJobStep3(Request $request)
     {
         $step3 = $request->session()->get('job_step3', []);
@@ -192,23 +185,21 @@ class JobController extends Controller
             'location' => 'required|string',
             'job_description' => 'required|string',
             'job_requirements' => 'required|string',
-            'salary_minimal'  => 'nullable|integer',
-             'maximum_salary' => 'nullable|integer',
+            'salary_minimal' => 'nullable|integer',
+            'maximum_salary' => 'nullable|integer',
         ]);
 
         $request->session()->put('job_step3', $validated);
-
         return redirect()->route('form_postjob_step4');
     }
 
-
-
-    // Tampilkan form step 4
+    // FORM STEP 4
     public function formPostJobStep4(Request $request)
     {
         $step4 = $request->session()->get('job_step4', []);
         return view('post_job_pages.form_postjob_step4', compact('step4'));
     }
+
 
 
     public function storeStep4(Request $request)
@@ -222,76 +213,113 @@ class JobController extends Controller
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Handle file upload
+        $step4Session = $request->session()->get('job_step4', []);
+
         if ($request->hasFile('company_logo')) {
+            // Upload file baru
             $path = $request->file('company_logo')->store('company_logos', 'public');
-            $validated['company_logo'] = $path;
+            $validated['company_logo_image'] = $path;
+        } else if (isset($step4Session['company_logo_image'])) {
+
+            // Tidak upload file baru, gunakan path logo yang lama
+            $validated['company_logo_image'] = $step4Session['company_logo_image'];
         }
 
+        // Hilangkan UploadedFile instance sebelum simpan ke session
+        if (isset($validated['company_logo'])) {
+            unset($validated['company_logo']);
+        }
+
+        // Simpan data ke session
         $request->session()->put('job_step4', $validated);
 
-        // Redirect to step 5 instead of saving
+
         return redirect()->route('form_postjob_step5');
     }
 
 
 
-    //tampilkan form 5 
+
+    // FORM STEP 5
     public function formPostJobStep5(Request $request)
     {
         $step5 = $request->session()->get('job_step5', []);
         return view('post_job_pages.form_postjob_step5', compact('step5'));
     }
 
+    // In JobController.php
+
+    // FORM STEP 5
     public function storeStep5(Request $request)
     {
-      $validated = $request->validate([
-    'email_company' => 'required|email',
-    'no_wa_company' => 'required|string',
-    'social_media_company' => 'nullable|url',
-    'deadline' => 'required|date',
-]);
-
+        $validated = $request->validate([
+            'email_company' => 'required|email',
+            'no_wa_company' => 'required|string',
+            'social_media_company' => 'nullable|url',
+            'deadline' => 'required|date|after:today',
+        ]);
 
         $request->session()->put('job_step5', $validated);
 
-        // Combine all steps and save to database
-        $step1 = $request->session()->get('job_step1', []);
-        $step2 = $request->session()->get('job_step2', []);
-        $step3 = $request->session()->get('job_step3', []);
-        $step4 = $request->session()->get('job_step4', []);
-        $step5 = $request->session()->get('job_step5', []);
-
-        $allData = array_merge($step1, $step2, $step3, $step4, $step5);
-
-        // If key 'category' exists, change it to 'category_job'
-        if (isset($allData['category'])) {
-            $allData['category_job'] = $allData['category'];
-            unset($allData['category']);
-        }
-
-        // Handle company logo if it exists in step4
-        if (isset($step4['company_logo'])) {
-            $allData['company_logo_image'] = $step4['company_logo'];
-        }
-
-        // Create the job listing
-        Lowongan::create($allData);
-
-        // Clear the session
-        $request->session()->forget([
-            'job_step1',
-            'job_step2',
-            'job_step3',
-            'job_step4',
-            'job_step5'
-        ]);
-
-        return redirect()->route('form_postjob_step1')->with('success', 'Job posting created successfully!');
+        // Pastikan redirectnya benar
+        return redirect()->route('form_postjob_step6');
     }
 
+    // FORM STEP 6 - PREVIEW
+    public function formPostJobStep6(Request $request)
+    {
+        $requiredSteps = ['job_step1', 'job_step2', 'job_step3', 'job_step4', 'job_step5'];
 
+        foreach ($requiredSteps as $step) {
+            if (!$request->session()->has($step)) {
+                return redirect()
+                    ->route('form_postjob_step1')
+                    ->with('error', 'Silakan lengkapi semua langkah terlebih dahulu.');
+            }
+        }
 
+        $jobData = [
+            'step1' => $request->session()->get('job_step1'),
+            'step2' => $request->session()->get('job_step2'),
+            'step3' => $request->session()->get('job_step3'),
+            'step4' => $request->session()->get('job_step4'),
+            'step5' => $request->session()->get('job_step5'),
+        ];
+
+        return view('post_job_pages.form_postjob_step6', compact('jobData'));
+    }
+
+    public function submitJob(Request $request)
+    {
+        $requiredSteps = ['job_step1', 'job_step2', 'job_step3', 'job_step4', 'job_step5'];
+        foreach ($requiredSteps as $step) {
+            if (!$request->session()->has($step)) {
+                return back()->with('error', 'Session expired. Please start over.');
+            }
+        }
+
+        $jobData = array_merge(
+            $request->session()->get('job_step1'),
+            $request->session()->get('job_step2'),
+            $request->session()->get('job_step3'),
+            $request->session()->get('job_step4'),
+            $request->session()->get('job_step5')
+        );
+
+        try {
+            Lowongan::create($jobData);
+
+            // Clear session
+            $request->session()->forget($requiredSteps);
+
+            return redirect()
+                ->route('form_postjob_step1')
+                ->with('success', 'Job posted successfully!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Error saving job: ' . $e->getMessage());
+        }
+    }
 
 
 

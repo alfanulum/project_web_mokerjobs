@@ -21,43 +21,43 @@
                 </div>
             </div>
 
-
             <!-- Form -->
             <form id="jobForm" method="POST" action="{{ route('store_postjob_step5') }}" class="space-y-6">
                 @csrf
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-800 mb-2">Email</label>
-                    <input type="email" name="email" id="email" placeholder="e.g. mokerjobs@mail.com"
+                    <label for="email_company" class="block text-sm font-semibold text-gray-800 mb-2">Email</label>
+                    <input type="email" name="email_company" id="email_company" placeholder="e.g. mokerjobs@mail.com"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        value="{{ old('email', session('job_step5.email') ?? '') }}">
+                        value="{{ old('email_company', $step5['email_company'] ?? '') }}">
                     <p class="text-xs text-gray-500 mt-1">Use your company email to get a verification badge.</p>
-                    @error('email')
+                    @error('email_company')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Phone -->
                 <div>
-                    <label for="phone" class="block text-sm font-semibold text-gray-800 mb-2">WhatsApp/Phone
+                    <label for="no_wa_company" class="block text-sm font-semibold text-gray-800 mb-2">WhatsApp/Phone
                         Number</label>
-                    <input type="tel" name="phone" id="phone" placeholder="e.g. +6281234567890"
+                    <input type="tel" name="no_wa_company" id="no_wa_company" placeholder="e.g. +6281234567890"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        value="{{ old('phone', session('job_step5.phone') ?? '') }}">
-                    @error('phone')
+                        value="{{ old('no_wa_company', $step5['no_wa_company'] ?? '') }}">
+                    @error('no_wa_company')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Online Form -->
                 <div>
-                    <label for="online_form" class="block text-sm font-semibold text-gray-800 mb-2">Online Form</label>
-                    <input type="url" name="online_form" id="online_form"
+                    <label for="social_media_company" class="block text-sm font-semibold text-gray-800 mb-2">Online
+                        Form</label>
+                    <input type="url" name="social_media_company" id="social_media_company"
                         placeholder="e.g. https://forms.gle/abcd1234EFGH5678"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        value="{{ old('online_form', session('job_step5.online_form') ?? '') }}">
-                    @error('online_form')
+                        value="{{ old('social_media_company', $step5['social_media_company'] ?? '') }}">
+                    @error('social_media_company')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -66,23 +66,24 @@
                 <div>
                     <label for="deadline" class="block text-sm font-semibold text-gray-800 mb-2">Application
                         Deadline</label>
-                    <input type="text" name="deadline" id="deadline" placeholder="mm/dd/yy"
+                    <input type="date" name="deadline" id="deadline"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        value="{{ old('deadline', session('job_step5.deadline') ?? '') }}">
+                        value="{{ old('deadline', $step5['deadline'] ?? '') }}">
                     @error('deadline')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
             </form>
         </div>
-        <!-- NAVIGATION BUTTONS (outside form wrapper) -->
+
+        <!-- NAVIGATION BUTTONS -->
         <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
             <div class="flex justify-between">
-                <a href="{{ route('form_postjob_step3') }}"
-                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition ">
+                <a href="{{ route('form_postjob_step4') }}"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
                     ← Previous
                 </a>
-                <button type="submit" form="main-form"
+                <button type="submit" form="jobForm"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
                     Next →
                 </button>
