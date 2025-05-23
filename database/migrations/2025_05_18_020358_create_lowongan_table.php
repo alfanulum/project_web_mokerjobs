@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('email_company', 50);
             $table->string('no_wa_company', 50);
             $table->dateTime('delivery_limit')->nullable();
+            $table->enum('status', ['pending', 'accept', 'decline'])->default('pending');
             $table->timestamps();
         });
     }

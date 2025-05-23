@@ -1,5 +1,15 @@
     @extends('layouts.app')
 
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     @section('content')
         <div class="flex flex-col md:flex-row min-h-screen w-full">
             <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
@@ -84,7 +94,7 @@
                                         $icon = \App\Http\Controllers\JobController::getCategoryIcon($category);
                                     @endphp
                                     <div>
-                                        <input type="radio" name="category" id="category_{{ Str::slug($category) }}"
+                                        <input type="radio" name="category_job" id="category_{{ Str::slug($category) }}"
                                             value="{{ $category }}" class="hidden peer"
                                             {{ old('category', $oldData['category'] ?? '') == $category ? 'checked' : '' }}
                                             required>

@@ -58,7 +58,7 @@ class="flex-grow px-4 py-12 overflow-auto max-w-[1000px] mx-auto" x-data="{
         </div>
 
         <!-- Hidden input untuk lokasi -->
-        <input type="hidden" name="lokasi" x-ref="hiddenLokasi" :value="selected" required>
+        <input type="hidden" name="location" x-ref="hiddenLokasi" :value="selected" required>
 
         @error('lokasi')
           <p class="text-red-600 text-sm mt-1">Lokasi harus dipilih.</p>
