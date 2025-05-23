@@ -110,7 +110,11 @@ class JobController extends Controller
 
 
 
+<<<<<<< HEAD
         // FORM STEP 1
+=======
+    // FORM STEP 1
+>>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
     public function formPostJobStep1(Request $request)
     {
         $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
@@ -151,7 +155,10 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step2');
     }
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
     // FORM STEP 2
     public function formPostJobStep2(Request $request)
     {
@@ -164,7 +171,7 @@ class JobController extends Controller
         $validated = $request->validate([
             'place_work' => 'required|string',
             'type_gender' => 'required|string',
-            'education_min' => 'required|string',
+            'education_minimal' => 'required|string',
             'experience_min' => 'required|string',
             'age' => 'required|string',
         ]);
@@ -186,7 +193,11 @@ class JobController extends Controller
             'location' => 'required|string',
             'job_description' => 'required|string',
             'job_requirements' => 'required|string',
+<<<<<<< HEAD
             'salary_minimal'  => 'nullable|integer',
+=======
+            'salary_minimal' => 'nullable|integer',
+>>>>>>> 2f17b4342346d6186cda8cbbfcdc381a55c848b9
             'maximum_salary' => 'nullable|integer',
         ]);
 
@@ -228,6 +239,9 @@ class JobController extends Controller
         return view('post_job_pages.form_postjob_step5', compact('step5'));
     }
 
+    // In JobController.php
+
+    // FORM STEP 5
     public function storeStep5(Request $request)
     {
         $validated = $request->validate([
@@ -296,8 +310,61 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step1')->with('success', 'Job posted successfully!');
     }
 
+    // FORM STEP 6 - PREVIEW
+    public function formPostJobStep6(Request $request)
+    {
+        $requiredSteps = ['job_step1', 'job_step2', 'job_step3', 'job_step4', 'job_step5'];
 
+        foreach ($requiredSteps as $step) {
+            if (!$request->session()->has($step)) {
+                return redirect()
+                    ->route('form_postjob_step1')
+                    ->with('error', 'Silakan lengkapi semua langkah terlebih dahulu.');
+            }
+        }
 
+        $jobData = [
+            'step1' => $request->session()->get('job_step1'),
+            'step2' => $request->session()->get('job_step2'),
+            'step3' => $request->session()->get('job_step3'),
+            'step4' => $request->session()->get('job_step4'),
+            'step5' => $request->session()->get('job_step5'),
+        ];
+
+        return view('post_job_pages.form_postjob_step6', compact('jobData'));
+    }
+
+    public function submitJob(Request $request)
+    {
+        $requiredSteps = ['job_step1', 'job_step2', 'job_step3', 'job_step4', 'job_step5'];
+        foreach ($requiredSteps as $step) {
+            if (!$request->session()->has($step)) {
+                return back()->with('error', 'Session expired. Please start over.');
+            }
+        }
+
+        $jobData = array_merge(
+            $request->session()->get('job_step1'),
+            $request->session()->get('job_step2'),
+            $request->session()->get('job_step3'),
+            $request->session()->get('job_step4'),
+            $request->session()->get('job_step5')
+        );
+
+        try {
+            Lowongan::create($jobData);
+
+            // Clear session
+            $request->session()->forget($requiredSteps);
+
+            return redirect()
+                ->route('form_postjob_step1')
+                ->with('success', 'Job posted successfully!');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Error saving job: ' . $e->getMessage());
+        }
+    }
 
 
 
