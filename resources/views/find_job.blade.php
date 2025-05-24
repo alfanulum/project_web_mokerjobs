@@ -16,7 +16,7 @@
             <div class="flex flex-col md:flex-row items-center md:items-end justify-start gap-4">
                 {{-- Judul dengan underline tipis biru --}}
                 <h1
-                    class="text-2xl md:text-3xl font-bold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full">
+                    class="text-2xl md:text-3xl font-bold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full font-poppins">
                     Temukan
                     <span class="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Pekerjaan
                         Impian</span>

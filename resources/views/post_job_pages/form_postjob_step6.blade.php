@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12">
+    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12 font-poppins">
 
         <!-- Logo Website -->
         <div class="mb-10 pl-10">

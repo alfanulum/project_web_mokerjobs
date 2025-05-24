@@ -10,7 +10,7 @@
 
             <!-- Konten Kiri -->
             <div class="space-y-6">
-                <h1 class="text-5xl md:text-5x2 font-bold leading-tight text-black">
+                <h1 class="text-5xl md:text-5x2 font-bold leading-tight text-black font-poppins">
                     <span class="text-black">Pasang Lowongan Pekerjaan</span> <br>
                     <span class="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Dengan
                         Cepat</span>

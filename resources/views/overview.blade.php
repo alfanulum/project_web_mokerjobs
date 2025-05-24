@@ -9,8 +9,9 @@
             <div class="grid md:grid-cols-2 gap-8 items-center md:items-start">
                 <!-- Kolom Kiri: Teks & Form -->
                 <div class="relative z-[50]" data-aos="fade-right">
-                    <p class="uppercase text-sm text-gray-500 mb-2 tracking-widest">Cari Lowongan kerja terbaik</p>
-                    <h1 class="text-3xl md:text-6xl font-bold leading-snug">
+                    <p class="uppercase text-sm text-gray-500 mb-2 tracking-widest font-poppins">Cari Lowongan kerja terbaik
+                    </p>
+                    <h1 class="text-3xl md:text-6xl font-bold leading-snug font-poppins">
                         Cari <span
                             class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Pekerjaan
                             Impian</span> Anda di Mojokerto.
@@ -41,7 +42,7 @@
 
 
             <!-- Employer & Candidate Cards -->
-            <div class="grid md:grid-cols-2 gap-x-6 gap-y-6 max-w-6xl mx-auto mt-12">
+            <div class="grid md:grid-cols-2 gap-x-6 gap-y-6 max-w-6xl mx-auto mt-30">
                 <div class="bg-yellow-100 rounded-2xl px-6 py-8 flex items-center gap-6 shadow-lg min-h-[220px]"
                     data-aos="zoom-in">
                     <img src="{{ asset('images/employer.png') }}" alt="Employer Image"

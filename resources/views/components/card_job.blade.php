@@ -48,7 +48,7 @@
 
                 <div class="space-y-1">
                     <p class="text-xs font-semibold {{ $color['text'] }}">Tipe: {{ $type }}</p>
-                    <h3 class="text-xl font-bold text-gray-800 leading-snug">{{ $job['title'] }}</h3>
+                    <h3 class="text-xl font-bold text-gray-800 leading-snug font-poppins">{{ $job['title'] }}</h3>
                     <p class="text-sm text-gray-600">💰 Rp
                         {{ number_format((int) str_replace('.', '', $job['salary'])) }} / Bulan</p>
                 </div>

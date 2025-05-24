@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12" x-data="{ showApplyModal: false }">
+    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12 font-poppins" x-data="{ showApplyModal: false }">
 
         <!-- Logo Website -->
         <div class="mb-10 pl-10">
@@ -122,7 +122,7 @@
                 <div class="flex gap-4">
                     <button @click="showApplyModal = true"
                         class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
-                        Lamar Sekarang
+                        Apply
                     </button>
 
                     <button onclick="shareJob()"
