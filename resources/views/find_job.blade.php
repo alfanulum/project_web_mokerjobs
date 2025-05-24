@@ -16,8 +16,11 @@
             <div class="flex flex-col md:flex-row items-center md:items-end justify-start gap-4">
                 {{-- Judul dengan underline tipis biru --}}
                 <h1
-                    class="text-2xl md:text-3xl font-semibold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full">
-                    Temukan <span class="text-orange-500 font-bold">Pekerjaan Impian</span> Anda di Sini
+                    class="text-2xl md:text-3xl font-bold text-gray-900 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full">
+                    Temukan
+                    <span class="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Pekerjaan
+                        Impian</span>
+                    <span class="text-black"> Anda di Sini </span>
                 </h1>
 
                 {{-- Garis putus-putus oranye tebal dan besar --}}

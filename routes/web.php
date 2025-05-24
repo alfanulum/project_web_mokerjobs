@@ -8,6 +8,9 @@ Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
 
+// In your routes/web.php
+Route::get('/jobs/{id}', [JobController::class, 'show'])->name('detail_job');
+
 //form 1
 Route::get('/post-job/step1', [JobController::class, 'formPostJobStep1'])->name('form_postjob_step1');
 Route::post('/post-job/step1', [JobController::class, 'storeStep1'])->name('store_step1');

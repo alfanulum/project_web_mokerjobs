@@ -108,6 +108,51 @@ class JobController extends Controller
         ));
     }
 
+    // In JobController.php
+    public function show($id)
+    {
+        $job = Lowongan::findOrFail($id);
+
+        $jobData = [
+            'step1' => [
+                'job_name' => $job->job_name,
+                'job_type' => $job->job_type,
+                'category_job' => $job->category_job,
+            ],
+            'step2' => [
+                'place_work' => $job->place_work,
+                'type_gender' => $job->type_gender,
+                'education_minimal' => $job->education_minimal,
+                'experience_min' => $job->experience_min,
+                'age' => $job->age,
+            ],
+            'step3' => [
+                'location' => $job->location,
+                'job_description' => $job->job_description,
+                'job_requirements' => $job->job_requirements,
+                'salary_minimal' => $job->salary_minimal_range,
+                'maximum_salary' => $job->maximum_salary_range,
+            ],
+            'step4' => [
+                'company_name' => $job->company_name,
+                'company_description' => $job->company_description,
+                'company_address' => $job->company_address,
+                'company_industry' => $job->company_industry,
+                'company_website' => $job->company_website,
+                'company_logo_image' => $job->company_logo_image,
+            ],
+            'step5' => [
+                'email_company' => $job->email_company,
+                'no_wa_company' => $job->no_wa_company,
+                'social_media_company' => $job->social_media_company,
+                'deadline' => $job->deadline,
+            ],
+        ];
+
+        return view('detail_job', compact('jobData', 'job'));
+    }
+
+
 
 
     // FORM STEP 1
@@ -360,6 +405,7 @@ class JobController extends Controller
     private function mapJobData($job)
     {
         return [
+            'id' => $job->id,
             'title' => $job->job_name,
             'salary' => number_format($job->salary_minimal_range, 0, ',', '.'),
             'location' => $job->location,
@@ -367,10 +413,10 @@ class JobController extends Controller
             'work_type' => $job->place_work,
             'edu' => $job->education_minimal,
             'company' => $job->company_name,
+            'email' => $job->email_company,
+            'whatsapp' => $job->no_wa_company,
             'image' => $job->company_logo_image ? 'storage/' . $job->company_logo_image : 'images/placeholder.png',
             'posted' => optional($job->created_at)->diffForHumans(),
-            'apply_url' => route('apply.job', ['id' => $job->id]),
-            'apply_label' => 'Lamar Sekarang'
         ];
     }
 
