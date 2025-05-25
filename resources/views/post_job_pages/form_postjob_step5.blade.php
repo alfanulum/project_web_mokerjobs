@@ -43,7 +43,7 @@
                 <!-- Nomor Telepon -->
                 <div>
                     <label for="no_wa_company" class="block text-sm font-semibold text-gray-800 mb-2">Nomor WhatsApp /
-                        Telepon</label>
+                        Telepon Perusahaan</label>
                     <input type="tel" name="no_wa_company" id="no_wa_company" placeholder="contoh: +6281234567890"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
                         value="{{ old('no_wa_company', $step5['no_wa_company'] ?? '') }}">

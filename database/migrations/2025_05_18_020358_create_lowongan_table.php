@@ -32,6 +32,7 @@ return new class extends Migration
             $table->text('company_address');
             $table->string('social_media_company', 50);
             $table->string('company_industry', 50);
+            $table->string('company_website')->nullable();
             $table->string('company_logo_image', 255)->nullable();
             $table->string('email_company', 50);
             $table->string('no_wa_company', 50);

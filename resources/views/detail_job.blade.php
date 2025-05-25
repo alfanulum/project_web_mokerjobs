@@ -1,19 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12 font-poppins" x-data="{ showApplyModal: false }">
+    <div class="min-h-screen bg-gradient-to-r from-[#F9FAFB] to-[#E1E5EB] py-10 px-4 sm:px-8 lg:px-12 font-poppins"
+        x-data="{ showApplyModal: false }">
 
         <!-- Logo Website -->
         <div class="mb-10 pl-10">
-            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
+            <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-10 mb-6">
         </div>
 
         <!-- Pembungkus Kartu -->
-        <div class="bg-white rounded-3xl shadow-lg border border-gray-100 max-w-5xl mx-auto p-8 sm:p-10 space-y-8">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 max-w-5xl mx-auto p-8 sm:p-10 space-y-8">
 
             <!-- Nama Perusahaan -->
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-gray-900 mb-4 mt-4">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-4">
                     {{ $jobData['step4']['company_name'] ?? 'Nama Perusahaan' }}
                 </h2>
             </div>
@@ -22,7 +23,7 @@
             <div class="flex flex-col md:flex-row gap-8 items-start">
                 <!-- Logo Perusahaan -->
                 <div
-                    class="flex-shrink-0 bg-[#E5F3FF] rounded-2xl w-36 h-36 md:w-44 md:h-44 flex items-center justify-center overflow-hidden">
+                    class="flex-shrink-0 bg-[#E5F3FF] rounded-xl w-36 h-36 md:w-44 md:h-44 flex items-center justify-center overflow-hidden shadow-lg">
                     @if (!empty($jobData['step4']['company_logo_image']))
                         <img src="{{ asset('storage/' . $jobData['step4']['company_logo_image']) }}"
                             alt="Logo {{ $jobData['step4']['company_name'] ?? 'Perusahaan' }}"
@@ -45,7 +46,7 @@
                         </svg>
                         {{ $jobData['step3']['location'] ?? 'Magersari' }}
                     </div>
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm text-gray-600 mt-2">
                         {{ $jobData['step4']['company_description'] ?? 'Deskripsi perusahaan...' }}
                     </p>
                 </div>
@@ -61,36 +62,40 @@
                     ];
                 @endphp
                 @foreach ($badges as $badge)
-                    <span class="bg-orange-500 text-white px-5 py-2 rounded-full font-medium shadow-sm">
+                    <span class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium shadow-lg">
                         {{ $badge }}
                     </span>
                 @endforeach
             </div>
 
             <!-- Gaji -->
-            <div class="text-center text-xl font-bold text-gray-800">
+            <div class="text-center text-2xl font-bold text-gray-800 mt-6">
                 Rp. {{ number_format($jobData['step3']['salary_minimal'] ?? 0, 0, ',', '.') }} -
                 Rp. {{ number_format($jobData['step3']['maximum_salary'] ?? 0, 0, ',', '.') }}
             </div>
 
             <!-- Deskripsi Pekerjaan -->
             <div>
-                <h4 class="text-lg font-bold text-gray-900 mb-1">Deskripsi Pekerjaan</h4>
-                <p class="text-sm text-gray-700 leading-relaxed">
-                    {{ $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...' }}
-                </p>
+                <h4 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Pekerjaan</h4>
+                <div class="prose max-w-none text-sm text-gray-700">
+                    {!! App\Helpers\HtmlHelper::cleanJobHtml(
+                        $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...',
+                    ) !!}
+                </div>
             </div>
 
             <!-- Persyaratan Pekerjaan -->
-            <div>
-                <h4 class="text-lg font-bold text-gray-900 mb-1">Persyaratan Pekerjaan</h4>
-                <p class="text-sm text-gray-700 leading-relaxed">
-                    {{ $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...' }}
-                </p>
+            <div class="mt-6">
+                <h4 class="text-lg font-bold text-gray-900 mb-3">Persyaratan Pekerjaan</h4>
+                <div class="prose max-w-none text-sm text-gray-700">
+                    {!! App\Helpers\HtmlHelper::cleanJobHtml(
+                        $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...',
+                    ) !!}
+                </div>
             </div>
-
+            
             <!-- Tabel Informasi Perusahaan -->
-            <div class="bg-yellow-50 rounded-2xl p-6">
+            <div class="bg-yellow-50 rounded-2xl p-6 mt-8">
                 <table class="w-full text-sm text-gray-800">
                     @php
                         $info = [
@@ -113,13 +118,13 @@
             </div>
 
             <!-- Tombol Navigasi -->
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
                 <a href="{{ url()->previous() }}"
                     class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-black font-semibold px-6 py-3 rounded-full text-center transition">
                     ← Kembali
                 </a>
 
-                <div class="flex gap-4">
+                <div class="flex gap-4 mt-4 sm:mt-0">
                     <button @click="showApplyModal = true"
                         class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
                         Apply
@@ -142,7 +147,7 @@
             <div @click.away="showApplyModal = false"
                 class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 mx-4 sm:mx-auto relative">
                 <!-- Modal Header -->
-                <div class="flex items-start space-x-4 mb-4">
+                <div class="flex items-start space-x-4 mb-6">
                     <div class="flex-shrink-0">
                         <div class="h-10 w-10 flex items-center justify-center rounded-full bg-green-100">
                             <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,7 +193,6 @@
                 </div>
             </div>
         </div>
-
 
         <script>
             function shareJob() {

@@ -3,6 +3,13 @@
 @section('content')
     <div class="min-h-screen bg-[#FAFAFA] py-10 px-4 sm:px-8 lg:px-12 font-poppins">
 
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 max-w-5xl mx-auto"
+                role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         <!-- Logo Website -->
         <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
@@ -75,22 +82,26 @@
 
             <!-- Deskripsi Pekerjaan -->
             <div>
-                <h4 class="text-lg font-bold text-gray-900 mb-1">Deskripsi Pekerjaan</h4>
-                <p class="text-sm text-gray-700 leading-relaxed">
-                    {{ $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...' }}
-                </p>
+                <h4 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Pekerjaan</h4>
+                <div class="prose max-w-none text-sm text-gray-700">
+                    {!! App\Helpers\HtmlHelper::cleanJobHtml(
+                        $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...',
+                    ) !!}
+                </div>
             </div>
 
             <!-- Persyaratan Pekerjaan -->
-            <div>
-                <h4 class="text-lg font-bold text-gray-900 mb-1">Persyaratan Pekerjaan</h4>
-                <p class="text-sm text-gray-700 leading-relaxed">
-                    {{ $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...' }}
-                </p>
+            <div class="mt-6">
+                <h4 class="text-lg font-bold text-gray-900 mb-3">Persyaratan Pekerjaan</h4>
+                <div class="prose max-w-none text-sm text-gray-700">
+                    {!! App\Helpers\HtmlHelper::cleanJobHtml(
+                        $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...',
+                    ) !!}
+                </div>
             </div>
 
             <!-- Tabel Informasi Perusahaan -->
-            <div class="bg-yellow-50 rounded-2xl p-6">
+            <div class="bg-yellow-50 rounded-2xl p-6 mt-6">
                 <table class="w-full text-sm text-gray-800">
                     @php
                         $info = [
@@ -115,19 +126,58 @@
             </div>
 
             <!-- Tombol Navigasi -->
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
                 <a href="{{ route('form_postjob_step5') }}"
                     class="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-full text-center transition">
                     ← Sebelumnya
                 </a>
-                <form action="{{ route('submit_job') }}" method="POST" class="w-full sm:w-auto">
+                <button onclick="showConfirmation()"
+                    class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
+                    Kirim →
+                </button>
+
+                <!-- Hidden form -->
+                <form id="jobForm" action="{{ route('submit_job') }}" method="POST" class="hidden">
                     @csrf
-                    <button type="submit"
-                        class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
-                        Kirim →
-                    </button>
+                    <input type="hidden" name="job_data" value="{{ json_encode($jobData) }}">
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold mb-4">Konfirmasi Pengiriman</h3>
+            <p class="mb-6">Apakah data yang Anda masukkan sudah benar dan ingin melanjutkan pengiriman?</p>
+            <div class="flex justify-end gap-3">
+                <button onclick="hideConfirmation()" class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
+                    Batal
+                </button>
+                <button onclick="submitForm()" class="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600">
+                    Ya, Kirim
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showConfirmation() {
+            document.getElementById('confirmationModal').classList.remove('hidden');
+        }
+
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+        }
+
+        function submitForm() {
+            // Show loading indicator
+            const submitBtn = document.querySelector('#confirmationModal button[onclick="submitForm()"]');
+            submitBtn.innerHTML = 'Mengirim...';
+            submitBtn.disabled = true;
+
+            // Submit the form
+            document.getElementById('jobForm').submit();
+        }
+    </script>
 @endsection

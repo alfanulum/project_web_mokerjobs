@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Lowongan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+
 
 class JobController extends Controller
 {
@@ -336,34 +342,65 @@ class JobController extends Controller
 
     public function submitJob(Request $request)
     {
-        $requiredSteps = ['job_step1', 'job_step2', 'job_step3', 'job_step4', 'job_step5'];
-        foreach ($requiredSteps as $step) {
-            if (!$request->session()->has($step)) {
-                return back()->with('error', 'Session expired. Please start over.');
-            }
-        }
-
-        $jobData = array_merge(
-            $request->session()->get('job_step1'),
-            $request->session()->get('job_step2'),
-            $request->session()->get('job_step3'),
-            $request->session()->get('job_step4'),
-            $request->session()->get('job_step5')
-        );
+        DB::beginTransaction();
 
         try {
-            Lowongan::create($jobData);
+            // Validate the request
+            $request->validate([
+                'job_data' => 'required|json'
+            ]);
+
+            $jobData = json_decode($request->job_data, true, 512, JSON_THROW_ON_ERROR);
+
+            // Create the job
+            $lowongan = Lowongan::create([
+                'job_name' => $jobData['step1']['job_name'] ?? null,
+                'job_type' => $jobData['step1']['job_type'] ?? null,
+                'category_job' => $jobData['step1']['category_job'] ?? null,
+                'place_work' => $jobData['step2']['place_work'] ?? null,
+                'type_gender' => $jobData['step2']['type_gender'] ?? null,
+                'education_minimal' => $jobData['step2']['education_minimal'] ?? null,
+                'experience_min' => $jobData['step2']['experience_min'] ?? null,
+                'age' => $jobData['step2']['age'] ?? null,
+                'location' => $jobData['step3']['location'] ?? null,
+                'job_description' => $jobData['step3']['job_description'] ?? null,
+                'job_requirements' => $jobData['step3']['job_requirements'] ?? null,
+                'salary_minimal_range' => $jobData['step3']['salary_minimal'] ?? 0,
+                'maximum_salary_range' => $jobData['step3']['maximum_salary'] ?? 0,
+                'company_name' => $jobData['step4']['company_name'] ?? null,
+                'company_description' => $jobData['step4']['company_description'] ?? null,
+                'company_address' => $jobData['step4']['company_address'] ?? null,
+                'company_industry' => $jobData['step4']['company_industry'] ?? null,
+                'company_website' => $jobData['step4']['company_website'] ?? null,
+                'company_logo_image' => $jobData['step4']['company_logo_image'] ?? null,
+                'email_company' => $jobData['step5']['email_company'] ?? null,
+                'no_wa_company' => $jobData['step5']['no_wa_company'] ?? null,
+                'social_media_company' => $jobData['step5']['social_media_company'] ?? null,
+                'deadline' => $jobData['step5']['deadline'] ?? null,
+            ]);
 
             // Clear session
-            $request->session()->forget($requiredSteps);
+            $request->session()->forget([
+                'job_step1',
+                'job_step2',
+                'job_step3',
+                'job_step4',
+                'job_step5'
+            ]);
 
-            return redirect()
-                ->route('form_postjob_step1')
-                ->with('success', 'Job posted successfully!');
+            DB::commit();
+
+            return redirect()->route('job_submission_success');
         } catch (\Exception $e) {
-            return back()
-                ->with('error', 'Error saving job: ' . $e->getMessage());
+            DB::rollBack();
+            Log::error('Job submission failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim lowongan: ' . $e->getMessage());
         }
+    }
+
+    public function jobSubmissionSuccess()
+    {
+        return view('post_job_pages.job_submission_success');
     }
 
 

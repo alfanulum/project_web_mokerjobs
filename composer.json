@@ -3,10 +3,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ezyang/htmlpurifier": "^4.18",
         "filament/filament": "3.3",
         "filament/tables": "3.3",
         "laravel/framework": "^12.0",
@@ -14,6 +18,7 @@
         "livewire/livewire": "^3.6"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
@@ -27,7 +32,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/HtmlHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

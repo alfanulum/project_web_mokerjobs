@@ -30,6 +30,8 @@ Route::post('/post-job/step5', [JobController::class, 'storeStep5'])->name('stor
 Route::get('/post-job/step6', [JobController::class, 'formPostJobStep6'])->name('form_postjob_step6');
 Route::post('/submit-job', [JobController::class, 'submitJob'])->name('submit_job');
 
+Route::get('/job-submission-success', [JobController::class, 'jobSubmissionSuccess'])->name('job_submission_success');
+
 
 Route::get('/apply/{id}', [JobController::class, 'apply'])->name('apply.job');
 

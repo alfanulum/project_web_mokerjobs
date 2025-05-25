@@ -309,7 +309,22 @@
         function syncContent(fieldId) {
             const editor = document.getElementById(fieldId + '_editor');
             const hiddenInput = document.getElementById(fieldId);
-            hiddenInput.value = editor.innerHTML;
+
+            // Create a temporary div to work with
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = editor.innerHTML;
+
+            // Remove unwanted attributes
+            tempDiv.querySelectorAll('*').forEach(el => {
+                Array.from(el.attributes).forEach(attr => {
+                    if (attr.name.startsWith('data-')) {
+                        el.removeAttribute(attr.name);
+                    }
+                });
+            });
+
+            // Save cleaned HTML
+            hiddenInput.value = tempDiv.innerHTML;
         }
     </script>
 @endsection
