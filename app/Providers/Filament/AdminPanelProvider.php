@@ -2,8 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Facades\Filament;
-
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,15 +25,14 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
-            ->colors([
-                'primary' => 'amber',
-            ])
-            // ⬇ Tambahkan ini
             ->login()
             ->registration()
             ->passwordReset()
             ->emailVerification()
             ->profile()
+            ->colors([
+                'primary' => Color::Amber,
+            ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->pages([
@@ -62,6 +59,3 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
-                // Verify CSRF token
-                // Substitute bindings
-                // Disable blade icon components
