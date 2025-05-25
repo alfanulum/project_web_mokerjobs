@@ -38,13 +38,21 @@ Route::get('/post_job', function () {
     return view('post_job_pages.post_job');
 })->name('post_job');
 
+// Route login form
 Route::get('/sign_in', function () {
     return view('auth.sign_in');
 })->name('sign_in');
 
-Route::get('admin', function () {
-    return view('admin');
-})->name('admin');
+
+// Route untuk handle proses login (dummy example)
+Route::post('/login', function () {
+    // logika login manual kamu di sini
+})->name('login.attempt');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+
 
 use App\Http\Controllers\FeedbackController;
 
