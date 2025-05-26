@@ -161,7 +161,7 @@ class JobController extends Controller
     // FORM STEP 1
     public function formPostJobStep1(Request $request)
     {
-        $jobTypes = ['Full-time', 'Part-time', 'Freelance'];
+        $jobTypes = ['Full Time', 'Part Time', 'Freelance'];
 
         $categories = [
             'Admin & Operations',
@@ -185,6 +185,7 @@ class JobController extends Controller
         $oldData = $request->session()->get('job_step1', []);
 
         return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories', 'oldData'));
+        
     }
 
     public function storeStep1(Request $request)
