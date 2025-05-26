@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admin' => [ // Guard baru untuk admin
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -65,11 +70,11 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    ],
+        'admins' => [ // Provider baru untuk admin
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ] // <<< KOMA DI SINI DIHAPUS, karena 'admins' adalah item terakhir di array 'providers'
+    ], // <<< KURUNG SIKU PENUTUP UNTUK 'providers' DITAMBAHKAN DI SINI, DENGAN KOMA KARENA ADA KEY 'passwords' SETELAHNYA
 
     /*
     |--------------------------------------------------------------------------
@@ -110,6 +115,6 @@ return [
     |
     */
 
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800), // Tidak perlu koma jika ini item terakhir di array utama
 
 ];
