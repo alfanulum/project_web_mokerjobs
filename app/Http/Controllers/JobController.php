@@ -129,7 +129,7 @@ class JobController extends Controller
                 'place_work' => $job->place_work,
                 'type_gender' => $job->type_gender,
                 'education_minimal' => $job->education_minimal,
-                'experience_min' => $job->experience_min,
+                'experience_minimal' => $job->experience_minimal,
                 'age' => $job->age,
             ],
             'step3' => [
@@ -151,7 +151,7 @@ class JobController extends Controller
                 'email_company' => $job->email_company,
                 'no_wa_company' => $job->no_wa_company,
                 'social_media_company' => $job->social_media_company,
-                'deadline' => $job->deadline,
+                'delivery_limit' => $job->delivery_limit,
             ],
         ];
 
@@ -215,7 +215,7 @@ class JobController extends Controller
             'place_work' => 'required|string',
             'type_gender' => 'required|string',
             'education_minimal' => 'required|string',
-            'experience_min' => 'required|string',
+            'experience_minimal' => 'required|string',
             'age' => 'required|string',
         ]);
 
@@ -307,7 +307,7 @@ class JobController extends Controller
             'email_company' => 'required|email',
             'no_wa_company' => 'required|string',
             'social_media_company' => 'nullable|url',
-            'deadline' => 'required|date|after:today',
+            'delivery_limit' => 'required|date|after:today',
         ]);
 
         $request->session()->put('job_step5', $validated);
@@ -360,7 +360,7 @@ class JobController extends Controller
                 'place_work' => $jobData['step2']['place_work'] ?? null,
                 'type_gender' => $jobData['step2']['type_gender'] ?? null,
                 'education_minimal' => $jobData['step2']['education_minimal'] ?? null,
-                'experience_min' => $jobData['step2']['experience_min'] ?? null,
+                'experience_minimal' => $jobData['step2']['experience_minimal'] ?? null,
                 'age' => $jobData['step2']['age'] ?? null,
                 'location' => $jobData['step3']['location'] ?? null,
                 'job_description' => $jobData['step3']['job_description'] ?? null,
@@ -376,7 +376,7 @@ class JobController extends Controller
                 'email_company' => $jobData['step5']['email_company'] ?? null,
                 'no_wa_company' => $jobData['step5']['no_wa_company'] ?? null,
                 'social_media_company' => $jobData['step5']['social_media_company'] ?? null,
-                'deadline' => $jobData['step5']['deadline'] ?? null,
+                'delivery_limit' => $jobData['step5']['delivery_limit'] ?? null,
             ]);
 
             // Clear session

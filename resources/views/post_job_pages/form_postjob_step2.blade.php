@@ -56,7 +56,7 @@
                             ],
                             [
                                 'label' => 'Tingkat Pengalaman',
-                                'name' => 'experience_min',
+                                'name' => 'experience_minimal',
                                 'options' => [
                                     'Tanpa Pengalaman',
                                     'Kurang dari 1 Tahun',

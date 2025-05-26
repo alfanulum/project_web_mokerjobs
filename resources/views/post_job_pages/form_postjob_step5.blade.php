@@ -67,12 +67,12 @@
 
                 <!-- Tenggat Waktu -->
                 <div>
-                    <label for="deadline" class="block text-sm font-semibold text-gray-800 mb-2">Tenggat Waktu
+                    <label for="delivery_limit" class="block text-sm font-semibold text-gray-800 mb-2">Tenggat Waktu
                         Lamaran</label>
-                    <input type="date" name="deadline" id="deadline"
+                    <input type="date" name="delivery_limit" id="delivery_limit"
                         class="w-full px-5 py-3 border-2 border-orange-400 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        value="{{ old('deadline', $step5['deadline'] ?? '') }}">
-                    @error('deadline')
+                        value="{{ old('delivery_limit', $step5['delivery_limit'] ?? '') }}">
+                    @error('delivery_limit')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>

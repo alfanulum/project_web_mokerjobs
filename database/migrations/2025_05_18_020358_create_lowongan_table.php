@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('place_work', 50);
             $table->string('type_gender', 50);
             $table->string('education_minimal', 50);
-            $table->string('experience_minimal', 50);
+            $table->string('experience_minimal')->nullable();
             $table->string('age', 50);
             $table->text('job_description');
             $table->text('job_requirements');
