@@ -9,7 +9,7 @@
             <div class="grid md:grid-cols-2 gap-8 items-center md:items-start">
                 <!-- Kolom Kiri: Teks & Form -->
                 <div class="relative z-[50]" data-aos="fade-right">
-                    <p class="uppercase text-sm text-gray-500 mb-2 tracking-widest font-poppins">Cari Lowongan kerja terbaik
+                    <p class="uppercase text-sm text-gray-500 mb-2 tracking-widest font-poppins">Cari lowongan kerja terbaik
                     </p>
                     <h1 class="text-3xl md:text-6xl font-bold leading-snug font-poppins">
                         Cari <span
@@ -27,51 +27,49 @@
                         </div>
                         <button type="submit"
                             class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-10 py-3 rounded-full shadow-md w-full md:w-fit">
-                            Search
+                            Cari
                         </button>
                     </form>
-                </div><!-- <-- Penutupan div kolom kiri di sini -->
+                </div>
 
                 <!-- Kolom Kanan: Gambar -->
                 <div class="relative z-0 flex justify-center items-center md:h-full h-64" data-aos="fade-left">
-                    <img src="{{ asset('images/women.png') }}" alt="Hero Image"
+                    <img src="{{ asset('images/women.png') }}" alt="Gambar Utama"
                         class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl object-contain md:object-cover rounded-xl" />
                 </div>
             </div>
-
 
             <!-- Employer & Candidate Cards -->
             <div class="grid md:grid-cols-2 gap-x-6 gap-y-6 max-w-6xl mx-auto mt-30">
                 <div class="bg-yellow-100 rounded-2xl px-6 py-8 flex items-center gap-6 shadow-lg min-h-[220px]"
                     data-aos="zoom-in">
-                    <img src="{{ asset('images/employer.png') }}" alt="Employer Image"
+                    <img src="{{ asset('images/employer.png') }}" alt="Gambar Perusahaan"
                         class="w-24 h-24 md:w-32 md:h-32 object-contain">
                     <div>
                         <h3 class="font-bold text-xl text-black mb-2">Untuk Perusahaan</h3>
-                        <p class="text-base text-gray-700 mb-4">Temukan pekerja profesional dari seluruh dunia dan di semua
+                        <p class="text-base text-gray-700 mb-4">Temukan kandidat profesional dari berbagai bidang dan
                             keterampilan</p>
                         <a href="{{ route('post_job') }}"
                             class="inline-block bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-full text-base font-bold">Pasang
-                            Loker</a>
+                            Lowongan</a>
                     </div>
                 </div>
 
                 <div class="bg-yellow-100 rounded-2xl px-6 py-8 flex items-center gap-6 shadow-lg min-h-[220px]"
                     data-aos="zoom-in" data-aos-delay="200">
-                    <img src="{{ asset('images/candidate.png') }}" alt="Candidate Image"
+                    <img src="{{ asset('images/candidate.png') }}" alt="Gambar Pelamar"
                         class="w-24 h-24 md:w-32 md:h-32 object-contain">
                     <div>
                         <h3 class="font-bold text-xl text-black mb-2">Untuk Pelamar</h3>
-                        <p class="text-base text-gray-700 mb-4">Bangun profil profesional Anda, temukan peluang kerja baru
+                        <p class="text-base text-gray-700 mb-4">Buat profil profesional dan temukan peluang kerja terbaik
                         </p>
                         <a href="{{ route('find_job') }}"
                             class="inline-block bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-full text-base font-bold">Cari
-                            Loker</a>
+                            Lowongan</a>
                     </div>
                 </div>
             </div>
     </section>
-
 
     <!-- Jobs Section -->
     <section id="jobs" class="px-4 sm:px-6 py-16 bg-gradient-to-b from-[#fdf8f3] to-[#f7eee7]">
@@ -79,8 +77,8 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10"
                 data-aos="fade-up">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Latest Job Openings</h2>
-                    <p class="text-base text-gray-600 mt-2">Find recommended jobs for you</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Lowongan Terbaru</h2>
+                    <p class="text-base text-gray-600 mt-2">Temukan pekerjaan yang direkomendasikan untuk Anda</p>
                 </div>
                 <a href="{{ route('find_job') }}"
                     class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-6 py-3 rounded-full shadow-md transition-all duration-300 ease-in-out">
@@ -89,7 +87,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                    View All Jobs
+                    Lihat Semua Lowongan
                 </a>
             </div>
 
@@ -101,7 +99,7 @@
                         @forelse($jobs as $job)
                             @include('components.card_job', ['job' => $job])
                         @empty
-                            <p class="text-center text-gray-500">No job openings found.</p>
+                            <p class="text-center text-gray-500">Tidak ada lowongan ditemukan.</p>
                         @endforelse
                     </div>
 
@@ -136,7 +134,7 @@
                         <input type="email" name="email" placeholder="E-mail" required
                             class="w-full md:w-1/2 p-3 border-2 border-orange-400 rounded-full bg-white focus:outline-none text-sm">
                     </div>
-                    <textarea name="message" rows="6" placeholder="Tuliskan feedback dan saran anda disini." required
+                    <textarea name="message" rows="6" placeholder="Tuliskan feedback dan saran Anda di sini." required
                         class="w-full p-3 border-2 border-orange-400 rounded-xl bg-white focus:outline-none text-sm"></textarea>
                     <button type="submit"
                         class="mt-6 w-full bg-orange-500 text-white py-3 rounded-full hover:bg-orange-600 transition">
@@ -146,18 +144,17 @@
             </div>
 
             <div class="w-full md:w-1/2 flex justify-center items-center">
-                <img src="{{ asset('images/feedbackicon.png') }}" alt="Illustration"
+                <img src="{{ asset('images/feedbackicon.png') }}" alt="Ilustrasi"
                     class="w-full max-w-[300px] md:max-w-[440px]">
             </div>
         </div>
     </section>
 
-
     @include('components.footer')
+
     @section('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Scroll to jobs section if URL has hash
                 if (window.location.hash === '#jobs') {
                     setTimeout(() => {
                         const jobsSection = document.getElementById('jobs');

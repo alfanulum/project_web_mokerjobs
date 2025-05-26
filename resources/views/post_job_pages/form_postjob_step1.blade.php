@@ -5,34 +5,34 @@
         <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
             @csrf
 
-            <!-- Panel Kiri -->
+            <!-- Left Panel -->
             <div class="w-full md:w-1/2 bg-white px-8 py-12 flex flex-col justify-between">
                 <div class="max-w-md mx-auto">
                     <div class="mb-10">
                         <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-8 mb-6">
                     </div>
 
-                    <!-- Nama Pekerjaan -->
+                    <!-- Job Name -->
                     <div class="mb-8">
                         <h2 class="text-xl font-bold text-black mb-2">Nama Pekerjaan</h2>
-                        <p class="text-sm text-gray-600 mb-3">Masukkan nama pekerjaan atau posisi yang ingin diposting.</p>
+                        <p class="text-sm text-gray-600 mb-3">Masukkan judul pekerjaan yang akan anda posting.</p>
                         <input type="text" name="job_name" id="job_name"
                             class="w-full px-4 py-3 border-2 border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}" placeholder="Nama Pekerjaan" required>
+                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}" placeholder="Job Title" required>
                         @error('job_name')
                             <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <!-- Jenis Pekerjaan -->
+                    <!-- Job Type -->
                     <div class="mb-8">
-                        <h2 class="text-xl font-bold text-black mb-2">Jenis Pekerjaan</h2>
-                        <p class="text-sm text-gray-600 mb-3">Pilih jenis pekerjaan atau posisi yang akan diposting.</p>
+                        <h2 class="text-xl font-bold text-black mb-2">Job Type</h2>
+                        <p class="text-sm text-gray-600 mb-3">Pilih tipe pekerjaan yang akan anda posting.</p>
 
                         <details class="bg-white rounded-md shadow-sm" id="jobTypeDetails">
                             <summary id="jobTypeSummary"
                                 class="cursor-pointer px-4 py-3 font-semibold flex justify-between items-center border border-gray-300 rounded-md text-sm">
-                                <span id="jobTypeLabel">Pilih Jenis Pekerjaan</span>
+                                <span id="jobTypeLabel">Pilih Tipe Pekerjaan</span>
                                 <svg class="w-4 h-4 transform transition-transform duration-200" fill="none"
                                     stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -43,12 +43,22 @@
                             <div class="px-4 pb-4 pt-2">
                                 <div class="bg-white border rounded px-4 py-2 space-y-2 max-h-60 overflow-y-auto text-sm">
                                     @foreach ($jobTypes as $type)
+                                        @php
+                                            // Ensure consistent formatting for display
+                                            $displayType = $type;
+                                            if ($type === 'Fulltime') {
+                                                $displayType = 'Full Time';
+                                            }
+                                            if ($type === 'Parttime') {
+                                                $displayType = 'Part Time';
+                                            }
+                                        @endphp
                                         <label class="flex items-center gap-2 text-gray-800 cursor-pointer">
                                             <input type="radio" name="job_type" value="{{ $type }}"
                                                 class="accent-orange-500 job-type-radio"
                                                 {{ old('job_type', $oldData['job_type'] ?? '') == $type ? 'checked' : '' }}
                                                 required />
-                                            <span>{{ $type }}</span>
+                                            <span>{{ $displayType }}</span>
                                         </label>
                                     @endforeach
                                 </div>
@@ -61,22 +71,22 @@
                     </div>
                 </div>
 
-                <!-- Tombol Kembali -->
+                <!-- Back Button -->
                 <div class="text-left mt-6">
                     <a href="{{ route('post_job') }}"
                         class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                        ← Kembali
+                        ← Back
                     </a>
                 </div>
             </div>
 
-            <!-- Panel Kanan -->
+            <!-- Right Panel -->
             <div class="w-full md:w-1/2 bg-orange-500 px-8 py-12 text-white flex flex-col justify-between relative">
                 <div class="max-w-3xl mx-auto">
-                    <!-- Kategori -->
+                    <!-- Category -->
                     <div class="mb-8">
-                        <h2 class="text-2xl font-bold mb-2">Kategori</h2>
-                        <p class="text-sm mb-4 text-white">Pilih kategori pekerjaan atau posisi yang akan diposting.</p>
+                        <h2 class="text-2xl font-bold mb-2">Category</h2>
+                        <p class="text-sm mb-4 text-white">Pilih kategori pekerjaan yang akan anda posting.</p>
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                             @foreach ($categories as $category)
@@ -107,18 +117,18 @@
                     </div>
                 </div>
 
-                <!-- Tombol Selanjutnya -->
+                <!-- Next Button -->
                 <div class="text-right mt-6">
                     <button type="submit"
                         class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                        Selanjutnya →
+                        Next →
                     </button>
                 </div>
             </div>
         </form>
     </div>
 
-    <!-- Script: Update label jenis pekerjaan -->
+    <!-- Script: Update job type label -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const radios = document.querySelectorAll('.job-type-radio');
@@ -127,12 +137,19 @@
             radios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.checked) {
-                        labelSpan.textContent = this.value;
+                        // Format the display text consistently
+                        let displayText = this.value;
+                        if (displayText === 'Fulltime') displayText = 'Full Time';
+                        if (displayText === 'Parttime') displayText = 'Part Time';
+                        labelSpan.textContent = displayText;
                     }
                 });
 
                 if (radio.checked) {
-                    labelSpan.textContent = radio.value;
+                    let displayText = radio.value;
+                    if (displayText === 'Fulltime') displayText = 'Full Time';
+                    if (displayText === 'Parttime') displayText = 'Part Time';
+                    labelSpan.textContent = displayText;
                 }
             });
         });
