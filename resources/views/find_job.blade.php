@@ -86,7 +86,8 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <input type="hidden" name="lokasi" value="{{ request('lokasi') }}">
 
-                        <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded-md">
+                        <button type="submit"
+                            class="w-full bg-orange-500 text-white py-2 rounded-md font-semibold font-poppins">
                             Terapkan Filter
                         </button>
 

@@ -35,7 +35,7 @@
             once: true // animasi hanya terjadi sekali saat scroll
         });
     </script>
-
+    @stack('scripts')
 </body>
 
 </html>

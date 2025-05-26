@@ -104,5 +104,5 @@
     </div>
 
     <!-- Hidden input to submit the selected value -->
-    <input type="hidden" name="lokasi" x-model="selected">
+    <input type="hidden" name="lokasi" x-model="selected" form="search-form">
 </div>

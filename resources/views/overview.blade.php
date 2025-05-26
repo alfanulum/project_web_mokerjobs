@@ -18,20 +18,19 @@
                     </h1>
 
                     <!-- Form Input -->
-                    <form action="{{ route('overview') }}" method="GET" class="flex flex-col gap-4 mt-6">
+                    <form id="search-form" action="{{ route('overview') }}#jobs" method="GET"
+                        class="flex flex-col gap-4 mt-6">
                         @include('components.search')
                         <div class="flex flex-col md:flex-row gap-4">
                             @include('components.dropdown_location')
                             @include('components.dropdown_category')
                         </div>
-
-                        <!-- Search button -->
                         <button type="submit"
                             class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-10 py-3 rounded-full shadow-md w-full md:w-fit">
                             Search
                         </button>
                     </form>
-                </div> <!-- <-- Penutupan div kolom kiri di sini -->
+                </div><!-- <-- Penutupan div kolom kiri di sini -->
 
                 <!-- Kolom Kanan: Gambar -->
                 <div class="relative z-0 flex justify-center items-center md:h-full h-64" data-aos="fade-left">
@@ -78,10 +77,10 @@
     <section id="jobs" class="px-4 sm:px-6 py-16 bg-gradient-to-b from-[#fdf8f3] to-[#f7eee7]">
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10"
-                data-aos="fade-up" data-aos-duration="700">
+                data-aos="fade-up">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Loker Terbaru</h2>
-                    <p class="text-base text-gray-600 mt-2">Temukan lowongan pekerjaan yang disarankan untukmu</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Latest Job Openings</h2>
+                    <p class="text-base text-gray-600 mt-2">Find recommended jobs for you</p>
                 </div>
                 <a href="{{ route('find_job') }}"
                     class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-6 py-3 rounded-full shadow-md transition-all duration-300 ease-in-out">
@@ -90,21 +89,19 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                    Lihat Semua Pekerjaan
+                    View All Jobs
                 </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {{-- Sidebar Kategori --}}
                 @include('components.categories_job')
 
-                {{-- Job Cards dan Pagination --}}
-                <div class="col-span-2 flex flex-col min-h-[700px] gap-6" data-aos="fade-left" data-aos-duration="700">
+                <div class="col-span-2 flex flex-col min-h-[700px] gap-6" data-aos="fade-left">
                     <div class="flex flex-col gap-6 flex-1">
                         @forelse($jobs as $job)
                             @include('components.card_job', ['job' => $job])
                         @empty
-                            <p class="text-center text-gray-500">Tidak ada lowongan ditemukan.</p>
+                            <p class="text-center text-gray-500">No job openings found.</p>
                         @endforelse
                     </div>
 
@@ -157,4 +154,21 @@
 
 
     @include('components.footer')
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Scroll to jobs section if URL has hash
+                if (window.location.hash === '#jobs') {
+                    setTimeout(() => {
+                        const jobsSection = document.getElementById('jobs');
+                        if (jobsSection) {
+                            jobsSection.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 100);
+                }
+            });
+        </script>
+    @endsection
 @endsection

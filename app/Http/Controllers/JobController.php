@@ -7,9 +7,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Lowongan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 
 class JobController extends Controller
@@ -18,7 +15,7 @@ class JobController extends Controller
     {
         $query = Lowongan::query();
 
-        // General search across multiple fields
+        // General search
         if ($request->filled('search')) {
             $search = strtolower($request->search);
             $query->where(function ($q) use ($search) {
@@ -29,19 +26,19 @@ class JobController extends Controller
             });
         }
 
-        // Filter kategori
+        // Category filter
         if ($request->filled('kategori')) {
             $kategori = strtolower($request->kategori);
             $query->whereRaw('LOWER(category_job) = ?', [$kategori]);
         }
 
-        // Filter lokasi
-        if ($request->filled('lokasi') && is_string($request->lokasi)) {
+        // Location filter
+        if ($request->filled('lokasi')) {
             $lokasi = strtolower($request->lokasi);
             $query->whereRaw('LOWER(location) = ?', [$lokasi]);
         }
 
-        // Get filtered jobs and map data
+        // Get filtered jobs
         $allJobs = $query->latest()->get()->map(function ($job) {
             return $this->mapJobData($job);
         })->toArray();

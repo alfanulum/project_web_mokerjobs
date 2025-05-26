@@ -5,14 +5,13 @@
     $currentCategory = request('kategori');
 @endphp
 
-<aside class="col-span-1 bg-white rounded-2xl p-5 shadow-md max-h-screen overflow-hidden" data-aos="fade-right"
-    data-aos-duration="800">
-    <h2 class="text-lg font-semibold text-gray-800 mb-4">Kategori Loker</h2>
+<aside class="col-span-1 bg-white rounded-2xl p-5 shadow-md max-h-screen overflow-hidden" data-aos="fade-right">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Job Categories</h2>
 
     <div class="overflow-y-auto pr-1" style="max-height: calc(100vh - 160px);">
         <ul class="space-y-4">
             <li>
-                <a href="{{ route('overview') }}"
+                <a href="{{ route('overview') }}#jobs"
                     class="flex items-center justify-between w-full px-4 py-3 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 text-left
                         {{ !$currentCategory ? 'bg-yellow-100 border-orange-300' : 'bg-[#fdfcfb] hover:bg-yellow-50' }}">
                     <div class="flex items-center gap-3 min-w-0 overflow-hidden">
@@ -21,17 +20,17 @@
                             <i class="fas fa-list"></i>
                         </div>
                         <span class="text-gray-800 text-sm font-medium truncate max-w-[140px] block">
-                            Semua Kategori
+                            All Categories
                         </span>
                     </div>
                     <span class="text-xs text-gray-400 font-semibold shrink-0">
-                        {{ Lowongan::count() }} Opening
+                        {{ Lowongan::count() }} Jobs
                     </span>
                 </a>
             </li>
             @foreach ($categories as $category)
                 <li>
-                    <a href="{{ route('overview', ['kategori' => $category->category_job]) }}"
+                    <a href="{{ route('overview', ['kategori' => $category->category_job]) }}#jobs"
                         class="flex items-center justify-between w-full px-4 py-3 rounded-xl border border-gray-200 shadow-sm transition-all duration-200 text-left
                           {{ strtolower($currentCategory) === strtolower($category->category_job) ? 'bg-yellow-100 border-orange-300' : 'bg-[#fdfcfb] hover:bg-yellow-50' }}">
                         <div class="flex items-center gap-3 min-w-0 overflow-hidden">
@@ -44,7 +43,7 @@
                             </span>
                         </div>
                         <span class="text-xs text-gray-400 font-semibold shrink-0">
-                            {{ Lowongan::where('category_job', $category->category_job)->count() }} Opening
+                            {{ Lowongan::where('category_job', $category->category_job)->count() }} Jobs
                         </span>
                     </a>
                 </li>
