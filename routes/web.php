@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\JobController;
 
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+
 Route::get('/', [JobController::class, 'overview'])->name('overview');
 
 Route::get('/find_job', [JobController::class, 'findJob'])->name('find_job');
@@ -53,6 +56,22 @@ Route::post('/login', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
+});
+
+// Rute Autentikasi Admin
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login'])->name('login.submit');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    // Rute yang dilindungi (membutuhkan login admin)
+    Route::middleware('auth:admin')->group(function () {
+        // Ganti dengan controller dashboard admin Anda
+        Route::get('dashboard', function () {
+            return view('admin.dashboard'); // Contoh view dashboard
+        })->name('dashboard');
+        // Tambahkan rute admin lainnya di sini
+    });
 });
 
 
