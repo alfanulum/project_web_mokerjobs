@@ -1,14 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins">
-        <div class="mb-10 pl-10">
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
+        <!-- Circle Decoration -->
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] overflow-hidden pointer-events-none z-0">
+            <div
+                class="w-full h-full rounded-full border-[80px] border-gray-200 opacity-20 translate-x-1/2 -translate-y-1/2">
+            </div>
+        </div>
+
+
+
+        <div class="mb-10 pl-10 relative z-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
 
 
         <!-- FORM WRAPPER -->
-        <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8 relative z-10">
 
             <!-- FORM -->
             <form id="main-form" method="POST" action="{{ route('store_step2') }}" class="space-y-10">
@@ -99,7 +108,7 @@
         </div>
 
         <!-- NAVIGATION BUTTONS -->
-        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6 relative z-10">
             <div class="flex justify-between">
                 <a href="{{ route('form_postjob_step1') }}"
                     class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
