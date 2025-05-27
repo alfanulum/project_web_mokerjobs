@@ -162,7 +162,6 @@ class JobController extends Controller
     public function formPostJobStep1(Request $request)
     {
         $jobTypes = ['Full Time', 'Part Time', 'Freelance'];
-        $jobTypes = ['Fulltime', 'Parttime', 'Freelance'];
 
         $categories = [
             'Admin & Operations',
@@ -186,7 +185,6 @@ class JobController extends Controller
         $oldData = $request->session()->get('job_step1', []);
 
         return view('post_job_pages.form_postjob_step1', compact('jobTypes', 'categories', 'oldData'));
-        
     }
 
     public function storeStep1(Request $request)
@@ -456,17 +454,12 @@ class JobController extends Controller
 
     private function mapJobData($job)
     {
-        // Normalize job type for consistent display
-        $jobType = $job->job_type;
-        if ($jobType === 'Fulltime') $jobType = 'Full Time';
-        if ($jobType === 'Parttime') $jobType = 'Part Time';
-
         return [
             'id' => $job->id,
             'title' => $job->job_name,
             'salary' => number_format($job->salary_minimal_range, 0, ',', '.'),
             'location' => $job->location,
-            'type' => $jobType, // Use normalized value
+            'type' => ucwords(strtolower($job->job_type)),
             'work_type' => $job->place_work,
             'edu' => $job->education_minimal,
             'company' => $job->company_name,

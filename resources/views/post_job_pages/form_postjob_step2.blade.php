@@ -32,6 +32,7 @@
 
                 <!-- Gender -->
                 <div class="text-center">
+                    
                     <label class="block font-bold text-xl mb-4 text-gray-700">Jenis Kelamin</label>
                     <div
                         class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
@@ -41,8 +42,10 @@
                                     {{ old('type_gender', $step2['type_gender'] ?? '') == $value ? 'checked' : '' }}>
                                 <span class="peer-checked:text-orange-500 font-bold">{{ $label }}</span>
                             </label>
+                            
                         @endforeach
                     </div>
+                    
                 </div>
 
                 <!-- Table-style Dropdowns -->
@@ -112,4 +115,6 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
