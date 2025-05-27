@@ -199,6 +199,11 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step2');
     }
 
+
+
+
+
+
     // FORM STEP 2
     public function formPostJobStep2(Request $request)
     {
@@ -220,6 +225,9 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step3');
     }
 
+
+
+
     // FORM STEP 3
     public function formPostJobStep3(Request $request)
     {
@@ -240,6 +248,9 @@ class JobController extends Controller
         $request->session()->put('job_step3', $validated);
         return redirect()->route('form_postjob_step4');
     }
+
+
+
 
     // FORM STEP 4
     public function formPostJobStep4(Request $request)
@@ -313,6 +324,11 @@ class JobController extends Controller
         return redirect()->route('form_postjob_step6');
     }
 
+
+
+
+
+    
     // FORM STEP 6 - PREVIEW
     public function formPostJobStep6(Request $request)
     {
