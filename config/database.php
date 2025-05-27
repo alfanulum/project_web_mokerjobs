@@ -83,20 +83,19 @@ return [
         ],
 
         'pgsql' => [
-    'driver' => 'pgsql',
-    'url' => null,
-    'host' => '192.168.33.201',
-    'port' => '5432',
-    'database' => 'mojokt_magang_upn',
-    'username' => 'magangupn',
-    'password' => '78shincxfMMsdJu8',
-    'charset' => 'utf8',
-    'prefix' => '',
-    'prefix_indexes' => true,
-    'search_path' => 'public',
-    'sslmode' => 'prefer',
-],
-
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => env('DB_SCHEMA', 'public'), // Mengambil schema dari .env, defaultnya 'public'
+            'sslmode' => 'prefer',
+        ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
@@ -148,7 +147,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
