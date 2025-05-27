@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0"></div>
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
+        <div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0"></div>
         <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
