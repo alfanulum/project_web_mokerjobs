@@ -161,7 +161,7 @@ class JobController extends Controller
     // FORM STEP 1
     public function formPostJobStep1(Request $request)
     {
-        $jobTypes = ['Fulltime', 'Parttime', 'Freelance'];
+        $jobTypes = ['Full Time', 'Part Time', 'Freelance'];
 
         $categories = [
             'Admin & Operations',
@@ -454,17 +454,12 @@ class JobController extends Controller
 
     private function mapJobData($job)
     {
-        // Normalize job type for consistent display
-        $jobType = $job->job_type;
-        if ($jobType === 'Fulltime') $jobType = 'Full Time';
-        if ($jobType === 'Parttime') $jobType = 'Part Time';
-
         return [
             'id' => $job->id,
             'title' => $job->job_name,
             'salary' => number_format($job->salary_minimal_range, 0, ',', '.'),
             'location' => $job->location,
-            'type' => $jobType, // Use normalized value
+            'type' => ucwords(strtolower($job->job_type)),
             'work_type' => $job->place_work,
             'edu' => $job->education_minimal,
             'company' => $job->company_name,

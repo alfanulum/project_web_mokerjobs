@@ -1,17 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
-        <!-- Circle Decoration -->
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] overflow-hidden pointer-events-none z-0">
-            <div
-                class="w-full h-full rounded-full border-[80px] border-gray-200 opacity-20 translate-x-1/2 -translate-y-1/2">
-            </div>
-        </div>
+<!-- Dekorasi Lingkaran Border Tebal -->
+<div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0"></div>
 
-
-
-        <div class="mb-10 pl-10 relative z-10">
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+        <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
 
@@ -41,6 +35,7 @@
 
                 <!-- Gender -->
                 <div class="text-center">
+                    
                     <label class="block font-bold text-xl mb-4 text-gray-700">Jenis Kelamin</label>
                     <div
                         class="flex justify-center bg-white rounded-full shadow-md overflow-hidden border border-orange-400 text-sm">
@@ -50,8 +45,10 @@
                                     {{ old('type_gender', $step2['type_gender'] ?? '') == $value ? 'checked' : '' }}>
                                 <span class="peer-checked:text-orange-500 font-bold">{{ $label }}</span>
                             </label>
+                            
                         @endforeach
                     </div>
+                    
                 </div>
 
                 <!-- Table-style Dropdowns -->
@@ -121,4 +118,6 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
