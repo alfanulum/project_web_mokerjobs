@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins">
         <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>

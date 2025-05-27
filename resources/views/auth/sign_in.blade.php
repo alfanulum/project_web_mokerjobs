@@ -54,10 +54,6 @@
       </button>
     </form>
 
-    <p class="text-center text-sm text-gray-600 mt-4">
-      Don’t have an account?
-      <a href="{{ route('sign_up') }}" class="text-orange-500 font-semibold hover:underline">Sign Up</a>
-    </p>
   </div>
 </div>
 

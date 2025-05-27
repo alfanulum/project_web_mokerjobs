@@ -145,46 +145,48 @@
         </div>
     </div>
 
-<!-- Confirmation Modal -->
-<div id="confirmationModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-200 z-10">
-        <h3 class="text-xl font-bold mb-4 text-gray-800">Konfirmasi Pengiriman</h3>
-        <p class="mb-6 text-sm text-gray-600">
-            Apakah data yang Anda masukkan sudah benar dan ingin melanjutkan pengiriman?
-        </p>
-        <div class="flex justify-end gap-3">
-            <button onclick="hideConfirmation()" class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 text-sm">
-                Batal
-            </button>
-            <button onclick="submitForm()" class="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 text-sm">
-                Ya, Kirim
-            </button>
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-200 z-10">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Konfirmasi Pengiriman</h3>
+            <p class="mb-6 text-sm text-gray-600">
+                Apakah data yang Anda masukkan sudah benar dan ingin melanjutkan pengiriman?
+            </p>
+            <div class="flex justify-end gap-3">
+                <button onclick="hideConfirmation()"
+                    class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 text-sm">
+                    Batal
+                </button>
+                <button onclick="submitForm()"
+                    class="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 text-sm">
+                    Ya, Kirim
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    function showConfirmation() {
-        document.getElementById('confirmationModal').classList.remove('hidden');
-        document.getElementById('mainContent').classList.add('blur-sm');
-        document.body.style.overflow = 'hidden';
-    }
+    <script>
+        function showConfirmation() {
+            document.getElementById('confirmationModal').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('blur-sm');
+            document.body.style.overflow = 'hidden';
+        }
 
-    function hideConfirmation() {
-        document.getElementById('confirmationModal').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('blur-sm');
-        document.body.style.overflow = '';
-    }
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('blur-sm');
+            document.body.style.overflow = '';
+        }
 
-    function submitForm() {
-        const submitBtn = document.querySelector('#confirmationModal button[onclick="submitForm()"]');
-        submitBtn.innerHTML = 'Mengirim...';
-        submitBtn.disabled = true;
+        function submitForm() {
+            const submitBtn = document.querySelector('#confirmationModal button[onclick="submitForm()"]');
+            submitBtn.innerHTML = 'Mengirim...';
+            submitBtn.disabled = true;
 
-        document.getElementById('jobForm').submit();
-    }
-</script>
+            document.getElementById('jobForm').submit();
+        }
+    </script>
 
     <script>
         function showConfirmation() {

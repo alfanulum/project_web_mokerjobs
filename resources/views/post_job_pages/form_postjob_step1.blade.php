@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex flex-col md:flex-row min-h-screen w-full">
+    <div class="flex flex-col md:flex-row min-h-screen w-full font-poppins">
         <form action="{{ route('store_step1') }}" method="POST" class="w-full flex flex-col md:flex-row">
             @csrf
 
@@ -18,7 +18,7 @@
                         <p class="text-sm text-gray-600 mb-3">Masukkan judul pekerjaan yang akan anda posting.</p>
                         <input type="text" name="job_name" id="job_name"
                             class="w-full px-4 py-3 border-2 border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}" placeholder="Job Title" required>
+                            value="{{ old('job_name', $oldData['job_name'] ?? '') }}" placeholder="Nama Pekerjaan" required>
                         @error('job_name')
                             <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
                         @enderror
@@ -26,7 +26,7 @@
 
                     <!-- Job Type -->
                     <div class="mb-8">
-                        <h2 class="text-xl font-bold text-black mb-2">Job Type</h2>
+                        <h2 class="text-xl font-bold text-black mb-2">Tipe Pekerjaan</h2>
                         <p class="text-sm text-gray-600 mb-3">Pilih tipe pekerjaan yang akan anda posting.</p>
 
                         <details class="bg-white rounded-md shadow-sm" id="jobTypeDetails">
@@ -85,7 +85,7 @@
                 <div class="max-w-3xl mx-auto">
                     <!-- Category -->
                     <div class="mb-8">
-                        <h2 class="text-2xl font-bold mb-2">Category</h2>
+                        <h2 class="text-2xl font-bold mb-2">Kategori</h2>
                         <p class="text-sm mb-4 text-white">Pilih kategori pekerjaan yang akan anda posting.</p>
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

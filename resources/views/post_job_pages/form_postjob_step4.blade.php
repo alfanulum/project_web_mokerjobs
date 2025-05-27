@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins">
         <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
@@ -19,7 +19,7 @@
                     <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Perusahaan</label>
                     <input type="text" id="company_name" name="company_name"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="Contoh: MokerJobs Company"
+                        placeholder="Cth: PT MokerJobs/CV MokerJobs/Toko MokerJobs"
                         value="{{ old('company_name', $step4['company_name'] ?? '') }}">
                 </div>
 
@@ -29,7 +29,7 @@
                         Perusahaan</label>
                     <textarea id="company_description" name="company_description" rows="4"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="Contoh: MokerJobs adalah perusahaan yang bergerak di bidang...">{{ old('company_description', $step4['company_description'] ?? '') }}</textarea>
+                        placeholder="Cth: MokerJobs adalah perusahaan yang bergerak di bidang...">{{ old('company_description', $step4['company_description'] ?? '') }}</textarea>
                 </div>
 
                 <!-- Address -->
@@ -38,7 +38,7 @@
                         Perusahaan</label>
                     <input type="text" id="company_address" name="company_address"
                         class="w-full px-5 py-3 border-2 border-orange-500 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 transition"
-                        placeholder="Contoh: Jl. Meri, Magersari, Mojokerto"
+                        placeholder="Cth: Jl. Meri, Magersari, Mojokerto/Dsn. Magersari Ds. Magersari Kec. Magersari Kab. Mojokerto"
                         value="{{ old('company_address', $step4['company_address'] ?? '') }}">
                 </div>
 
