@@ -1,4 +1,4 @@
-<footer class="relative bg-[#FF7300] rounded-t-3xl overflow-hidden min-h-[300px]">
+<footer class="relative bg-[#FF7300] rounded-t-3xl overflow-hidden min-h-[300px] font-poppins">
     <div class="max-w-6xl mx-auto px-6 py-16 flex flex-col md:flex-row justify-between items-center text-white gap-6">
         <!-- Konten Teks -->
         <div>
