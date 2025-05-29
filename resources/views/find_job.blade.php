@@ -78,11 +78,12 @@
 
                         @include('components.filter_dropdown', [
                             'title' => 'Kategori',
-                            'name' => 'kategori', // Sesuaikan dengan controller
+                            'name' => 'kategori',
                             'options' => $categories,
                             'selected' => request('kategori'),
                         ])
 
+                        <!-- Hidden fields to maintain search and location -->
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <input type="hidden" name="lokasi" value="{{ request('lokasi') }}">
 
@@ -91,12 +92,10 @@
                             Terapkan Filter
                         </button>
 
-                        @if (request()->has('job_type') ||
-                                request()->has('place_work') ||
-                                request()->has('education_minimal') ||
-                                request()->has('kategori'))
+                        @if (request()->except('page'))
+                            <!-- Check if any filters are active -->
                             <a href="{{ route('find_job') }}" class="block w-full text-center text-orange-500 py-2">
-                                Hapus Filter
+                                Hapus Semua Filter
                             </a>
                         @endif
                     </div>

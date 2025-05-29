@@ -1,9 +1,10 @@
 @extends('layouts.app')
 @section('content')
-
     <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
-        <div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0"></div>
-        
+        <div
+            class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0">
+        </div>
+
         <div class="mb-10 pl-10">
             <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-9 mb-6">
         </div>
@@ -245,13 +246,14 @@
                 <!-- Salary -->
                 <div class="mb-8 grid grid-cols-2 gap-4">
                     <div class="relative">
-                        <label for="salary_minimal" class="block font-semibold text-black mb-1">Rentang Gaji&nbsp; <span class="mr-2 text-gray-400">  (opsional)</span></label> 
+                        <label for="salary_minimal" class="block font-semibold text-black mb-1">Rentang Gaji&nbsp; <span
+                                class="mr-2 text-gray-400"> (opsional)</span></label>
 
                         <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
                             <span class="mr-2 text-gray-500">Rp.</span>
-                           <input id="salary_minimal" type="text" name="salary_minimal"
-    class="w-full border-none outline-none" placeholder="Gaji Minimum"
-    value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
+                            <input id="salary_minimal" type="text" name="salary_minimal"
+                                class="w-full border-none outline-none" placeholder="Gaji Minimum"
+                                value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
 
                         </div>
                     </div>
@@ -259,28 +261,29 @@
                         <label class="block font-semibold text-black mb-1 invisible">Gaji Maksimum</label>
                         <div class="flex items-center border border-orange-400 rounded-lg px-3 py-2">
                             <span class="mr-2 text-gray-500">Rp.</span>
-                           <input id="maximum_salary" type="text" name="maximum_salary"
-    class="w-full border-none outline-none" placeholder="Gaji Maksimum"
-    value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
+                            <input id="maximum_salary" type="text" name="maximum_salary"
+                                class="w-full border-none outline-none" placeholder="Gaji Maksimum"
+                                value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
 
+                        </div>
                     </div>
-                </div>
 
             </form>
         </div>
-        <!-- NAVIGATION BUTTONS -->
-        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-            <div class="flex justify-between">
-                <a href="{{ route('form_postjob_step2') }}"
-                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    ← Sebelumnya
-                </a>
-                <button type="submit" form="main-form"
-                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                    Selanjutnya →
-                </button>
-            </div>
+    </div>
+    <!-- NAVIGATION BUTTONS -->
+    <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="flex justify-between">
+            <a href="{{ route('form_postjob_step2') }}"
+                class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                ← Sebelumnya
+            </a>
+            <button type="submit" form="main-form"
+                class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                Selanjutnya →
+            </button>
         </div>
+    </div>
     </div>
 
     <script>
@@ -334,53 +337,52 @@
     </script>
 
     <script>
-    const minInput = document.getElementById('salary_minimal');
-    const maxInput = document.getElementById('maximum_salary');
+        const minInput = document.getElementById('salary_minimal');
+        const maxInput = document.getElementById('maximum_salary');
 
-    function formatRupiah(input) {
-        let value = input.value.replace(/\D/g, ''); // Hanya ambil digit
-        if (!value) return input.value = '';
+        function formatRupiah(input) {
+            let value = input.value.replace(/\D/g, ''); // Hanya ambil digit
+            if (!value) return input.value = '';
 
-        const formatted = parseInt(value, 10).toLocaleString('id-ID'); // Format ribuan
-        input.value = formatted;
-    }
-
-    function getRawValue(formatted) {
-        return formatted.replace(/\./g, '').replace(/[^0-9]/g, '');
-    }
-
-    function validateSalaryRange() {
-        const min = parseInt(getRawValue(minInput.value)) || 0;
-        const max = parseInt(getRawValue(maxInput.value)) || 0;
-
-        if (min > max && max !== 0) {
-            maxInput.setCustomValidity("Gaji maksimum tidak boleh lebih kecil dari gaji minimum");
-        } else {
-            maxInput.setCustomValidity("");
+            const formatted = parseInt(value, 10).toLocaleString('id-ID'); // Format ribuan
+            input.value = formatted;
         }
 
-        if (max < min && min !== 0) {
-            minInput.setCustomValidity("Gaji minimum tidak boleh lebih besar dari gaji maksimum");
-        } else {
-            minInput.setCustomValidity("");
+        function getRawValue(formatted) {
+            return formatted.replace(/\./g, '').replace(/[^0-9]/g, '');
         }
-    }
 
-    minInput.addEventListener('input', function () {
-        formatRupiah(minInput);
-        validateSalaryRange();
-    });
+        function validateSalaryRange() {
+            const min = parseInt(getRawValue(minInput.value)) || 0;
+            const max = parseInt(getRawValue(maxInput.value)) || 0;
 
-    maxInput.addEventListener('input', function () {
-        formatRupiah(maxInput);
-        validateSalaryRange();
-    });
+            if (min > max && max !== 0) {
+                maxInput.setCustomValidity("Gaji maksimum tidak boleh lebih kecil dari gaji minimum");
+            } else {
+                maxInput.setCustomValidity("");
+            }
 
-    // Agar nilai tetap bersih saat form submit
-    document.querySelector('form').addEventListener('submit', function () {
-        minInput.value = getRawValue(minInput.value);
-        maxInput.value = getRawValue(maxInput.value);
-    });
-</script>
+            if (max < min && min !== 0) {
+                minInput.setCustomValidity("Gaji minimum tidak boleh lebih besar dari gaji maksimum");
+            } else {
+                minInput.setCustomValidity("");
+            }
+        }
 
+        minInput.addEventListener('input', function() {
+            formatRupiah(minInput);
+            validateSalaryRange();
+        });
+
+        maxInput.addEventListener('input', function() {
+            formatRupiah(maxInput);
+            validateSalaryRange();
+        });
+
+        // Agar nilai tetap bersih saat form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            minInput.value = getRawValue(minInput.value);
+            maxInput.value = getRawValue(maxInput.value);
+        });
+    </script>
 @endsection

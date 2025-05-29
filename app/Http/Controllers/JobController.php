@@ -7,6 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Lowongan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class JobController extends Controller
@@ -41,7 +43,7 @@ class JobController extends Controller
         // Get filtered jobs
         $allJobs = $query->latest()->get()->map(function ($job) {
             return $this->mapJobData($job);
-        })->toArray();
+        })->toArray(); 
 
         // Paginate results
         $jobs = $this->paginate($allJobs, 3, $request);
@@ -110,6 +112,9 @@ class JobController extends Controller
             'educations'
         ));
     }
+
+
+
 
     // In JobController.php
     public function show($id)
@@ -259,8 +264,6 @@ class JobController extends Controller
         return view('post_job_pages.form_postjob_step4', compact('step4'));
     }
 
-
-
     public function storeStep4(Request $request)
     {
         $validated = $request->validate([
@@ -270,32 +273,40 @@ class JobController extends Controller
             'company_industry' => 'required|string',
             'company_website' => 'nullable|url',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'logo_removed' => 'sometimes|in:0,1',
         ]);
 
         $step4Session = $request->session()->get('job_step4', []);
 
-        if ($request->hasFile('company_logo')) {
-            // Upload file baru
+        // Tangani penghapusan logo jika user centang "hapus logo"
+        if ($request->logo_removed == '1') {
+            if (isset($step4Session['company_logo_image'])) {
+                Storage::disk('public')->delete($step4Session['company_logo_image']);
+            }
+            $validated['company_logo_image'] = null;
+        }
+        // Tangani upload logo baru
+        elseif ($request->hasFile('company_logo')) {
+            if (isset($step4Session['company_logo_image'])) {
+                Storage::disk('public')->delete($step4Session['company_logo_image']);
+            }
             $path = $request->file('company_logo')->store('company_logos', 'public');
             $validated['company_logo_image'] = $path;
-        } else if (isset($step4Session['company_logo_image'])) {
-
-            // Tidak upload file baru, gunakan path logo yang lama
+        }
+        // Jika tidak ada perubahan, gunakan logo sebelumnya
+        elseif (isset($step4Session['company_logo_image'])) {
             $validated['company_logo_image'] = $step4Session['company_logo_image'];
         }
 
-        // Hilangkan UploadedFile instance sebelum simpan ke session
-        if (isset($validated['company_logo'])) {
-            unset($validated['company_logo']);
-        }
+        // Hilangkan field sementara
+        unset($validated['company_logo']);
+        unset($validated['logo_removed']);
 
-        // Simpan data ke session
+        // Simpan ke session
         $request->session()->put('job_step4', $validated);
-
 
         return redirect()->route('form_postjob_step5');
     }
-
 
 
 
@@ -328,7 +339,7 @@ class JobController extends Controller
 
 
 
-    
+
     // FORM STEP 6 - PREVIEW
     public function formPostJobStep6(Request $request)
     {
