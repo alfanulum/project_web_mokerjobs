@@ -1,59 +1,77 @@
 # MokerJobs
 
-Aplikasi web lowongan kerja berbasis Laravel dan Tailwind CSS.
+Aplikasi web lowongan kerja berbasis **Laravel** dan **Tailwind CSS**.
+
+---
 
 ## 🚀 Instalasi
 
-1. Clone repository ini
+### 1. Clone repository ini
 
 ```bash
 git clone https://github.com/alfanulum/project_web_mokerjobs.git
 cd project_web_mokerjobs
 ```
 
-2. Install PHP & JS dependencies
+### 2. Install PHP & JS dependencies
 
 ```bash
 composer install
 npm install
 ```
 
-3. Copy file `.env` dan sesuaikan konfigurasi
+### 3. Copy file .env dan sesuaikan konfigurasi
 
 ```bash
 cp .env.example .env
 ```
 
-4. Generate app key
+### 4. Generate app key
 
 ```bash
 php artisan key:generate
 ```
 
-5. Siapkan database
+### 5. Siapkan database
 
--   Buat database di MySQL
--   Jalankan migrasi
+- Buat database di MySQL
+- Jalankan migrasi
 
 ```bash
 php artisan migrate
 ```
 
-6. Jalankan server lokal
+### 6. Buat symbolic link untuk mengakses file upload secara publik
+
+```bash
+php artisan storage:link
+```
+
+Perintah ini membuat shortcut dari `storage/app/public` ke `public/storage` agar file yang diupload bisa diakses melalui URL, misalnya:
+
+```
+http://localhost:8000/storage/company_logos/namafile.jpg
+```
+
+### 7. Jalankan server lokal
 
 ```bash
 php artisan serve
 npm run dev
 ```
 
+---
+
 ## ⚙️ Tools yang Digunakan
 
--   Laravel 10+
--   Tailwind CSS
--   Vite
--   Livewire (opsional, jika dipakai)
+- Laravel 10+
+- Tailwind CSS
+- Vite
+- Livewire *(opsional jika digunakan)*
 
-## 📁 Contoh .env
+---
+
+## 📁 Contoh `.env`
 
 ```env
 APP_NAME=MokerJobs
@@ -82,20 +100,24 @@ SESSION_LIFETIME=120
 VITE_APP_NAME="MokerJobs"
 ```
 
+---
+
 ## 👥 Kontributor
 
--   [@namamu](https://github.com/namamu)
--   [@temanmu](https://github.com/temanmu)
+- @namamu  
+- @temanmu
+
+---
 
 ## 📄 Lisensi
 
-Proyek ini dilisensikan di bawah MIT License.
+Proyek ini dilisensikan di bawah **MIT License**.
 
-## 🔐 Tips: Backup dan Restore .env Sebelum Melakukan Git Pull
+---
 
-Sebelum melakukan `git pull`, sangat disarankan untuk **backup file `.env` lokal**, karena file ini tidak ikut terupload ke GitHub dan mungkin perlu disesuaikan ulang setelah update.
+## 🔐 Tips: Backup dan Restore `.env` Sebelum Git Pull
 
-### ✅ Cara Backup .env sebelum Git Pull
+### ✅ Backup `.env`
 
 ```bash
 cp .env .env.backup
@@ -107,10 +129,14 @@ cp .env .env.backup
 git pull origin main
 ```
 
-### ♻️ Restore .env (Jika Terhapus atau Terubah)
+### ♻️ Restore `.env` (jika terhapus atau terubah)
 
 ```bash
 mv .env.backup .env
 ```
 
-Ini membantu agar konfigurasi lokal kamu (database, key, dll.) tidak hilang setelah melakukan `git pull`.
+> **Catatan:** File `.env` tidak ikut diupload ke GitHub, pastikan kamu backup agar konfigurasi lokal (database, key, dll.) tetap aman.
+
+---
+
+Happy coding! 🚀
