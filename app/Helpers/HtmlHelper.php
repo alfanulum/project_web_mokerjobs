@@ -10,19 +10,39 @@ class HtmlHelper
       return '';
     }
 
-    // Remove all HTML attributes except basic formatting
-    $html = preg_replace('/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i', '<$1$2>', $html);
+    // Daftar tag yang diizinkan (tambahkan ol dan li)
+    $allowedTags = '<p><div><br><ul><ol><li><strong><em><b><i><u><span>';
 
-    // Allow only safe, basic formatting tags
-    $allowedTags = '<p><br><ul><ol><li><strong><em><b><i><u><div>';
+    // Konversi style alignment ke class Tailwind
+    $html = self::convertAlignmentToTailwind($html);
 
-    // Strip tags and properly close HTML
+    // Strip tags dan pertahankan yang diizinkan
     $cleanHtml = strip_tags($html, $allowedTags);
 
-    // Fix any broken HTML that might remain
+    // Perbaiki tag yang tidak tertutup
     $cleanHtml = self::closeTags($cleanHtml);
 
     return $cleanHtml;
+  }
+
+
+  private static function convertAlignmentToTailwind($html)
+  {
+    // Konversi style text-align ke class Tailwind
+    $html = preg_replace(
+      '/style="text-align:\s*(left|right|center|justify);?"/i',
+      'class="text-$1"',
+      $html
+    );
+
+    // Konversi indentasi (margin-left) ke class Tailwind
+    $html = preg_replace(
+      '/style="margin-left:\s*(\d+)px;?"/i',
+      'class="ml-$1"',
+      $html
+    );
+
+    return $html;
   }
 
   private static function closeTags($html)

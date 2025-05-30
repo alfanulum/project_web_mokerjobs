@@ -83,7 +83,7 @@
             <!-- Deskripsi Pekerjaan -->
             <div>
                 <h4 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Pekerjaan</h4>
-                <div class="prose max-w-none text-sm text-gray-700">
+                <div class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
                     {!! App\Helpers\HtmlHelper::cleanJobHtml(
                         $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...',
                     ) !!}
@@ -93,7 +93,7 @@
             <!-- Persyaratan Pekerjaan -->
             <div class="mt-6">
                 <h4 class="text-lg font-bold text-gray-900 mb-3">Persyaratan Pekerjaan</h4>
-                <div class="prose max-w-none text-sm text-gray-700">
+                <div class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
                     {!! App\Helpers\HtmlHelper::cleanJobHtml(
                         $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...',
                     ) !!}
