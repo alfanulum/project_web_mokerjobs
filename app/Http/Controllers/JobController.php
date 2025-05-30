@@ -43,7 +43,7 @@ class JobController extends Controller
         // Get filtered jobs
         $allJobs = $query->latest()->get()->map(function ($job) {
             return $this->mapJobData($job);
-        })->toArray(); 
+        })->toArray();
 
         // Paginate results
         $jobs = $this->paginate($allJobs, 3, $request);
@@ -69,27 +69,37 @@ class JobController extends Controller
             });
         }
 
-        // Filter lokasi
+        // Location filter
         if ($request->filled('lokasi') && is_string($request->lokasi)) {
             $lokasi = strtolower($request->lokasi);
             $query->whereRaw('LOWER(location) = ?', [$lokasi]);
         }
 
-        // Other filters
+        // job_type filter
         if ($request->filled('job_type')) {
-            $query->where('job_type', $request->job_type);
-        }
-        if ($request->filled('place_work')) {
-            $query->where('place_work', $request->place_work);
-        }
-        if ($request->filled('education_minimal')) {
-            $query->where('education_minimal', $request->education_minimal);
-        }
-        if ($request->filled('kategori')) {
-            $query->where('category_job', $request->kategori);
+            $jobType = str_replace('_', '', strtolower($request->job_type));
+            $query->whereRaw("LOWER(REPLACE(job_type, ' ', '')) LIKE ?", ["%{$jobType}%"]);
         }
 
-        // Rest of your method remains the same
+        // place_work filter
+        if ($request->filled('place_work')) {
+            $placeWork = str_replace('_', '', strtolower($request->place_work));
+            $query->whereRaw("LOWER(REPLACE(place_work, ' ', '')) LIKE ?", ["%{$placeWork}%"]);
+        }
+
+        // education_minimal filter
+        if ($request->filled('education_minimal')) {
+            $education = str_replace('_', '', strtolower($request->education_minimal));
+            $query->whereRaw("LOWER(REPLACE(education_minimal, ' ', '')) LIKE ?", ["%{$education}%"]);
+        }
+
+        // kategori filter
+        if ($request->filled('kategori')) {
+            $category = str_replace('_', '', strtolower($request->kategori));
+            $query->whereRaw("LOWER(REPLACE(category_job, ' ', '')) LIKE ?", ["%{$category}%"]);
+        }
+
+        // Get results
         $allJobs = $query->latest()->get()->map(function ($job) {
             $job->job_type = ucwords(strtolower($job->job_type));
             return $this->mapJobData($job);
@@ -97,6 +107,7 @@ class JobController extends Controller
 
         $jobs = $this->paginate($allJobs, 8, $request);
 
+        // Get filter options
         $categories = $this->getFilterOptions('category_job');
         $locations = $this->getFilterOptions('location');
         $jobTypes = $this->getFilterOptions('job_type');
@@ -112,7 +123,6 @@ class JobController extends Controller
             'educations'
         ));
     }
-
 
 
 
@@ -505,12 +515,16 @@ class JobController extends Controller
     {
         return Lowongan::select($column)
             ->distinct()
-            ->pluck($column)
-            ->map(function ($value) use ($column) {
+            ->orderBy($column)
+            ->get()
+            ->map(function ($item) use ($column) {
+                $originalValue = $item->$column;
+                $transformedValue = strtolower(str_replace([' ', '/'], '_', $originalValue));
+
                 return [
-                    'label' => ucfirst($value),
-                    'value' => strtolower(str_replace([' ', '/'], '_', $value)),
-                    'count' => Lowongan::where($column, $value)->count(),
+                    'label' => $originalValue, // Original value for display
+                    'value' => $transformedValue, // Transformed value for form submission
+                    'count' => Lowongan::where($column, $originalValue)->count(),
                 ];
             })->toArray();
     }

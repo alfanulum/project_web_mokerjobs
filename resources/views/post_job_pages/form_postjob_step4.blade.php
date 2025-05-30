@@ -76,7 +76,7 @@
                     <!-- Preview Container -->
                     <div id="logo-preview-container" class="mb-4 {{ isset($step4['company_logo_image']) ? '' : 'hidden' }}">
                         <div
-                            class="relative w-48 h-48 border-2 border-gray-300 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                            class="relative w-full h-full border-2 border-gray-300 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
                             @if (isset($step4['company_logo_image']))
                                 <img src="{{ asset('storage/' . $step4['company_logo_image']) }}" alt="Company Logo Preview"
                                     id="logo-preview-image" class="w-full h-full object-contain">
@@ -99,14 +99,14 @@
 
                     <!-- Upload Button -->
                     <label id="upload-label"
-                        class="flex flex-col items-center justify-center w-full p-8 bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-orange-600 transition {{ isset($step4['company_logo_image']) ? 'hidden' : '' }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-500" fill="none"
+                        class="flex flex-col items-center justify-center w-48 p-8 bg-gray-100 border-2 border-dashed border-gray-400 rounded-md cursor-pointer hover:border-orange-600 transition text-center {{ isset($step4['company_logo_image']) ? 'hidden' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-500" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span class="mt-2 text-sm text-gray-600">Klik untuk mengunggah logo</span>
-                        <span class="text-xs text-gray-500">Format PNG, JPG, JPEG maksimal 2MB</span>
+                        <span class="mt-1 text-sm text-gray-600">Unggah Logo</span>
+                        <span class="text-xs text-gray-500">PNG, JPG, JPEG (max 2MB)</span>
                         <input type="file" id="company_logo" name="company_logo" class="hidden" accept="image/*">
                     </label>
 

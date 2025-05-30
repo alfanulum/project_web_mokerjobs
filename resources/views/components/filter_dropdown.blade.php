@@ -15,9 +15,12 @@
             <label class="flex items-center justify-between text-sm text-gray-800 cursor-pointer">
                 <div class="flex items-center gap-2">
                     <input type="radio" name="{{ $name }}" value="" class="accent-black"
-                        {{ is_null($selected) ? 'checked' : '' }} />
+                        {{ empty($selected) ? 'checked' : '' }} />
                     <span>All</span>
                 </div>
+                <span class="text-gray-400 text-xs">
+                    ({{ array_sum(array_column($options, 'count')) }})
+                </span>
             </label>
 
             @foreach ($options as $option)
@@ -27,7 +30,9 @@
                             class="accent-black" {{ $selected == $option['value'] ? 'checked' : '' }} />
                         <span>{{ $option['label'] }}</span>
                     </div>
-                    <span class="text-gray-400 text-xs">( {{ $option['count'] ?? 0 }} )</span>
+                    <span class="text-gray-400 text-xs">
+                        ({{ $option['count'] }})
+                    </span>
                 </label>
             @endforeach
         </div>

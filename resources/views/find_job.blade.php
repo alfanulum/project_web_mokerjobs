@@ -56,6 +56,13 @@
                     <h2 class="text-xl font-bold mb-4">Filter</h2>
                     <div class="space-y-4">
                         @include('components.filter_dropdown', [
+                            'title' => 'Kategori',
+                            'name' => 'kategori',
+                            'options' => $categories,
+                            'selected' => request('kategori'),
+                        ])
+
+                        @include('components.filter_dropdown', [
                             'title' => 'Tipe Pekerjaan',
                             'name' => 'job_type',
                             'options' => $jobTypes,
@@ -76,16 +83,8 @@
                             'selected' => request('education_minimal'),
                         ])
 
-                        @include('components.filter_dropdown', [
-                            'title' => 'Kategori',
-                            'name' => 'kategori',
-                            'options' => $categories,
-                            'selected' => request('kategori'),
-                        ])
-
-                        <!-- Hidden fields to maintain search and location -->
+                        <!-- Hidden search field -->
                         <input type="hidden" name="search" value="{{ request('search') }}">
-                        <input type="hidden" name="lokasi" value="{{ request('lokasi') }}">
 
                         <button type="submit"
                             class="w-full bg-orange-500 text-white py-2 rounded-md font-semibold font-poppins">
@@ -93,7 +92,6 @@
                         </button>
 
                         @if (request()->except('page'))
-                            <!-- Check if any filters are active -->
                             <a href="{{ route('find_job') }}" class="block w-full text-center text-orange-500 py-2">
                                 Hapus Semua Filter
                             </a>
