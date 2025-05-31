@@ -185,7 +185,7 @@
                 <div class="w-16 h-1 bg-white mx-auto mt-2 rounded-full opacity-70"></div>
             </div>
             <nav class="space-y-3">
-                <a href="#" onclick="setActiveTab('home'); console.log('Home tab clicked')" id="nav-home" class="nav-item block w-full px-4 py-3 bg-white text-orange-500 rounded-lg text-center font-medium hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <a href="{{ route('admin.dashboard') }}" onclick="setActiveTab('home'); console.log('Home tab clicked')" id="nav-home" class="nav-item block w-full px-4 py-3 bg-white text-orange-500 rounded-lg text-center font-medium hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     <span class="flex items-center justify-center space-x-2">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />

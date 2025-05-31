@@ -74,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('dashboard');
         // Misalnya, route untuk halaman processed di admin
         Route::get('processed', [ProcessedController::class, 'index'])->name('processed');
+        Route::patch('lowongan/{lowongan}/update-status', [ProcessedController::class, 'updateStatus'])->name('processed.update_status');
+        Route::get('lowongan/{lowongan}/detail', [ProcessedController::class, 'show'])->name('lowongan.show_detail');
     });
 });
 
