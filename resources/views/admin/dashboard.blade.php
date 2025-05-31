@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,52 +9,172 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         @keyframes slideInLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
+
         @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
+
         @keyframes fadeInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
+
         @keyframes countUp {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        .slide-in { animation: slideIn 0.3s ease-out; }
-        .animate-slide-left { animation: slideInLeft 0.6s ease-out; }
-        .animate-slide-right { animation: slideInRight 0.6s ease-out; }
-        .animate-fade-up { animation: fadeInUp 0.8s ease-out; }
-        .animate-pulse-custom { animation: pulse 2s infinite; }
-        .animate-count-up { animation: countUp 1s ease-out; }
-        .hover-lift { transition: all 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .gradient-bg { background: linear-gradient(135deg, #f97316, #ea580c); }
-        .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.1); }
-        .loading-skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
-        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .animate-fade-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-pulse-custom {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-count-up {
+            animation: countUp 1s ease-out;
+        }
+
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #fbbf24;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans min-h-screen">
     <div class="flex min-h-screen">
         <div class="w-64 bg-gradient-to-b from-orange-500 to-orange-600 p-6 shadow-xl slide-in">
@@ -66,25 +187,27 @@
             <nav class="space-y-3">
                 <a href="#" onclick="setActiveTab('home'); console.log('Home tab clicked')" id="nav-home" class="nav-item block w-full px-4 py-3 bg-white text-orange-500 rounded-lg text-center font-medium hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
                         <span>Home</span>
                     </span>
                 </a>
-                <a href="#" onclick="setActiveTab('processed'); console.log('Processed tab clicked')" id="nav-processed" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
-                        <span>Processed</span>
-                    </span>
-                </a>
+
+
                 <a href="#" onclick="setActiveTab('approved'); console.log('Approved tab clicked')" id="nav-approved" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
                     <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
                         <span>Approved</span>
                     </span>
                 </a>
                 <a href="#" onclick="setActiveTab('rejected'); console.log('Rejected tab clicked')" id="nav-rejected" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
                     <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
                         <span>Rejected</span>
                     </span>
                 </a>
@@ -107,7 +230,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="flex-1 p-6 animate-slide-right">
             <div class="flex justify-between items-center mb-6 animate-fade-up">
                 <div>
@@ -123,7 +246,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <div id="loadingState" class="hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                     <div class="loading-skeleton h-32 rounded-xl"></div>
@@ -132,7 +255,7 @@
                     <div class="loading-skeleton h-32 rounded-xl"></div>
                 </div>
             </div>
-            
+
             <div id="statsCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 <div class="gradient-bg text-white p-6 rounded-xl hover-lift cursor-pointer animate-fade-up shadow-xl" onclick="showDetails('total')">
                     <h3 class="text-sm font-medium mb-2 opacity-90">Job Applications</h3>
@@ -171,7 +294,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-up" style="animation-delay: 0.4s">
                 <div class="bg-white p-6 rounded-xl shadow-xl hover-lift">
                     <div class="flex justify-between items-center mb-4">
@@ -181,7 +304,9 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <select id="yearFilter" onchange="updateChart()" class="bg-yellow-400 px-3 py-1 rounded-full text-sm font-medium border-none cursor-pointer">
-                                <option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
                             </select>
                         </div>
                     </div>
@@ -198,7 +323,7 @@
                         </button>
                     </div>
                     <div id="jobList" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,15 +342,70 @@
     <script>
         let chart;
         // Data structure from processed.blade.php
-        let jobs = [
-            {id: 1, jobName: "Job #1", company: "Company A", category: "Admin & Operations", email: "Company1@email.com", status: "pending"},
-            {id: 2, jobName: "Job #2", company: "Company B", category: "Business Dev & Sales", email: "Company2@email.com", status: "pending"},
-            {id: 3, jobName: "Job #3", company: "Company C", category: "CS & Hospitality", email: "Company3@email.com", status: "pending"},
-            {id: 4, jobName: "Job #4", company: "Company D", category: "Data & Product", email: "Company4@email.com", status: "pending"},
-            {id: 5, jobName: "Job #5", company: "Company E", category: "Design & Creative", email: "Company5@email.com", status: "pending"},
-            {id: 6, jobName: "Job #6", company: "Company F", category: "Education & Training", email: "Company1@email.com", status: "pending"},
-            {id: 7, jobName: "Job #7", company: "Company G", category: "Finance & Accounting", email: "Company6@email.com", status: "pending"},
-            {id: 8, jobName: "Job #8", company: "Company H", category: "Food & Beverage", email: "Company7@email.com", status: "pending"}
+        let jobs = [{
+                id: 1,
+                jobName: "Job #1",
+                company: "Company A",
+                category: "Admin & Operations",
+                email: "Company1@email.com",
+                status: "pending"
+            },
+            {
+                id: 2,
+                jobName: "Job #2",
+                company: "Company B",
+                category: "Business Dev & Sales",
+                email: "Company2@email.com",
+                status: "pending"
+            },
+            {
+                id: 3,
+                jobName: "Job #3",
+                company: "Company C",
+                category: "CS & Hospitality",
+                email: "Company3@email.com",
+                status: "pending"
+            },
+            {
+                id: 4,
+                jobName: "Job #4",
+                company: "Company D",
+                category: "Data & Product",
+                email: "Company4@email.com",
+                status: "pending"
+            },
+            {
+                id: 5,
+                jobName: "Job #5",
+                company: "Company E",
+                category: "Design & Creative",
+                email: "Company5@email.com",
+                status: "pending"
+            },
+            {
+                id: 6,
+                jobName: "Job #6",
+                company: "Company F",
+                category: "Education & Training",
+                email: "Company1@email.com",
+                status: "pending"
+            },
+            {
+                id: 7,
+                jobName: "Job #7",
+                company: "Company G",
+                category: "Finance & Accounting",
+                email: "Company6@email.com",
+                status: "pending"
+            },
+            {
+                id: 8,
+                jobName: "Job #8",
+                company: "Company H",
+                category: "Food & Beverage",
+                email: "Company7@email.com",
+                status: "pending"
+            }
         ];
 
         // Store previous counts for growth calculation
@@ -249,7 +429,12 @@
             const pending = jobs.filter(j => j.status === 'pending').length;
             const approved = jobs.filter(j => j.status === 'approved').length;
             const rejected = jobs.filter(j => j.status === 'rejected').length;
-            return { total, pending, approved, rejected };
+            return {
+                total,
+                pending,
+                approved,
+                rejected
+            };
         }
 
         function updateAllStats(isRefresh = false) {
@@ -282,11 +467,13 @@
                 document.getElementById('approvalRateText').textContent = `${getRatePercentage(currentStats.approved, currentStats.total)} approved`;
                 document.getElementById('rejectionRateText').textContent = `${getRatePercentage(currentStats.rejected, currentStats.total)} rejected`;
             }
-            
+
             // Store current stats as previous for next refresh
-            previousCounts = { ...currentStats };
+            previousCounts = {
+                ...currentStats
+            };
         }
-        
+
         function getGrowthPercentage(current, previous) {
             if (previous === 0) return current > 0 ? "+100%" : "0%";
             const diff = current - previous;
@@ -304,24 +491,65 @@
             const ctx = document.getElementById('statsChart').getContext('2d');
             chart = new Chart(ctx, {
                 type: 'line',
-                data: { /* ... Chart data ... */ 
+                data: {
+                    /* ... Chart data ... */
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         label: 'Applications',
                         data: [50, 90, 20, 40, 40, 40, 40, 70, 10, 20, 20, 20], // Example data
                         borderColor: '#f97316',
                         backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                        borderWidth: 3, tension: 0.4, pointBackgroundColor: '#f97316',
-                        pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 6,
-                        pointHoverRadius: 8, fill: true
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointBackgroundColor: '#f97316',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true
                     }]
                 },
-                options: { /* ... Chart options ... */ 
-                    responsive: true, maintainAspectRatio: false,
-                    animation: { duration: 2000, easing: 'easeInOutQuart' },
-                    plugins: { legend: { display: false } },
-                    scales: { x: { grid: { display: false }, border: {display: false}}, y: { beginAtZero: true, max:100, ticks: { stepSize: 20 }, grid: { color: '#f3f4f6' }, border: {display: false} } },
-                    elements: { point: { hoverRadius: 8 } }
+                options: {
+                    /* ... Chart options ... */
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            border: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            },
+                            border: {
+                                display: false
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            hoverRadius: 8
+                        }
+                    }
                 }
             });
         }
@@ -329,9 +557,9 @@
         function updateChart() {
             const year = document.getElementById('yearFilter').value;
             let newData;
-            if (year === '2024') newData = [50,90,20,40,40,40,40,70,10,20,20,20];
-            else if (year === '2023') newData = [30,60,45,55,35,50,65,45,25,35,40,30];
-            else newData = [25,40,35,30,45,35,50,40,30,25,35,25];
+            if (year === '2024') newData = [50, 90, 20, 40, 40, 40, 40, 70, 10, 20, 20, 20];
+            else if (year === '2023') newData = [30, 60, 45, 55, 35, 50, 65, 45, 25, 35, 40, 30];
+            else newData = [25, 40, 35, 30, 45, 35, 50, 40, 30, 25, 35, 25];
             chart.data.datasets[0].data = newData;
             chart.update('active');
         }
@@ -347,9 +575,9 @@
                     const jobElement = document.createElement('div');
                     jobElement.className = 'bg-white p-4 rounded-lg border border-orange-200 hover-lift cursor-pointer animate-fade-up';
                     jobElement.onclick = () => showJobDetails(job.id);
-                    
+
                     const statusColor = job.status === 'approved' ? 'green' : job.status === 'rejected' ? 'red' : 'blue';
-                    
+
                     jobElement.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
@@ -386,7 +614,7 @@
             document.getElementById('jobModal').classList.remove('hidden');
             document.getElementById('jobModal').classList.add('flex');
         }
-        
+
         function updateJobStatus(jobId, newStatus) {
             const jobIndex = jobs.findIndex(j => j.id === jobId);
             if (jobIndex > -1) {
@@ -408,7 +636,7 @@
             let title = '';
             let content = '';
 
-            switch(type) {
+            switch (type) {
                 case 'total':
                     title = 'Total Applications';
                     content = `<p>Currently, there are <strong>${stats.total}</strong> total job applications in the system.</p>`;
@@ -435,10 +663,10 @@
         function refreshData() {
             const refreshIcon = document.getElementById('refreshIcon');
             refreshIcon.style.animation = 'spin 1s linear'; // One spin, not infinite
-            
+
             document.getElementById('statsCards').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('hidden');
-            
+
             setTimeout(() => {
                 // Simulate some data changes for demonstration before recalculating
                 if (jobs.length > 0) {
@@ -446,7 +674,7 @@
                     const statuses = ['pending', 'approved', 'rejected'];
                     // Change status of a random job if not already that status
                     let newStatus = jobs[randomIndex].status;
-                    while(newStatus === jobs[randomIndex].status) {
+                    while (newStatus === jobs[randomIndex].status) {
                         newStatus = statuses[Math.floor(Math.random() * statuses.length)];
                     }
                     jobs[randomIndex].status = newStatus;
@@ -454,11 +682,13 @@
 
                 updateAllStats(true); // Recalculate and update stats, indicate it's a refresh
                 loadJobs(); // Reload job list which might show different jobs or statuses
-                
+
                 document.getElementById('loadingState').classList.add('hidden');
                 document.getElementById('statsCards').classList.remove('hidden');
-                
-                setTimeout(() => { refreshIcon.style.animation = ''; }, 1000); // Clear animation after it's done
+
+                setTimeout(() => {
+                    refreshIcon.style.animation = '';
+                }, 1000); // Clear animation after it's done
                 showToast('Dashboard data refreshed!');
             }, 1500);
         }
@@ -470,7 +700,7 @@
             const startValue = parseInt(startValueText) || 0;
             const duration = 800; // Slightly faster animation
             const startTime = performance.now();
-            
+
             function updateNumber(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
@@ -523,12 +753,17 @@
             toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50';
             toast.textContent = message;
             document.body.appendChild(toast);
-            setTimeout(() => { toast.classList.remove('translate-x-full'); }, 10);
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full');
+            }, 10);
             setTimeout(() => {
                 toast.classList.add('translate-x-full');
-                setTimeout(() => { toast.remove(); }, 300);
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
             }, 3000);
         }
     </script>
 </body>
+
 </html>
