@@ -1,778 +1,371 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.admin_app') {{-- Pastikan ini adalah nama file layout Anda --}}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maker.jobs Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
+@section('title', 'Admin Dashboard')
 
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+@push('styles')
+<style>
+    /* Animasi dan style spesifik untuk dashboard ini */
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes pulse-custom { /* Ubah nama agar tidak konflik jika ada 'pulse' lain */
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); } /* Sedikit lebih halus */
+    }
+    @keyframes countUp {
+        from { opacity: 0; transform: scale(0.8); } /* Mulai dari skala lebih besar */
+        to { opacity: 1; transform: scale(1); }
+    }
 
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
+    .animate-slide-right { animation: slideInRight 0.5s ease-out forwards; }
+    .animate-fade-up { animation: fadeInUp 0.6s ease-out forwards; }
+    .animate-pulse-custom { animation: pulse-custom 2.2s infinite ease-in-out; }
+    .animate-count-up { animation: countUp 0.8s ease-out forwards; }
 
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-6px); /* Angkat sedikit lebih tinggi */
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 7px 10px rgba(0,0,0,0.08); /* Shadow lebih dramatis */
+    }
+    .gradient-bg-stat { /* Gradient khusus untuk stat card utama */
+        background: linear-gradient(135deg, #fb923c, #f97316); /* orange-400 to orange-500 */
+    }
+    .loading-skeleton {
+        background: linear-gradient(90deg, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%); /* slate-200, slate-300 */
+        background-size: 200% 100%;
+        animation: loading-skeleton-anim 1.5s infinite linear;
+    }
+    @keyframes loading-skeleton-anim {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    .custom-scrollbar-page::-webkit-scrollbar { width: 8px; height: 8px; }
+    .custom-scrollbar-page::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+    .custom-scrollbar-page::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 10px; } /* amber-400 */
+    .custom-scrollbar-page::-webkit-scrollbar-thumb:hover { background: #f59e0b; } /* amber-500 */
+</style>
+@endpush
 
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
+@section('content')
+{{-- Data dari Controller (contoh, Anda perlu menyediakan ini) --}}
+@php
+    $stats = $stats ?? [
+        'total' => 0,
+        'pending' => 0,
+        'approved' => 0,
+        'rejected' => 0,
+        'totalGrowthText' => 'N/A',
+        'pendingRateText' => 'N/A',
+        'approvalRateText' => 'N/A',
+        'rejectionRateText' => 'N/A',
+    ];
+    $monthlyApplicationData = $monthlyApplicationData ?? array_fill(0, 12, 0); // Array 12 angka 0
+    $recentJobs = $recentJobs ?? collect(); // Collection kosong jika tidak ada
+    $availableYears = $availableYears ?? [date('Y')];
+@endphp
 
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes countUp {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .animate-slide-left {
-            animation: slideInLeft 0.6s ease-out;
-        }
-
-        .animate-slide-right {
-            animation: slideInRight 0.6s ease-out;
-        }
-
-        .animate-fade-up {
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .animate-pulse-custom {
-            animation: pulse 2s infinite;
-        }
-
-        .animate-count-up {
-            animation: countUp 1s ease-out;
-        }
-
-        .hover-lift {
-            transition: all 0.3s ease;
-        }
-
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .gradient-bg {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-        }
-
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #fbbf24;
-            border-radius: 10px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #f59e0b;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-</head>
-
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans min-h-screen">
-    <div class="flex min-h-screen">
-        <div class="w-64 bg-gradient-to-b from-orange-500 to-orange-600 p-6 shadow-xl slide-in">
-            <div class="mb-8 text-center">
-                <h1 class="text-white text-2xl font-bold hover:scale-105 transition-transform cursor-pointer">
-                    moker.jobs
-                </h1>
-                <div class="w-16 h-1 bg-white mx-auto mt-2 rounded-full opacity-70"></div>
+<div class="animate-slide-right">
+    <div class="flex flex-col sm:flex-row justify-between items-start mb-6 animate-fade-up">
+        <div>
+            <h2 class="text-2xl lg:text-3xl font-bold text-gray-800">Admin Dashboard</h2>
+            <p class="text-gray-500 mt-1 text-sm lg:text-base">Overview of job application statistics.</p>
+        </div>
+        <div class="flex items-center space-x-3 mt-3 sm:mt-0">
+            <div id="newNotification" class="bg-yellow-400 text-yellow-800 px-4 py-2 rounded-md font-semibold animate-pulse-custom cursor-pointer hover:bg-yellow-300 transition-colors text-xs sm:text-sm shadow-sm">
+                <span id="newCountDashboard">{{ $stats['pending'] }}</span> New (Pending)
             </div>
-            <nav class="space-y-3">
-                <a href="{{ route('admin.dashboard') }}" onclick="setActiveTab('home'); console.log('Home tab clicked')" id="nav-home" class="nav-item block w-full px-4 py-3 bg-white text-orange-500 rounded-lg text-center font-medium hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                        </svg>
-                        <span>Home</span>
-                    </span>
-                </a>
+            <button onclick="refreshDashboardData()" class="bg-blue-500 text-white p-2.5 rounded-md hover:bg-blue-600 transition-colors hover-lift shadow-sm">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m-15.357-2a8.001 8.001 0 0015.357 2M9 15h4.581"></path></svg>
+            </button>
+        </div>
+    </div>
 
-                <a href="{{ route('admin.processed') }}" onclick="setActiveTab('processed'); console.log('Processed tab clicked')" id="nav-approved" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Approved</span>
-                    </span>
-                </a>
+    {{-- Loading Skeleton (Contoh, bisa Anda implementasikan jika fetch data lama) --}}
+    {{-- <div id="loadingStateDashboard" class="hidden"> ... </div> --}}
 
-
-                <a href="#" onclick="setActiveTab('approved'); console.log('Approved tab clicked')" id="nav-approved" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Approved</span>
-                    </span>
-                </a>
-                <a href="#" onclick="setActiveTab('rejected'); console.log('Rejected tab clicked')" id="nav-rejected" class="nav-item block w-full px-4 py-3 bg-orange-300 bg-opacity-50 text-white rounded-lg text-center hover:bg-opacity-70 transition-all duration-300 transform hover:scale-105">
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Rejected</span>
-                    </span>
-                </a>
-            </nav>
-            <div class="mt-8 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 fade-in">
-                <h3 class="text-white text-sm font-medium mb-2">Quick Stats</h3>
-                <div class="space-y-2 text-white text-xs">
-                    <div class="flex justify-between">
-                        <span>Total Jobs:</span>
-                        <span id="totalJobsSidebar" class="font-bold">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Approved:</span>
-                        <span id="approvedCountSidebar" class="font-bold text-green-200">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>Rejected:</span>
-                        <span id="rejectedCountSidebar" class="font-bold text-red-200">0</span>
-                    </div>
-                </div>
+    <div id="statsCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-6">
+        <div class="gradient-bg-stat text-white p-5 rounded-xl hover-lift cursor-pointer animate-fade-up shadow-lg" onclick="showDetails('total')">
+            <h3 class="text-sm font-medium mb-1 opacity-80">Total Applications</h3>
+            <p id="totalCountMain" class="text-3xl font-bold animate-count-up">{{ $stats['total'] }}</p>
+            <div class="mt-1.5 text-xs opacity-70">
+                <span id="totalGrowthTextDashboard">{{ $stats['totalGrowthText'] }}</span>
             </div>
         </div>
+        <div class="bg-white p-5 rounded-xl shadow-lg hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.1s" onclick="showDetails('pending')">
+            <h3 class="text-sm text-gray-500 font-medium mb-1">Pending Applications</h3>
+            <p id="pendingCountMain" class="text-3xl font-bold text-blue-600 animate-count-up">{{ $stats['pending'] }}</p>
+            <div class="mt-1.5 text-xs text-gray-500">
+                <span id="pendingRateTextDashboard">{{ $stats['pendingRateText'] }}</span>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-lg hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.2s" onclick="showDetails('approved')">
+            <h3 class="text-sm text-gray-500 font-medium mb-1">Approved Applications</h3>
+            <p id="approvedCountMain" class="text-3xl font-bold text-green-600 animate-count-up">{{ $stats['approved'] }}</p>
+            <div class="mt-1.5 text-xs text-gray-500">
+                <span id="approvalRateTextDashboard">{{ $stats['approvalRateText'] }}</span>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-lg hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.3s" onclick="showDetails('rejected')">
+            <h3 class="text-sm text-gray-500 font-medium mb-1">Rejected Applications</h3>
+            <p id="rejectedCountMain" class="text-3xl font-bold text-red-600 animate-count-up">{{ $stats['rejected'] }}</p>
+            <div class="mt-1.5 text-xs text-gray-500">
+                <span id="rejectionRateTextDashboard">{{ $stats['rejectionRateText'] }}</span>
+            </div>
+        </div>
+    </div>
 
-        <div class="flex-1 p-6 animate-slide-right">
-            <div class="flex justify-between items-center mb-6 animate-fade-up">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 animate-fade-up" style="animation-delay: 0.4s">
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-xl hover-lift">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-800 bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Admin Dashboard</h2>
-                    <p class="text-gray-600 mt-1">verification of submitted job applications</p>
+                    <h4 class="text-lg font-semibold text-gray-800">Application Statistics</h4>
+                    <p class="text-xs text-gray-500">Monthly application trend</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div id="newNotification" class="bg-yellow-400 px-4 py-2 rounded-full font-medium animate-pulse-custom cursor-pointer hover:bg-yellow-300 transition-colors">
-                        <span id="newCount">0</span> New (Pending)
-                    </div>
-                    <button onclick="refreshData()" class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors hover-lift">
-                        <span id="refreshIcon">🔄</span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="loadingState" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <div class="loading-skeleton h-32 rounded-xl"></div>
-                    <div class="loading-skeleton h-32 rounded-xl"></div>
-                    <div class="loading-skeleton h-32 rounded-xl"></div>
-                    <div class="loading-skeleton h-32 rounded-xl"></div>
+                <div class="mt-2 sm:mt-0">
+                    <select id="yearFilterDashboard" onchange="updateDashboardChart()" class="bg-gray-100 border border-gray-300 text-gray-700 px-3 py-1.5 rounded-md text-xs font-medium cursor-pointer focus:ring-orange-500 focus:border-orange-500">
+                        @foreach($availableYears as $year)
+                            <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>{{ $year }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
-
-            <div id="statsCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                <div class="gradient-bg text-white p-6 rounded-xl hover-lift cursor-pointer animate-fade-up shadow-xl" onclick="showDetails('total')">
-                    <h3 class="text-sm font-medium mb-2 opacity-90">Job Applications</h3>
-                    <h4 class="text-lg font-bold mb-2">Total</h4>
-                    <p id="totalCountMain" class="text-3xl font-bold animate-count-up">0</p>
-                    <div class="mt-2 text-sm opacity-75">
-                        <span class="inline-block w-2 h-2 bg-green-300 rounded-full mr-1"></span>
-                        <span id="totalGrowthText"></span>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-xl hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.1s" onclick="showDetails('pending')">
-                    <h3 class="text-sm text-gray-500 font-medium mb-2">Job Applications</h3>
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Pending</h4>
-                    <p id="pendingCountMain" class="text-3xl font-bold text-blue-600 animate-count-up">0</p>
-                    <div class="mt-2 text-sm text-gray-500">
-                        <span class="inline-block w-2 h-2 bg-blue-400 rounded-full mr-1"></span>
-                        <span id="pendingRateText"></span>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-xl hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.2s" onclick="showDetails('approved')">
-                    <h3 class="text-sm text-gray-500 font-medium mb-2">Job Applications</h3>
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Approved</h4>
-                    <p id="approvedCountMain" class="text-3xl font-bold text-green-600 animate-count-up">0</p>
-                    <div class="mt-2 text-sm text-gray-500">
-                        <span class="inline-block w-2 h-2 bg-green-400 rounded-full mr-1"></span>
-                        <span id="approvalRateText"></span>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-xl hover-lift cursor-pointer animate-fade-up" style="animation-delay: 0.3s" onclick="showDetails('rejected')">
-                    <h3 class="text-sm text-gray-500 font-medium mb-2">Job Applications</h3>
-                    <h4 class="text-lg font-bold text-gray-800 mb-2">Rejected</h4>
-                    <p id="rejectedCountMain" class="text-3xl font-bold text-red-600 animate-count-up">0</p>
-                    <div class="mt-2 text-sm text-gray-500">
-                        <span class="inline-block w-2 h-2 bg-red-400 rounded-full mr-1"></span>
-                        <span id="rejectionRateText"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-up" style="animation-delay: 0.4s">
-                <div class="bg-white p-6 rounded-xl shadow-xl hover-lift">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <h3 class="text-sm text-gray-500 font-medium mb-1">Job Applications</h3>
-                            <h4 class="text-xl font-bold text-gray-800">Total Statistics</h4>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <select id="yearFilter" onchange="updateChart()" class="bg-yellow-400 px-3 py-1 rounded-full text-sm font-medium border-none cursor-pointer">
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="h-64 relative"><canvas id="statsChart" width="400" height="200"></canvas></div>
-                </div>
-                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl shadow-xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <h3 class="text-sm text-gray-600 font-medium mb-1">Job Applications</h3>
-                            <h4 class="text-xl font-bold text-gray-800">Recently Updated</h4>
-                        </div>
-                        <button onclick="showAllJobs()" class="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition-all duration-300 hover:scale-105 shadow-lg">
-                            View All (Processed Page)
-                        </button>
-                    </div>
-                    <div id="jobList" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar">
-                    </div>
-                </div>
-            </div>
+            <div class="h-64 sm:h-72 relative"><canvas id="statsChartDashboard" width="400" height="200"></canvas></div>
         </div>
-    </div>
-
-    <div id="jobModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-xl max-w-md w-full mx-4 animate-fade-up">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="modalTitle" class="text-xl font-bold text-gray-800"></h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        <div class="bg-orange-50 p-5 rounded-xl shadow-xl hover-lift">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                 <div>
+                    <h4 class="text-lg font-semibold text-gray-800">Recently Updated</h4>
+                    <p class="text-xs text-gray-500">Latest job status changes</p>
+                </div>
+                <a href="{{ route('admin.processed') }}" class="mt-2 sm:mt-0 bg-orange-500 text-white px-3.5 py-1.5 rounded-md text-xs font-semibold hover:bg-orange-600 transition-all duration-300 shadow-sm hover:shadow-md">
+                    View All
+                </a>
             </div>
-            <div id="modalContent" class="text-gray-600"></div>
-        </div>
-    </div>
-
-    <script>
-        let chart;
-        // Data structure from processed.blade.php
-        let jobs = [{
-                id: 1,
-                jobName: "Job #1",
-                company: "Company A",
-                category: "Admin & Operations",
-                email: "Company1@email.com",
-                status: "pending"
-            },
-            {
-                id: 2,
-                jobName: "Job #2",
-                company: "Company B",
-                category: "Business Dev & Sales",
-                email: "Company2@email.com",
-                status: "pending"
-            },
-            {
-                id: 3,
-                jobName: "Job #3",
-                company: "Company C",
-                category: "CS & Hospitality",
-                email: "Company3@email.com",
-                status: "pending"
-            },
-            {
-                id: 4,
-                jobName: "Job #4",
-                company: "Company D",
-                category: "Data & Product",
-                email: "Company4@email.com",
-                status: "pending"
-            },
-            {
-                id: 5,
-                jobName: "Job #5",
-                company: "Company E",
-                category: "Design & Creative",
-                email: "Company5@email.com",
-                status: "pending"
-            },
-            {
-                id: 6,
-                jobName: "Job #6",
-                company: "Company F",
-                category: "Education & Training",
-                email: "Company1@email.com",
-                status: "pending"
-            },
-            {
-                id: 7,
-                jobName: "Job #7",
-                company: "Company G",
-                category: "Finance & Accounting",
-                email: "Company6@email.com",
-                status: "pending"
-            },
-            {
-                id: 8,
-                jobName: "Job #8",
-                company: "Company H",
-                category: "Food & Beverage",
-                email: "Company7@email.com",
-                status: "pending"
-            }
-        ];
-
-        // Store previous counts for growth calculation
-        let previousCounts = {
-            total: 0,
-            pending: 0,
-            approved: 0,
-            rejected: 0
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initChart();
-            updateAllStats(); // Initial calculation and display of all stats
-            loadJobs(); // Load initial job list
-            setActiveTab('home');
-            // startDataUpdates(); // Auto-update can be enabled if desired
-        });
-
-        function calculateStats() {
-            const total = jobs.length;
-            const pending = jobs.filter(j => j.status === 'pending').length;
-            const approved = jobs.filter(j => j.status === 'approved').length;
-            const rejected = jobs.filter(j => j.status === 'rejected').length;
-            return {
-                total,
-                pending,
-                approved,
-                rejected
-            };
-        }
-
-        function updateAllStats(isRefresh = false) {
-            const currentStats = calculateStats();
-
-            // Update sidebar stats
-            document.getElementById('totalJobsSidebar').textContent = currentStats.total;
-            document.getElementById('approvedCountSidebar').textContent = currentStats.approved;
-            document.getElementById('rejectedCountSidebar').textContent = currentStats.rejected;
-
-            // Update main dashboard stats cards
-            animateNumber('totalCountMain', currentStats.total);
-            animateNumber('pendingCountMain', currentStats.pending);
-            animateNumber('approvedCountMain', currentStats.approved);
-            animateNumber('rejectedCountMain', currentStats.rejected);
-
-            // Update "New (Pending)" notification
-            document.getElementById('newCount').textContent = currentStats.pending;
-
-            // Update growth/rate texts
-            if (isRefresh) {
-                document.getElementById('totalGrowthText').textContent = `${getGrowthPercentage(currentStats.total, previousCounts.total)} from last refresh`;
-                document.getElementById('pendingRateText').textContent = `Processing rate: ${getRatePercentage(currentStats.pending, currentStats.total)}`;
-                document.getElementById('approvalRateText').textContent = `Approval rate: ${getRatePercentage(currentStats.approved, currentStats.total - currentStats.pending)}`; // Rate of non-pending
-                document.getElementById('rejectionRateText').textContent = `Rejection rate: ${getRatePercentage(currentStats.rejected, currentStats.total - currentStats.pending)}`; // Rate of non-pending
-            } else {
-                // Initial placeholder texts or leave blank
-                document.getElementById('totalGrowthText').textContent = `Currently ${currentStats.total} jobs`;
-                document.getElementById('pendingRateText').textContent = `${getRatePercentage(currentStats.pending, currentStats.total)} are pending`;
-                document.getElementById('approvalRateText').textContent = `${getRatePercentage(currentStats.approved, currentStats.total)} approved`;
-                document.getElementById('rejectionRateText').textContent = `${getRatePercentage(currentStats.rejected, currentStats.total)} rejected`;
-            }
-
-            // Store current stats as previous for next refresh
-            previousCounts = {
-                ...currentStats
-            };
-        }
-
-        function getGrowthPercentage(current, previous) {
-            if (previous === 0) return current > 0 ? "+100%" : "0%";
-            const diff = current - previous;
-            const percentage = (diff / previous) * 100;
-            return `${diff >= 0 ? '+' : ''}${percentage.toFixed(0)}%`;
-        }
-
-        function getRatePercentage(count, total) {
-            if (total === 0) return "0%";
-            return `${((count / total) * 100).toFixed(0)}%`;
-        }
-
-
-        function initChart() {
-            const ctx = document.getElementById('statsChart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    /* ... Chart data ... */
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [{
-                        label: 'Applications',
-                        data: [50, 90, 20, 40, 40, 40, 40, 70, 10, 20, 20, 20], // Example data
-                        borderColor: '#f97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        pointBackgroundColor: '#f97316',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        fill: true
-                    }]
-                },
-                options: {
-                    /* ... Chart options ... */
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 2000,
-                        easing: 'easeInOutQuart'
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            border: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                stepSize: 20
-                            },
-                            grid: {
-                                color: '#f3f4f6'
-                            },
-                            border: {
-                                display: false
-                            }
-                        }
-                    },
-                    elements: {
-                        point: {
-                            hoverRadius: 8
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateChart() {
-            const year = document.getElementById('yearFilter').value;
-            let newData;
-            if (year === '2024') newData = [50, 90, 20, 40, 40, 40, 40, 70, 10, 20, 20, 20];
-            else if (year === '2023') newData = [30, 60, 45, 55, 35, 50, 65, 45, 25, 35, 40, 30];
-            else newData = [25, 40, 35, 30, 45, 35, 50, 40, 30, 25, 35, 25];
-            chart.data.datasets[0].data = newData;
-            chart.update('active');
-        }
-
-        function loadJobs() {
-            const jobList = document.getElementById('jobList');
-            jobList.innerHTML = ''; // Clear existing list
-            // Display a few recently updated or pending jobs, for example
-            const recentJobs = jobs.slice(-5).reverse(); // Display last 5, newest first
-
-            recentJobs.forEach((job, index) => {
-                setTimeout(() => {
-                    const jobElement = document.createElement('div');
-                    jobElement.className = 'bg-white p-4 rounded-lg border border-orange-200 hover-lift cursor-pointer animate-fade-up';
-                    jobElement.onclick = () => showJobDetails(job.id);
-
-                    const statusColor = job.status === 'approved' ? 'green' : job.status === 'rejected' ? 'red' : 'blue';
-
-                    jobElement.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="font-medium text-gray-800">${job.jobName}</div>
-                                <div class="text-sm text-gray-500">${job.company} - ${job.category}</div>
-                            </div>
-                            <span class="px-2 py-1 rounded-full text-xs font-medium bg-${statusColor}-100 text-${statusColor}-600 capitalize">
-                                ${job.status}
+            <div id="jobListDashboard" class="space-y-2.5 max-h-64 sm:max-h-72 overflow-y-auto custom-scrollbar-page pr-1">
+                @forelse($recentJobs as $job)
+                    <div class="p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-orange-300 transition-colors">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-700 truncate w-3/5">{{ $job->job_name ?? 'N/A' }}</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full
+                                @if(isset($job->status) && $job->status == 'accept') bg-green-100 text-green-700
+                                @elseif(isset($job->status) && $job->status == 'decline') bg-red-100 text-red-700
+                                @elseif(isset($job->status) && $job->status == 'pending') bg-yellow-100 text-yellow-700
+                                @else bg-gray-100 text-gray-700 @endif">
+                                {{ ucfirst($job->status ?? 'N/A') }}
                             </span>
                         </div>
-                    `;
-                    jobList.appendChild(jobElement);
-                }, index * 100);
-            });
-        }
+                        <p class="text-xs text-gray-500 mt-0.5 truncate">{{ $job->company_name ?? 'N/A' }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ isset($job->updated_at) ? $job->updated_at->diffForHumans() : 'N/A' }}</p>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-500 text-center py-4">No recent job updates.</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
 
-        function showJobDetails(jobId) {
-            const job = jobs.find(j => j.id === jobId);
-            if (!job) return;
+{{-- Modal (jika diperlukan untuk showDetails) --}}
+<div id="jobModalDashboard" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm hidden items-center justify-center z-[60]">
+    <div class="bg-white p-5 sm:p-6 rounded-xl shadow-2xl max-w-lg w-full mx-4 animate-fade-up transform transition-all duration-300 ease-out" id="jobModalDashboardContent">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="modalTitleDashboard" class="text-lg font-semibold text-gray-800">Details</h3>
+            <button onclick="closeDashboardModal()" class="text-gray-400 hover:text-gray-600 text-2xl p-1 rounded-full hover:bg-gray-100 transition-colors">&times;</button>
+        </div>
+        <div id="modalContentDashboard" class="text-sm text-gray-600 max-h-[60vh] overflow-y-auto custom-scrollbar-page pr-2">
+            <p>Details for the selected category will be shown here.</p>
+            <p>You might want to load a table or specific list related to the clicked stat card.</p>
+        </div>
+         <div class="mt-5 text-right">
+            <button onclick="closeDashboardModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md text-xs font-medium transition-colors">Close</button>
+        </div>
+    </div>
+</div>
 
-            document.getElementById('modalTitle').textContent = job.jobName;
-            document.getElementById('modalContent').innerHTML = `
-                <p><strong>Company:</strong> ${job.company}</p>
-                <p><strong>Category:</strong> ${job.category}</p>
-                <p><strong>Email:</strong> <a href="mailto:${job.email}" class="text-blue-600 hover:underline">${job.email}</a></p>
-                <p><strong>Status:</strong> <span class="capitalize">${job.status}</span></p>
-                <p><strong>Job ID:</strong> #${job.id.toString().padStart(6, '0')}</p>
-                <div class="mt-4 space-x-2">
-                    ${job.status !== 'approved' ? `<button onclick="updateJobStatus(${job.id}, 'approved')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">Approve</button>` : ''}
-                    ${job.status !== 'rejected' ? `<button onclick="updateJobStatus(${job.id}, 'rejected')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors">Reject</button>` : ''}
-                    ${job.status !== 'pending' && (job.status === 'approved' || job.status === 'rejected') ? `<button onclick="updateJobStatus(${job.id}, 'pending')" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition-colors">Set to Pending</button>` : ''}
-                </div>
-            `;
-            document.getElementById('jobModal').classList.remove('hidden');
-            document.getElementById('jobModal').classList.add('flex');
-        }
+@endsection
 
-        function updateJobStatus(jobId, newStatus) {
-            const jobIndex = jobs.findIndex(j => j.id === jobId);
-            if (jobIndex > -1) {
-                jobs[jobIndex].status = newStatus;
-                updateAllStats(true); // Recalculate and update stats, indicate it's a refresh
-                loadJobs(); // Reload job list which might show different jobs or statuses
-                closeModal();
-                showToast(`Job #${jobId} status updated to ${newStatus}.`);
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+    let statsChartDashboard; // Variabel global untuk chart
+
+    // Data dari PHP untuk chart dan list (disediakan oleh controller)
+    const monthlyApplicationData = @json($monthlyApplicationData);
+    // const recentJobsData = @json($recentJobs); // Sudah di-render di Blade, bisa digunakan jika perlu re-render client-side
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initDashboardChart(monthlyApplicationData);
+        // updateAllStatsDashboard(); // Panggil jika Anda ingin mengupdate stat dari JS juga, tapi sudah di-render Blade
+        // loadRecentJobsDashboard(recentJobsData); // Jika ingin render list dari JS
+    });
+
+    function animateNumber(elementId, targetNumber) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        const duration = 800; // Durasi animasi dalam ms
+        const frameDuration = 1000 / 60; // 60fps
+        const totalFrames = Math.round(duration / frameDuration);
+        let currentFrame = 0;
+        const initialNumber = parseInt(element.textContent.replace(/,/g, '')) || 0;
+        const increment = (targetNumber - initialNumber) / totalFrames;
+
+        function updateNumber() {
+            currentFrame++;
+            const newNumber = Math.round(initialNumber + increment * currentFrame);
+            element.textContent = newNumber.toLocaleString(); // Format dengan koma jika perlu
+            if (currentFrame < totalFrames) {
+                requestAnimationFrame(updateNumber);
+            } else {
+                element.textContent = targetNumber.toLocaleString(); // Pastikan angka akhir tepat
             }
         }
+        requestAnimationFrame(updateNumber);
+        element.classList.add('animate-count-up'); // Tambahkan kelas untuk animasi CSS jika ada
+        setTimeout(() => element.classList.remove('animate-count-up'), duration + 100); // Hapus setelah selesai
+    }
 
-        function closeModal() {
-            document.getElementById('jobModal').classList.add('hidden');
-            document.getElementById('jobModal').classList.remove('flex');
-        }
+    function initDashboardChart(dataValues) {
+        const ctx = document.getElementById('statsChartDashboard')?.getContext('2d');
+        if (!ctx) return;
 
-        function showDetails(type) { // type can be 'total', 'pending', 'approved', 'rejected'
-            const stats = calculateStats();
-            let title = '';
-            let content = '';
-
-            switch (type) {
-                case 'total':
-                    title = 'Total Applications';
-                    content = `<p>Currently, there are <strong>${stats.total}</strong> total job applications in the system.</p>`;
-                    break;
-                case 'pending':
-                    title = 'Pending Applications';
-                    content = `<p>There are <strong>${stats.pending}</strong> applications awaiting review.</p>`;
-                    break;
-                case 'approved':
-                    title = 'Approved Applications';
-                    content = `<p><strong>${stats.approved}</strong> applications have been approved.</p>`;
-                    break;
-                case 'rejected':
-                    title = 'Rejected Applications';
-                    content = `<p><strong>${stats.rejected}</strong> applications have been rejected.</p>`;
-                    break;
-            }
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalContent').innerHTML = content + `<div class="mt-4 bg-gray-50 p-3 rounded">View the respective table/page for more details.</div>`;
-            document.getElementById('jobModal').classList.remove('hidden');
-            document.getElementById('jobModal').classList.add('flex');
-        }
-
-        function refreshData() {
-            const refreshIcon = document.getElementById('refreshIcon');
-            refreshIcon.style.animation = 'spin 1s linear'; // One spin, not infinite
-
-            document.getElementById('statsCards').classList.add('hidden');
-            document.getElementById('loadingState').classList.remove('hidden');
-
-            setTimeout(() => {
-                // Simulate some data changes for demonstration before recalculating
-                if (jobs.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * jobs.length);
-                    const statuses = ['pending', 'approved', 'rejected'];
-                    // Change status of a random job if not already that status
-                    let newStatus = jobs[randomIndex].status;
-                    while (newStatus === jobs[randomIndex].status) {
-                        newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        statsChartDashboard = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Applications',
+                    data: dataValues, // Gunakan data dari controller
+                    borderColor: '#f97316', // orange-500
+                    backgroundColor: 'rgba(249, 115, 22, 0.05)', // Sangat transparan
+                    borderWidth: 2.5,
+                    tension: 0.4,
+                    pointBackgroundColor: '#f97316',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1500, easing: 'easeInOutQuart' },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        cornerRadius: 4,
+                        displayColors: false,
                     }
-                    jobs[randomIndex].status = newStatus;
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(200,200,200,0.1)' },
+                        ticks: { font: {size: 10}, color: '#6b7280' } // gray-500
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: {size: 10}, color: '#6b7280' } // gray-500
+                    }
                 }
-
-                updateAllStats(true); // Recalculate and update stats, indicate it's a refresh
-                loadJobs(); // Reload job list which might show different jobs or statuses
-
-                document.getElementById('loadingState').classList.add('hidden');
-                document.getElementById('statsCards').classList.remove('hidden');
-
-                setTimeout(() => {
-                    refreshIcon.style.animation = '';
-                }, 1000); // Clear animation after it's done
-                showToast('Dashboard data refreshed!');
-            }, 1500);
-        }
-
-        function animateNumber(elementId, targetValue) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            const startValueText = element.textContent.replace(/,/g, '');
-            const startValue = parseInt(startValueText) || 0;
-            const duration = 800; // Slightly faster animation
-            const startTime = performance.now();
-
-            function updateNumber(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-                const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
-                element.textContent = currentValue.toLocaleString();
-                if (progress < 1) requestAnimationFrame(updateNumber);
             }
-            requestAnimationFrame(updateNumber);
-        }
+        });
+    }
 
-        // function startDataUpdates() { /* ... Optional: for periodic auto-refresh ... */ }
-
-        function setActiveTab(tabName) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('bg-white', 'text-orange-500', 'shadow-lg');
-                item.classList.add('bg-orange-300', 'bg-opacity-50', 'text-white');
-            });
-            const activeTab = document.getElementById(`nav-${tabName}`);
-            if (activeTab) {
-                activeTab.classList.remove('bg-orange-300', 'bg-opacity-50', 'text-white');
-                activeTab.classList.add('bg-white', 'text-orange-500', 'shadow-lg');
+    function updateDashboardChart() {
+        const year = document.getElementById('yearFilterDashboard').value;
+        // Di sini Anda perlu logika untuk mengambil data baru berdasarkan tahun (misalnya via AJAX)
+        // Untuk demo, kita akan menggunakan data acak atau data yang sama
+        showToastDashboard(`Fetching data for ${year}...`, 'info');
+        // Simulasi pengambilan data
+        setTimeout(() => {
+            const newData = Array.from({length: 12}, () => Math.floor(Math.random() * 100)); // Data acak baru
+            if (statsChartDashboard) {
+                statsChartDashboard.data.datasets[0].data = newData;
+                statsChartDashboard.update();
+                showToastDashboard(`Chart updated for ${year}.`, 'success');
             }
-            // Add logic here to change main content view based on tab if this dashboard is meant to be multi-page
-            // For example, if 'processed' tab should show a table like in processed.blade.php
-            if (tabName === 'processed') {
-                // Potentially redirect or load the content of processed.blade.php here
-                // For now, just a console log
-                console.log("Navigating to Processed view (not implemented in this single page dashboard version)");
-                // window.location.href = '/path-to-processed-page'; // If it's a separate page
-            }
-        }
+        }, 1000);
+    }
 
-        function showAllJobs() {
-            // This function should ideally navigate to a page that lists all jobs,
-            // similar to what processed.blade.php does.
-            // setActiveTab('processed'); // Visually activate the tab
-            showToast('Navigating to full job list (Processed Page)...');
-            // If processed.blade.php is a separate HTML page, you would redirect:
-            // window.location.href = 'processed.html'; // Or the correct path
-            console.log("Attempting to show all jobs - ideally navigates to a 'Processed' type view/page.");
-        }
+    function refreshDashboardData() {
+        // Idealnya, ini akan memicu pengambilan data baru dari server dan memperbarui semua elemen
+        showToastDashboard('Refreshing dashboard data...', 'info');
+        // Simulasi:
+        setTimeout(() => {
+            // Anda akan mengganti ini dengan logika untuk mengambil dan memperbarui $stats, $monthlyApplicationData, $recentJobs
+            // dari controller, lalu merender ulang bagian yang relevan atau seluruh halaman.
+            // Untuk demo client-side, kita bisa panggil updateAllStatsDashboard() jika ada data baru.
+            // Atau reload halaman:
+            window.location.reload();
+        }, 1200);
+    }
 
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
-        document.head.appendChild(styleSheet);
+    function showDetails(category) {
+        // Fungsi ini bisa digunakan untuk menampilkan detail lebih lanjut di modal
+        const modal = document.getElementById('jobModalDashboard');
+        const modalTitle = document.getElementById('modalTitleDashboard');
+        const modalContent = document.getElementById('modalContentDashboard');
+        const modalContentContainer = document.getElementById('jobModalDashboardContent');
 
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50';
-            toast.textContent = message;
+
+        modalTitle.textContent = `Details for ${category.charAt(0).toUpperCase() + category.slice(1)} Applications`;
+        // Di sini Anda akan mengisi modalContent dengan data yang relevan
+        // Misalnya, daftar pekerjaan yang pending, approved, dll.
+        modalContent.innerHTML = `<p>Showing details for <strong>${category}</strong> applications. Implement data loading here.</p>
+                                  <p class="mt-2 text-xs text-gray-400">This is a placeholder. You would typically fetch and display a list or more detailed statistics related to '${category}'.</p>`;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => modalContentContainer.classList.add('scale-100'), 20); // Untuk animasi
+    }
+
+    function closeDashboardModal() {
+        const modal = document.getElementById('jobModalDashboard');
+        const modalContentContainer = document.getElementById('jobModalDashboardContent');
+        modalContentContainer.classList.remove('scale-100'); // Untuk animasi
+        setTimeout(() => modal.classList.add('hidden'), 250);
+    }
+
+    // Toast function khusus untuk dashboard jika perlu
+    function showToastDashboard(message, type = 'info') {
+        const toastId = 'dashboardToast';
+        let toast = document.getElementById(toastId);
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = toastId;
+            toast.className = 'fixed top-5 right-5 text-white px-5 py-3 rounded-lg shadow-xl transform translate-x-[120%] transition-transform duration-300 ease-out z-[70] text-sm';
             document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('translate-x-full');
-            }, 10);
-            setTimeout(() => {
-                toast.classList.add('translate-x-full');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
         }
-    </script>
-</body>
 
-</html>
+        toast.textContent = message;
+        toast.classList.remove('bg-blue-500', 'bg-green-600', 'bg-red-600', 'translate-x-[120%]');
+
+        if (type === 'success') toast.classList.add('bg-green-600');
+        else if (type === 'error') toast.classList.add('bg-red-600');
+        else toast.classList.add('bg-blue-500'); // Default info
+
+        toast.classList.add('translate-x-0'); // Show
+
+        setTimeout(() => {
+            toast.classList.remove('translate-x-0');
+            toast.classList.add('translate-x-[120%]'); // Hide
+        }, 3000);
+    }
+
+</script>
+@endpush
