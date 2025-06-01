@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\ApprovedController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\JobController;
-
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProcessedController;
+use App\Http\Controllers\Admin\RejectedController;
 
 Route::get('/', [JobController::class, 'overview'])->name('overview');
 
@@ -74,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('dashboard');
         // Misalnya, route untuk halaman processed di admin
         Route::get('processed', [ProcessedController::class, 'index'])->name('processed');
+        Route::get('approved', [ApprovedController::class, 'index'])->name('approved');
+        Route::get('rejected', [RejectedController::class, 'index'])->name('rejected');
         Route::patch('lowongan/{lowongan}/update-status', [ProcessedController::class, 'updateStatus'])->name('processed.update_status');
         Route::get('lowongan/{lowongan}/detail', [ProcessedController::class, 'show'])->name('lowongan.show_detail');
     });

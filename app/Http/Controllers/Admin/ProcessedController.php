@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProcessedController extends Controller
 {
-    /**
-     * Menampilkan halaman data yang akan diproses/dikelola dengan daftar lowongan.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function index()
     {
         $lowonganList = Lowongan::whereIn('status', ['pending'])
@@ -26,13 +22,7 @@ class ProcessedController extends Controller
         return view('admin.processed', compact('lowonganList'));
     }
 
-    /**
-     * Mengupdate status lowongan (misalnya Approve/Reject).
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lowongan  $lowongan  (Route Model Binding)
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function updateStatus(Request $request, Lowongan $lowongan)
     {
         // Log data yang diterima dari request
@@ -87,16 +77,9 @@ class ProcessedController extends Controller
         }
     }
 
-    /**
-     * Menampilkan detail lowongan (opsional, jika Anda punya tombol Detail).
-     *
-     * @param  \App\Models\Lowongan  $lowongan
-     * @return \Illuminate\View\View
-     */
+    //Detail Job
     public function show(Lowongan $lowongan)
     {
-        // Anda bisa membuat view detail terpisah jika diperlukan
-        // misalnya 'admin.lowongan_detail'
         return view('admin.lowongan_detail', compact('lowongan'));
     }
 }
