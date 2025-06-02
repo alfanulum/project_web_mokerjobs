@@ -8,17 +8,31 @@
 @source "..//*.blade.php";
 @source "..//.js";
 @source "../**/.vue";
-
+/* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
+/* Theme Configuration */
 @theme {
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 }
 
+/* Custom Utilities */
 @layer utilities {
     .font-poppins {
         font-family: "Poppins", sans-serif;
+    }
+
+    /* Custom styles untuk contenteditable lists */
+    ol.list-decimal {
+        list-style-type: decimal;
+        padding-left: 1.5rem; /* Sama dengan pl-6 */
+    }
+
+    /* Untuk browser yang membutuhkan lebih banyak kontrol */
+    [contenteditable] ol {
+        list-style-type: decimal !important;
+        padding-left: 1.5rem !important;
     }
 }

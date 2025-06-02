@@ -10,35 +10,49 @@ class HtmlHelper
       return '';
     }
 
-    // Daftar tag yang diizinkan (tambahkan ol dan li)
-    $allowedTags = '<p><div><br><ul><ol><li><strong><em><b><i><u><span>';
+    // Daftar tag yang diizinkan
+    $allowedTags = '<p><div><br><ul><ol><li><strong><em><b><i><u><span><h1><h2><h3><h4><h5><h6>';
 
     // Konversi style alignment ke class Tailwind
     $html = self::convertAlignmentToTailwind($html);
 
-    // Strip tags dan pertahankan yang diizinkan
+    // Bersihkan HTML dan pertahankan yang diizinkan
     $cleanHtml = strip_tags($html, $allowedTags);
 
     // Perbaiki tag yang tidak tertutup
     $cleanHtml = self::closeTags($cleanHtml);
 
+    // Konversi style list ke class Tailwind
+    $cleanHtml = self::convertListStyles($cleanHtml);
+
     return $cleanHtml;
   }
-
 
   private static function convertAlignmentToTailwind($html)
   {
     // Konversi style text-align ke class Tailwind
+    $patterns = [
+      '/style="text-align:\s*(left|right|center|justify);?"/i' => 'class="text-$1"',
+      '/style="margin-left:\s*(\d+)px;?"/i' => 'class="ml-$1"',
+      '/<p\s+([^>]*)align="(left|right|center|justify)"([^>]*)>/i' => '<p $1class="text-$2"$3>'
+    ];
+
+    return preg_replace(array_keys($patterns), array_values($patterns), $html);
+  }
+
+  private static function convertListStyles($html)
+  {
+    // Konversi list-style-type untuk unordered lists
     $html = preg_replace(
-      '/style="text-align:\s*(left|right|center|justify);?"/i',
-      'class="text-$1"',
+      '/<ul\s+([^>]*)style="list-style-type:\s*(disc|circle|square);?"([^>]*)>/i',
+      '<ul $1class="list-$2"$3>',
       $html
     );
 
-    // Konversi indentasi (margin-left) ke class Tailwind
+    // Konversi list-style-type untuk ordered lists
     $html = preg_replace(
-      '/style="margin-left:\s*(\d+)px;?"/i',
-      'class="ml-$1"',
+      '/<ol\s+([^>]*)style="list-style-type:\s*(decimal|lower-roman|upper-roman|lower-alpha|upper-alpha);?"([^>]*)>/i',
+      '<ol $1class="list-$2"$3>',
       $html
     );
 
