@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Panel') - {{ config('app.name', 'maker.jobs') }}</title>
+    <title>@yield('title', 'Admin Panel') - {{ config('app.name', 'moker.jobs') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -83,7 +83,7 @@
         <aside class="w-64 bg-orange-500 text-white p-5 shadow-xl fixed top-0 left-0 h-full overflow-y-auto custom-scrollbar flex flex-col sidebar-animate z-40">
             <div class="mb-8 text-center pt-2">
                 <a href="{{ route('admin.dashboard') }}" class="text-white text-2xl font-bold hover:opacity-80 transition-opacity duration-200 inline-block">
-                    maker.jobs
+                    moker.jobs
                 </a>
                 <div class="w-20 h-0.5 bg-white opacity-70 mx-auto mt-2 rounded-full"></div>
             </div>
