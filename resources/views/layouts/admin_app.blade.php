@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Panel') - {{ config('app.name', 'maker.jobs') }}</title>
+    <title>@yield('title', 'Admin Panel') - {{ config('app.name', 'moker.jobs') }}</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -83,7 +83,7 @@
         <aside class="w-64 bg-orange-500 text-white p-5 shadow-xl fixed top-0 left-0 h-full overflow-y-auto custom-scrollbar flex flex-col sidebar-animate z-40">
             <div class="mb-8 text-center pt-2">
                 <a href="{{ route('admin.dashboard') }}" class="text-white text-2xl font-bold hover:opacity-80 transition-opacity duration-200 inline-block">
-                    maker.jobs
+                    moker.jobs
                 </a>
                 <div class="w-20 h-0.5 bg-white opacity-70 mx-auto mt-2 rounded-full"></div>
             </div>
@@ -103,14 +103,14 @@
                     </svg>
                     <span>Processed</span>
                 </a>
-                <a href="{{ route('admin.approved') }}" id="nav-approved" {{-- Ganti dengan route yang benar --}}
+                <a href="{{ route('admin.approved') }}" id="nav-approved" 
                     class="nav-item group flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200 transform hover:scale-[1.02]">
                     <svg class="w-5 h-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                     </svg>
                     <span>Approved</span>
                 </a>
-                <a href="{{ route('admin.rejected') }}" id="nav-rejected" {{-- Ganti dengan route yang benar --}}
+                <a href="{{ route('admin.rejected') }}" id="nav-rejected" 
                     class="nav-item group flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200 transform hover:scale-[1.02]">
                     <svg class="w-5 h-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -119,31 +119,6 @@
                 </a>
                 {{-- Tambahkan link navigasi admin lainnya di sini --}}
             </nav>
-
-            <div class="mt-auto mb-6 rounded-lg p-4 space-y-3"> {{-- Penyesuaian padding dan spasi --}}
-                <h3 class="text-base font-semibold text-white opacity-90 mb-3">Quick Stats</h3> {{-- Styling judul --}}
-
-                <div class="flex justify-between items-center text-sm">
-                    <span class="text-orange-100 opacity-80">Total Jobs:</span> {{-- Styling label --}}
-                    <span id="totalJobsStat" class="font-semibold text-white">
-                        {{ $totalJobsCountGlobal ?? 0 }}
-                    </span>
-                </div>
-
-                <div class="flex justify-between items-center text-sm">
-                    <span class="text-orange-100 opacity-80">Approved:</span> {{-- Styling label --}}
-                    <span id="approvedJobsStat" class="font-semibold text-green-200"> {{-- Warna angka disesuaikan --}}
-                        {{ $approvedJobsCountGlobal ?? 0 }}
-                    </span>
-                </div>
-
-                <div class="flex justify-between items-center text-sm">
-                    <span class="text-orange-100 opacity-80">Rejected:</span> {{-- Styling label --}}
-                    <span id="rejectedJobsStat" class="font-semibold text-red-200"> {{-- Warna angka disesuaikan --}}
-                        {{ $rejectedJobsCountGlobal ?? 0 }}
-                    </span>
-                </div>
-            </div>
 
             @auth('admin') {{-- Sesuaikan dengan guard admin Anda --}}
             <div class="mt-4 border-t border-orange-400 border-opacity-50 pt-4">
@@ -167,60 +142,8 @@
         </div>
     </div>
 
-    @stack('scripts') {{-- Untuk menambahkan JavaScript spesifik per halaman --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-item');
-            let homePath = "{{ route('admin.dashboard') }}"; // Ambil path route home
-            let homePathname = new URL(homePath).pathname;
-
-
-            navLinks.forEach(link => {
-                const linkPath = new URL(link.href).pathname;
-                link.classList.remove('active'); // Hapus dulu semua kelas aktif
-
-                if (currentPath === linkPath) {
-                    link.classList.add('active');
-                } else if (link.id === 'nav-home' && currentPath.startsWith(homePathname) && homePathname !== '/') {
-                    let moreSpecificActive = false;
-                    navLinks.forEach(otherLink => {
-                        if (otherLink.id !== 'nav-home') {
-                            const otherLinkPath = new URL(otherLink.href).pathname;
-                            if (currentPath === otherLinkPath || (currentPath.startsWith(otherLinkPath) && otherLinkPath !== '/')) {
-                                moreSpecificActive = true;
-                            }
-                        }
-                    });
-                    if (!moreSpecificActive) {
-                        link.classList.add('active');
-                    }
-                }
-            });
-
-            let activeLinks = document.querySelectorAll('.nav-item.active');
-            if (activeLinks.length > 1) {
-                let mostSpecificLink = null;
-                let longestPath = 0;
-                activeLinks.forEach(link => {
-                    const linkPath = new URL(link.href).pathname;
-                    if (linkPath.length > longestPath) {
-                        longestPath = linkPath.length;
-                        mostSpecificLink = link;
-                    }
-                });
-                activeLinks.forEach(link => {
-                    if (link !== mostSpecificLink) {
-                        link.classList.remove('active');
-                    }
-                });
-            }
-            if (document.querySelectorAll('.nav-item.active').length === 0 && (currentPath === homePathname || (currentPath.startsWith(homePathname + '/') && homePathname !== '/'))) {
-                const homeLink = document.getElementById('nav-home');
-                if (homeLink) homeLink.classList.add('active');
-            }
-        });
-    </script>
+    
+   
 </body>
 
 </html>
