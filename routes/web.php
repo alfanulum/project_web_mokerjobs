@@ -69,9 +69,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Rute yang dilindungi (membutuhkan login admin)
     Route::middleware('auth:admin')->group(function () {
         // Ganti dengan controller dashboard admin Anda
-        Route::get('dashboard', function () {
-            return view('admin.dashboard'); // Contoh view dashboard
-        })->name('dashboard');
+        // routes/web.php
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         // Misalnya, route untuk halaman processed di admin
         Route::get('processed', [ProcessedController::class, 'index'])->name('processed');
         Route::get('approved', [ApprovedController::class, 'index'])->name('approved');
