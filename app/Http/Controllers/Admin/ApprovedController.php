@@ -14,6 +14,6 @@ class ApprovedController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.processed', compact('lowonganList'));
+        return view('admin.approved', compact('lowonganList'));
     }
 }

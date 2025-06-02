@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-semibold mb-6 text-gray-700">Daftar Ajuan Lowongan (Approved)</h1>
+    <h1 class="text-2xl font-semibold mb-6 text-gray-700">Daftar Ajuan Lowongan (Approve)</h1>
 
     {{-- Menampilkan pesan sukses atau error dari session --}}
     @if(session('success'))

@@ -1,4 +1,4 @@
-@extends('layouts.admin_app')
+@extends('layouts.admin_app') {{-- Sesuaikan dengan layout admin utama Anda --}}
 
 @section('title', 'Pengelolaan Ajuan Lowongan')
 
@@ -6,7 +6,7 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-semibold mb-6 text-gray-700">Daftar Ajuan Lowongan (Rejected)</h1>
 
-
+    {{-- Menampilkan pesan sukses atau error dari session --}}
     @if(session('success'))
     <div class="bg-green-500 text-white p-4 rounded mb-4 shadow-md" role="alert">
         {{ session('success') }}
@@ -62,7 +62,7 @@
                             </form>
                             @endif
 
-
+                            {{-- Form untuk Reject --}}
                             @if($lowongan->status != 'decline')
                             <form action="{{ route('admin.processed.update_status', $lowongan->id) }}" method="POST" class="inline-block">
                                 @csrf
