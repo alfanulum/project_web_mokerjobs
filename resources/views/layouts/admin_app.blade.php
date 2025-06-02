@@ -20,63 +20,30 @@
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <style>
-        /* Custom scrollbar untuk sidebar jika kontennya panjang */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            /* Lebih terang agar kontras dengan bg-orange-500 */
-            border-radius: 10px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.4);
-            /* Lebih terang */
-            border-radius: 10px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.6);
-            /* Lebih terang */
-        }
-
-        /* Animasi untuk sidebar jika diperlukan */
-        @keyframes slideInFromLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .sidebar-animate {
-            animation: slideInFromLeft 0.3s ease-out forwards;
-        }
-
-        /* Styling untuk active nav item */
-        .nav-item.active {
-            background-color: white !important;
-            color: #F97316 !important;
-            /* Tailwind orange-500 */
-            font-weight: 600;
-            /* semibold */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .nav-item.active svg {
-            color: #F97316 !important;
-            /* Tailwind orange-500 */
-        }
+        /* ... CSS kustom Anda ... */
     </style>
     @stack('styles') {{-- Untuk menambahkan CSS spesifik per halaman --}}
 </head>
+
+<body class="font-sans antialiased bg-slate-50"> {{-- Latar belakang utama seperti di gambar --}}
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-orange-500 text-white p-5 shadow-xl fixed top-0 left-0 h-full overflow-y-auto custom-scrollbar flex flex-col sidebar-animate z-40">
+            {{-- ... Konten sidebar Anda ... --}}
+        </aside>
+
+        <div class="flex-1 ml-64"> {{-- ml-64 untuk memberi ruang bagi sidebar --}}
+            <main class="py-8 px-4 sm:px-6 lg:px-8">
+                @yield('content')
+            </main>
+        </div>
+    </div>
+
+    {{-- Tambahkan ini untuk memuat skrip yang di-push dari child view --}}
+    @stack('scripts')
+
+</body>
+
+</html>
 
 <body class="font-sans antialiased bg-slate-50"> {{-- Latar belakang utama seperti di gambar --}}
     <div class="flex min-h-screen">
