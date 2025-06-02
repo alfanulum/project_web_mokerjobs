@@ -15,7 +15,7 @@ class JobController extends Controller
 {
     public function overview(Request $request)
     {
-        $query = Lowongan::query();
+        $query = Lowongan::where('status', 'accept'); // Hanya tampilkan yang statusnya 'accept'
 
         // General search
         if ($request->filled('search')) {
@@ -48,15 +48,19 @@ class JobController extends Controller
         // Paginate results
         $jobs = $this->paginate($allJobs, 3, $request);
 
-        // Get unique locations for dropdown
-        $locations = Lowongan::select('location')->distinct()->pluck('location')->toArray();
+        // Get unique locations for dropdown (hanya yang statusnya 'accept')
+        $locations = Lowongan::where('status', 'accept')
+            ->select('location')
+            ->distinct()
+            ->pluck('location')
+            ->toArray();
 
         return view('overview', compact('jobs', 'locations'));
     }
 
     public function findJob(Request $request)
     {
-        $query = Lowongan::query();
+        $query = Lowongan::where('status', 'accept'); // Hanya tampilkan yang statusnya 'accept'
 
         // General search
         if ($request->filled('search')) {
@@ -107,12 +111,12 @@ class JobController extends Controller
 
         $jobs = $this->paginate($allJobs, 8, $request);
 
-        // Get filter options
-        $categories = $this->getFilterOptions('category_job');
-        $locations = $this->getFilterOptions('location');
-        $jobTypes = $this->getFilterOptions('job_type');
-        $workTypes = $this->getFilterOptions('place_work');
-        $educations = $this->getFilterOptions('education_minimal');
+        // Get filter options (hanya yang statusnya 'accept')
+        $categories = $this->getFilterOptions('category_job', 'accept');
+        $locations = $this->getFilterOptions('location', 'accept');
+        $jobTypes = $this->getFilterOptions('job_type', 'accept');
+        $workTypes = $this->getFilterOptions('place_work', 'accept');
+        $educations = $this->getFilterOptions('education_minimal', 'accept');
 
         return view('find_job', compact(
             'jobs',
@@ -123,7 +127,6 @@ class JobController extends Controller
             'educations'
         ));
     }
-
 
 
     // In JobController.php
@@ -379,14 +382,12 @@ class JobController extends Controller
         DB::beginTransaction();
 
         try {
-            // Validate the request
             $request->validate([
                 'job_data' => 'required|json'
             ]);
 
             $jobData = json_decode($request->job_data, true, 512, JSON_THROW_ON_ERROR);
 
-            // Create the job
             $lowongan = Lowongan::create([
                 'job_name' => $jobData['step1']['job_name'] ?? null,
                 'job_type' => $jobData['step1']['job_type'] ?? null,
@@ -411,9 +412,9 @@ class JobController extends Controller
                 'no_wa_company' => $jobData['step5']['no_wa_company'] ?? null,
                 'social_media_company' => $jobData['step5']['social_media_company'] ?? null,
                 'delivery_limit' => $jobData['step5']['delivery_limit'] ?? null,
+                'status' => 'pending', // Pastikan status default adalah pending
             ]);
 
-            // Clear session
             $request->session()->forget([
                 'job_step1',
                 'job_step2',
@@ -513,7 +514,8 @@ class JobController extends Controller
 
     private function getFilterOptions($column)
     {
-        return Lowongan::select($column)
+        return Lowongan::where('status', 'accept') // Hanya ambil data dengan status 'accept'
+            ->select($column)
             ->distinct()
             ->orderBy($column)
             ->get()
@@ -524,8 +526,15 @@ class JobController extends Controller
                 return [
                     'label' => $originalValue, // Original value for display
                     'value' => $transformedValue, // Transformed value for form submission
-                    'count' => Lowongan::where($column, $originalValue)->count(),
+                    'count' => Lowongan::where('status', 'accept') // Hitung hanya yang status 'accept'
+                        ->where($column, $originalValue)
+                        ->count(),
                 ];
-            })->toArray();
+            })
+            ->filter(function ($item) {
+                return !empty($item['label']); // Filter out empty values
+            })
+            ->values()
+            ->toArray();
     }
 }
