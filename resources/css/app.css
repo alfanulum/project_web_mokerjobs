@@ -10,6 +10,7 @@
 @source "../**/.vue";
 /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap");
 
 /* Theme Configuration */
 @theme {
@@ -22,6 +23,10 @@
 @layer utilities {
     .font-poppins {
         font-family: "Poppins", sans-serif;
+    }
+
+    .font-figtree {
+        font-family: "Figtree", sans-serif;
     }
 
     /* Custom styles untuk contenteditable lists */
