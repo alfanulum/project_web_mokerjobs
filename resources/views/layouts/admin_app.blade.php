@@ -10,42 +10,58 @@
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script> {{-- Pastikan Tailwind CSS dimuat --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    {{-- Jika Anda menggunakan Vite (default di Laravel baru) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Atau jika Anda menggunakan Laravel Mix atau link CSS manual --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-
     <style>
-        /* ... CSS kustom Anda ... */
+        /* Custom scrollbar untuk sidebar jika kontennya panjang */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animasi untuk sidebar jika diperlukan */
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .sidebar-animate {
+            animation: slideInFromLeft 0.3s ease-out forwards;
+        }
+
+        /* Styling untuk active nav item */
+        .nav-item.active {
+            background-color: white !important;
+            color: #F97316 !important; /* Tailwind orange-500 */
+            font-weight: 600; /* semibold */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-item.active svg {
+            color: #F97316 !important; /* Tailwind orange-500 */
+        }
     </style>
     @stack('styles') {{-- Untuk menambahkan CSS spesifik per halaman --}}
 </head>
 
-<body class="font-sans antialiased bg-slate-50"> {{-- Latar belakang utama seperti di gambar --}}
-    <div class="flex min-h-screen">
-        <aside class="w-64 bg-orange-500 text-white p-5 shadow-xl fixed top-0 left-0 h-full overflow-y-auto custom-scrollbar flex flex-col sidebar-animate z-40">
-            {{-- ... Konten sidebar Anda ... --}}
-        </aside>
-
-        <div class="flex-1 ml-64"> {{-- ml-64 untuk memberi ruang bagi sidebar --}}
-            <main class="py-8 px-4 sm:px-6 lg:px-8">
-                @yield('content')
-            </main>
-        </div>
-    </div>
-
-    {{-- Tambahkan ini untuk memuat skrip yang di-push dari child view --}}
-    @stack('scripts')
-
-</body>
-
-</html>
-
-<body class="font-sans antialiased bg-slate-50"> {{-- Latar belakang utama seperti di gambar --}}
+<body class="font-sans antialiased bg-slate-50">
     <div class="flex min-h-screen">
         <aside class="w-64 bg-orange-500 text-white p-5 shadow-xl fixed top-0 left-0 h-full overflow-y-auto custom-scrollbar flex flex-col sidebar-animate z-40">
             <div class="mb-8 text-center pt-2">
@@ -88,7 +104,7 @@
             </nav>
 
             @auth('admin') {{-- Sesuaikan dengan guard admin Anda --}}
-            <div class="mt-4 border-t border-orange-400 border-opacity-50 pt-4">
+            <div class="mt-auto border-t border-orange-400 border-opacity-50 pt-4 pb-2"> {{-- pb-2 untuk sedikit padding di bawah logout --}}
                 <form method="POST" action="{{ route('admin.logout') }}"> {{-- Pastikan route admin.logout ada --}}
                     @csrf
                     <button type="submit" class="group w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200">
@@ -102,15 +118,13 @@
             @endauth
         </aside>
 
-        <div class="flex-1 ml-64"> {{-- ml-64 untuk memberi ruang bagi sidebar --}}
+        <div class="flex-1 ml-64">
             <main class="py-8 px-4 sm:px-6 lg:px-8">
-                @yield('content')
+                @yield('content') {{-- Hanya satu @yield('content') --}}
             </main>
         </div>
     </div>
 
-    
-   
+    @stack('scripts') {{-- Pastikan ini ada dan hanya satu kali sebelum </body> --}}
 </body>
-
 </html>
