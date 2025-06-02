@@ -1,6 +1,7 @@
 @extends('layouts.app')
+
 @section('content')
-    <div class="min-h-screen bg-[#F9F9F9] py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-poppins relative overflow-hidden">
         <div
             class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full border-55 border-gray-300 opacity-25 pointer-events-none z-0">
         </div>
@@ -29,89 +30,10 @@
                 <div class="mb-6">
                     <label for="job_description" class="block font-semibold text-black mb-2">Deskripsi Pekerjaan</label>
                     <div class="relative">
-                        <!-- Toolbar -->
-                        <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
-                            <!-- Bold -->
-                            <button type="button" onclick="formatText('job_description_editor', 'bold')"
-                                class="p-1 hover:bg-orange-600" title="Tebal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 3.633h1.89c1.384 0 2.085.935 2.085 2.239 0 1.315-1.164 2.11-2.72 2.11H5.907V8.307z" />
-                                </svg>
-                            </button>
-
-                            <!-- Italic -->
-                            <button type="button" onclick="formatText('job_description_editor', 'italic')"
-                                class="p-1 hover:bg-orange-600" title="Miring">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
-                                </svg>
-                            </button>
-
-                            <!-- Align Left -->
-                            <button type="button" onclick="formatText('job_description_editor', 'justifyLeft')"
-                                class="p-1 hover:bg-orange-600" title="Rata Kiri">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Center -->
-                            <button type="button" onclick="formatText('job_description_editor', 'justifyCenter')"
-                                class="p-1 hover:bg-orange-600" title="Rata Tengah">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Align Right -->
-                            <button type="button" onclick="formatText('job_description_editor', 'justifyRight')"
-                                class="p-1 hover:bg-orange-600" title="Rata Kanan">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Indent Left (←) -->
-                            <button type="button" onclick="formatText('job_description_editor', 'outdent')"
-                                class="p-1 hover:bg-orange-600" title="Kurangi Indentasi">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M5.854 4.146a.5.5 0 0 1 0 .708L2.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0z" />
-                                    <path fill-rule="evenodd" d="M2 8.5h11a.5.5 0 0 0 0-1H2a.5.5 0 0 0 0 1z" />
-                                </svg>
-                            </button>
-
-                            <!-- Indent Right (→) -->
-                            <button type="button" onclick="formatText('job_description_editor', 'indent')"
-                                class="p-1 hover:bg-orange-600" title="Tambah Indentasi">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M10.146 4.146a.5.5 0 0 1 .708 0l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L13.293 8l-3.147-3.146a.5.5 0 0 1 0-.708z" />
-                                    <path fill-rule="evenodd" d="M14 8.5H3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- Editable Content -->
-                        <div id="job_description_editor" contenteditable="true"
-                            class="w-full border-none rounded-none h-32 p-4 bg-white shadow-inner resize-none focus:outline-none overflow-auto"
-                            oninput="syncContent('job_description')">{!! old('job_description', $step3['job_description'] ?? '') !!}</div>
-
-                        <!-- Hidden input to store the real value -->
-                        <input type="hidden" id="job_description" name="job_description"
-                            value="{{ old('job_description', $step3['job_description'] ?? '') }}">
+                        <textarea id="job_description" name="job_description" class="hidden">
+                            {{ old('job_description', $step3['job_description'] ?? '') }}
+                        </textarea>
+                        <div id="job_description_editor" class="ckeditor-container"></div>
                     </div>
                     @error('job_description')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -122,95 +44,15 @@
                 <div class="mb-6">
                     <label for="job_requirements" class="block font-semibold text-black mb-2">Persyaratan Pekerjaan</label>
                     <div class="relative">
-                        <!-- Toolbar (same as above) -->
-                        <div class="bg-orange-500 text-white text-sm px-4 py-1 flex flex-wrap gap-2 items-center">
-                            <!-- Bold -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'bold')"
-                                class="p-1 hover:bg-orange-600" title="Tebal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 3.633h1.89c1.384 0 2.085.935 2.085 2.239 0 1.315-1.164 2.11-2.72 2.11H5.907V8.307z" />
-                                </svg>
-                            </button>
-
-                            <!-- Italic -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'italic')"
-                                class="p-1 hover:bg-orange-600" title="Miring">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path
-                                        d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
-                                </svg>
-                            </button>
-
-                            <!-- Align Left -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyLeft')"
-                                class="p-1 hover:bg-orange-600" title="Rata Kiri">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Center -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyCenter')"
-                                class="p-1 hover:bg-orange-600" title="Rata Tengah">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Align Right -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'justifyRight')"
-                                class="p-1 hover:bg-orange-600" title="Rata Kanan">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                                </svg>
-                            </button>
-
-                            <!-- Indent Left (←) -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'outdent')"
-                                class="p-1 hover:bg-orange-600" title="Kurangi Indentasi">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M5.854 4.146a.5.5 0 0 1 0 .708L2.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0z" />
-                                    <path fill-rule="evenodd" d="M2 8.5h11a.5.5 0 0 0 0-1H2a.5.5 0 0 0 0 1z" />
-                                </svg>
-                            </button>
-
-                            <!-- Indent Right (→) -->
-                            <button type="button" onclick="formatText('job_requirements_editor', 'indent')"
-                                class="p-1 hover:bg-orange-600" title="Tambah Indentasi">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M10.146 4.146a.5.5 0 0 1 .708 0l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L13.293 8l-3.147-3.146a.5.5 0 0 1 0-.708z" />
-                                    <path fill-rule="evenodd" d="M14 8.5H3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1z" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- Editable Content -->
-                        <div id="job_requirements_editor" contenteditable="true"
-                            class="w-full border-none rounded-none h-32 p-4 bg-white shadow-inner resize-none focus:outline-none overflow-auto"
-                            oninput="syncContent('job_requirements')">{!! old('job_requirements', $step3['job_requirements'] ?? '') !!}</div>
-
-                        <!-- Hidden input to store the real value -->
-                        <input type="hidden" id="job_requirements" name="job_requirements"
-                            value="{{ old('job_requirements', $step3['job_requirements'] ?? '') }}">
+                        <textarea id="job_requirements" name="job_requirements" class="hidden">
+                            {{ old('job_requirements', $step3['job_requirements'] ?? '') }}
+                        </textarea>
+                        <div id="job_requirements_editor" class="ckeditor-container"></div>
                     </div>
                     @error('job_requirements')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-
 
                 <!-- Location -->
                 <div class="mb-6">
@@ -254,7 +96,6 @@
                             <input id="salary_minimal" type="text" name="salary_minimal"
                                 class="w-full border-none outline-none" placeholder="Gaji Minimum"
                                 value="{{ old('salary_minimal', $step3['salary_minimal'] ?? '') }}">
-
                         </div>
                     </div>
                     <div class="relative">
@@ -264,125 +105,223 @@
                             <input id="maximum_salary" type="text" name="maximum_salary"
                                 class="w-full border-none outline-none" placeholder="Gaji Maksimum"
                                 value="{{ old('maximum_salary', $step3['maximum_salary'] ?? '') }}">
-
                         </div>
                     </div>
-
+                </div>
             </form>
         </div>
-    </div>
-    <!-- NAVIGATION BUTTONS -->
-    <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <div class="flex justify-between">
-            <a href="{{ route('form_postjob_step2') }}"
-                class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                ← Sebelumnya
-            </a>
-            <button type="submit" form="main-form"
-                class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
-                Selanjutnya →
-            </button>
+
+
+        <!-- NAVIGATION BUTTONS -->
+        <div class="max-w-8x1 mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div class="flex justify-between">
+                <a href="{{ route('form_postjob_step2') }}"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    ← Sebelumnya
+                </a>
+                <button type="submit" form="main-form"
+                    class="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-full text-sm font-semibold transition">
+                    Selanjutnya →
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Add CKEditor script -->
+    <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@41.3.1/build/ckeditor.js"></script>
+    <style>
+        .ckeditor-container {
+            min-height: 200px;
+        }
+
+        .ck-editor__editable {
+            min-height: 200px;
+            border: 1px solid #f59e0b !important;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .ck-toolbar {
+            border: 1px solid #f59e0b !important;
+            border-bottom: none !important;
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+            background-color: #f97316 !important;
+        }
+
+        .ck-toolbar__separator {
+            background-color: #fff !important;
+        }
+
+        /* Button styling */
+        .ck-button {
+            color: white !important;
+        }
+
+        .ck-button:hover {
+            background-color: #ea580c !important;
+        }
+
+        /* Active/selected button styling */
+        .ck-button.ck-on {
+            background-color: #ea580c !important;
+            color: white !important;
+        }
+
+        /* Heading dropdown text color */
+        .ck-heading-dropdown .ck-button__label {
+            color: black !important;
+        }
+
+        /* Dropdown panel styling */
+        .ck-dropdown__panel {
+            background-color: white !important;
+            border: 1px solid #f59e0b !important;
+        }
+
+        /* Dropdown items styling */
+        .ck-list__item .ck-button {
+            color: black !important;
+        }
+
+        .ck-list__item .ck-button:hover {
+            background-color: #fef3c7 !important;
+            color: black !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 
     <script>
+        // Initialize CKEditor
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cek apakah CKEditor terload
+            if (typeof ClassicEditor === 'undefined') {
+                console.error('CKEditor tidak terload!');
+                // Fallback ke textarea biasa
+                document.querySelectorAll('.ckeditor-container').forEach(el => {
+                    el.style.display = 'none';
+                    const textarea = document.getElementById(el.previousElementSibling.id);
+                    textarea.classList.remove('hidden');
+                    textarea.style.display = 'block';
+                });
+                return;
+            }
+
+            const editors = [{
+                    id: 'job_description_editor',
+                    inputId: 'job_description',
+                    placeholder: 'Masukkan deskripsi pekerjaan...'
+                },
+                {
+                    id: 'job_requirements_editor',
+                    inputId: 'job_requirements',
+                    placeholder: 'Masukkan persyaratan pekerjaan...'
+                }
+            ];
+
+            editors.forEach(config => {
+                const container = document.querySelector(`#${config.id}`);
+                const textarea = document.getElementById(config.inputId);
+
+                // Cek jika elemen ada
+                if (!container || !textarea) {
+                    console.error(`Element dengan ID ${config.id} atau ${config.inputId} tidak ditemukan`);
+                    return;
+                }
+
+                // Coba inisialisasi editor
+                ClassicEditor.create(container, {
+                        placeholder: config.placeholder,
+                        toolbar: {
+                            items: [
+                                'heading', '|',
+                                'bold', 'italic', 'underline', '|',
+                                'numberedList', '|',
+                                'outdent', 'indent', '|',
+                                'undo', 'redo'
+                            ]
+                        },
+                        alignment: {
+                            options: ['left', 'center', 'right', 'justify']
+                        }
+                    })
+                    .then(editor => {
+                        console.log(`${config.id} berhasil diinisialisasi`, editor);
+
+                        // Set data awal
+                        editor.setData(textarea.value);
+
+                        // Update textarea saat editor berubah
+                        editor.model.document.on('change:data', () => {
+                            textarea.value = editor.getData();
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Gagal inisialisasi editor ${config.id}:`, error);
+
+                        // Fallback: tampilkan textarea asli
+                        container.style.display = 'none';
+                        textarea.classList.remove('hidden');
+                        textarea.style.display = 'block';
+                    });
+            });
+
+
+
+            // Salary input formatting
+            const minInput = document.getElementById('salary_minimal');
+            const maxInput = document.getElementById('maximum_salary');
+
+            function formatRupiah(input) {
+                let value = input.value.replace(/\D/g, ''); // Hanya ambil digit
+                if (!value) return input.value = '';
+
+                const formatted = parseInt(value, 10).toLocaleString('id-ID'); // Format ribuan
+                input.value = formatted;
+            }
+
+            function getRawValue(formatted) {
+                return formatted.replace(/\./g, '').replace(/[^0-9]/g, '');
+            }
+
+            function validateSalaryRange() {
+                const min = parseInt(getRawValue(minInput.value)) || 0;
+                const max = parseInt(getRawValue(maxInput.value)) || 0;
+
+                if (min > max && max !== 0) {
+                    maxInput.setCustomValidity("Gaji maksimum tidak boleh lebih kecil dari gaji minimum");
+                } else {
+                    maxInput.setCustomValidity("");
+                }
+
+                if (max < min && min !== 0) {
+                    minInput.setCustomValidity("Gaji minimum tidak boleh lebih besar dari gaji maksimum");
+                } else {
+                    minInput.setCustomValidity("");
+                }
+            }
+
+            minInput.addEventListener('input', function() {
+                formatRupiah(minInput);
+                validateSalaryRange();
+            });
+
+            maxInput.addEventListener('input', function() {
+                formatRupiah(maxInput);
+                validateSalaryRange();
+            });
+
+            // Agar nilai tetap bersih saat form submit
+            document.querySelector('form').addEventListener('submit', function() {
+                minInput.value = getRawValue(minInput.value);
+                maxInput.value = getRawValue(maxInput.value);
+            });
+        });
+
         function goBack() {
             window.location.href = "{{ route('form_postjob_step2') }}";
         }
-    </script>
-    <script>
-        function formatText(editorId, command) {
-            const editor = document.getElementById(editorId);
-
-            // Focus the editor first
-            editor.focus();
-
-            // Save current selection
-            const selection = window.getSelection();
-            const range = selection.getRangeAt(0);
-
-            // Execute the command
-            document.execCommand(command, false, null);
-
-            // Restore selection if it was lost
-            if (selection.rangeCount === 0) {
-                selection.addRange(range);
-            }
-
-            // Sync the content
-            syncContent(editorId.replace('_editor', ''));
-        }
-
-        function syncContent(fieldId) {
-            const editor = document.getElementById(fieldId + '_editor');
-            const hiddenInput = document.getElementById(fieldId);
-
-            // Create a temporary div to work with
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = editor.innerHTML;
-
-            // Remove unwanted attributes
-            tempDiv.querySelectorAll('*').forEach(el => {
-                Array.from(el.attributes).forEach(attr => {
-                    if (attr.name.startsWith('data-')) {
-                        el.removeAttribute(attr.name);
-                    }
-                });
-            });
-
-            // Save cleaned HTML
-            hiddenInput.value = tempDiv.innerHTML;
-        }
-    </script>
-
-    <script>
-        const minInput = document.getElementById('salary_minimal');
-        const maxInput = document.getElementById('maximum_salary');
-
-        function formatRupiah(input) {
-            let value = input.value.replace(/\D/g, ''); // Hanya ambil digit
-            if (!value) return input.value = '';
-
-            const formatted = parseInt(value, 10).toLocaleString('id-ID'); // Format ribuan
-            input.value = formatted;
-        }
-
-        function getRawValue(formatted) {
-            return formatted.replace(/\./g, '').replace(/[^0-9]/g, '');
-        }
-
-        function validateSalaryRange() {
-            const min = parseInt(getRawValue(minInput.value)) || 0;
-            const max = parseInt(getRawValue(maxInput.value)) || 0;
-
-            if (min > max && max !== 0) {
-                maxInput.setCustomValidity("Gaji maksimum tidak boleh lebih kecil dari gaji minimum");
-            } else {
-                maxInput.setCustomValidity("");
-            }
-
-            if (max < min && min !== 0) {
-                minInput.setCustomValidity("Gaji minimum tidak boleh lebih besar dari gaji maksimum");
-            } else {
-                minInput.setCustomValidity("");
-            }
-        }
-
-        minInput.addEventListener('input', function() {
-            formatRupiah(minInput);
-            validateSalaryRange();
-        });
-
-        maxInput.addEventListener('input', function() {
-            formatRupiah(maxInput);
-            validateSalaryRange();
-        });
-
-        // Agar nilai tetap bersih saat form submit
-        document.querySelector('form').addEventListener('submit', function() {
-            minInput.value = getRawValue(minInput.value);
-            maxInput.value = getRawValue(maxInput.value);
-        });
     </script>
 @endsection

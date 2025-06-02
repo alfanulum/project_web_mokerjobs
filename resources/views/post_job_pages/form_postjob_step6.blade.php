@@ -75,17 +75,24 @@
             </div>
 
             <!-- Gaji -->
-            <div class="text-center text-xl font-bold text-gray-800">
-                Rp. {{ number_format($jobData['step3']['salary_minimal'] ?? 0, 0, ',', '.') }} -
-                Rp. {{ number_format($jobData['step3']['maximum_salary'] ?? 0, 0, ',', '.') }}
-            </div>
+            @if (!empty($jobData['step3']['salary_minimal']) || !empty($jobData['step3']['maximum_salary']))
+                <div class="text-center text-xl font-bold text-gray-800">
+                    @if (!empty($jobData['step3']['salary_minimal']))
+                        Rp. {{ number_format($jobData['step3']['salary_minimal'], 0, ',', '.') }}
+                    @endif
+                    @if (!empty($jobData['step3']['maximum_salary']))
+                        - Rp. {{ number_format($jobData['step3']['maximum_salary'], 0, ',', '.') }}
+                    @endif
+                </div>
+            @endif
 
             <!-- Deskripsi Pekerjaan -->
             <div>
                 <h4 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Pekerjaan</h4>
-                <div class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
+                <div
+                    class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:pl-5 [&>ol]:pl-5 [&>li]:mb-1">
                     {!! App\Helpers\HtmlHelper::cleanJobHtml(
-                        $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...',
+                        $jobData['step3']['job_description'] ?? '<p>Detail deskripsi pekerjaan...</p>',
                     ) !!}
                 </div>
             </div>
@@ -93,9 +100,10 @@
             <!-- Persyaratan Pekerjaan -->
             <div class="mt-6">
                 <h4 class="text-lg font-bold text-gray-900 mb-3">Persyaratan Pekerjaan</h4>
-                <div class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
+                <div
+                    class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:pl-5 [&>ol]:pl-5 [&>li]:mb-1">
                     {!! App\Helpers\HtmlHelper::cleanJobHtml(
-                        $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...',
+                        $jobData['step3']['job_requirements'] ?? '<p>Detail persyaratan pekerjaan...</p>',
                     ) !!}
                 </div>
             </div>
@@ -119,7 +127,20 @@
                     @foreach ($info as $label => $value)
                         <tr class="border-t border-gray-200">
                             <td class="font-semibold py-2 w-1/3">{{ $label }}</td>
-                            <td class="py-2">: {{ $value }}</td>
+                            <td class="py-2">
+                                @if (filter_var($value, FILTER_VALIDATE_URL))
+                                    <a href="{{ $value }}" target="_blank"
+                                        class="text-blue-600 hover:underline">{{ $value }}</a>
+                                @elseif (str_starts_with($value, 'http'))
+                                    <a href="{{ $value }}" target="_blank"
+                                        class="text-blue-600 hover:underline">{{ $value }}</a>
+                                @elseif (str_starts_with($value, '+') || is_numeric(str_replace(['+', ' ', '-'], '', $value)))
+                                    <a href="https://wa.me/{{ str_replace(['+', ' ', '-'], '', $value) }}" target="_blank"
+                                        class="text-blue-600 hover:underline">{{ $value }}</a>
+                                @else
+                                    {{ $value }}
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </table>
@@ -169,41 +190,20 @@
     <script>
         function showConfirmation() {
             document.getElementById('confirmationModal').classList.remove('hidden');
-            document.getElementById('mainContent').classList.add('blur-sm');
             document.body.style.overflow = 'hidden';
         }
 
         function hideConfirmation() {
             document.getElementById('confirmationModal').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('blur-sm');
             document.body.style.overflow = '';
         }
 
         function submitForm() {
             const submitBtn = document.querySelector('#confirmationModal button[onclick="submitForm()"]');
-            submitBtn.innerHTML = 'Mengirim...';
+            submitBtn.innerHTML =
+                '<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mengirim...</span>';
             submitBtn.disabled = true;
 
-            document.getElementById('jobForm').submit();
-        }
-    </script>
-
-    <script>
-        function showConfirmation() {
-            document.getElementById('confirmationModal').classList.remove('hidden');
-        }
-
-        function hideConfirmation() {
-            document.getElementById('confirmationModal').classList.add('hidden');
-        }
-
-        function submitForm() {
-            // Show loading indicator
-            const submitBtn = document.querySelector('#confirmationModal button[onclick="submitForm()"]');
-            submitBtn.innerHTML = 'Mengirim...';
-            submitBtn.disabled = true;
-
-            // Submit the form
             document.getElementById('jobForm').submit();
         }
     </script>

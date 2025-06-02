@@ -2,26 +2,27 @@
 
 @section('content')
     <div x-data="{ showApplyModal: false }" class="relative">
-        <!-- Latar belakang yang bisa blur -->
+        <!-- Background that can blur -->
         <div :class="showApplyModal ? 'blur-sm pointer-events-none select-none' : ''"
             class="min-h-screen bg-gradient-to-r from-[#F9FAFB] to-[#E1E5EB] py-10 px-4 sm:px-8 lg:px-12 font-poppins transition-all duration-300 ease-in-out">
-            <!-- Logo Website -->
+
+            <!-- Website Logo -->
             <div class="mb-10 pl-10">
                 <img src="{{ asset('images/LOGO.png') }}" alt="moker.jobs" class="h-10 mb-6">
             </div>
 
-            <!-- Pembungkus Kartu -->
+            <!-- Job Card -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 max-w-5xl mx-auto p-8 sm:p-10 space-y-8">
-                <!-- Nama Perusahaan -->
+                <!-- Company Name -->
                 <div class="text-center mb-8">
                     <h2 class="text-4xl font-extrabold text-gray-900 mb-4">
                         {{ $jobData['step4']['company_name'] ?? 'Nama Perusahaan' }}
                     </h2>
                 </div>
 
-                <!-- Header -->
+                <!-- Header Section -->
                 <div class="flex flex-col md:flex-row gap-8 items-start">
-                    <!-- Logo Perusahaan -->
+                    <!-- Company Logo -->
                     <div
                         class="flex-shrink-0 bg-[#E5F3FF] rounded-xl w-36 h-36 md:w-44 md:h-44 flex items-center justify-center overflow-hidden shadow-lg">
                         @if (!empty($jobData['step4']['company_logo_image']))
@@ -33,7 +34,7 @@
                         @endif
                     </div>
 
-                    <!-- Informasi -->
+                    <!-- Job Info -->
                     <div class="flex-1 space-y-2">
                         <h3 class="text-2xl font-bold text-gray-900">
                             {{ $jobData['step1']['job_name'] ?? 'Nama Pekerjaan' }}
@@ -68,35 +69,41 @@
                     @endforeach
                 </div>
 
-                <!-- Gaji -->
-                <div class="text-center text-2xl font-bold text-gray-800 mt-6">
-                    Rp. {{ number_format($jobData['step3']['salary_minimal'] ?? 0, 0, ',', '.') }} -
-                    Rp. {{ number_format($jobData['step3']['maximum_salary'] ?? 0, 0, ',', '.') }}
-                </div>
+                <!-- Salary -->
+                @if (!empty($jobData['step3']['salary_minimal']) || !empty($jobData['step3']['maximum_salary']))
+                    <div class="text-center text-2xl font-bold text-gray-800 mt-6">
+                        @if (!empty($jobData['step3']['salary_minimal']))
+                            Rp. {{ number_format($jobData['step3']['salary_minimal'], 0, ',', '.') }}
+                        @endif
+                        @if (!empty($jobData['step3']['maximum_salary']))
+                            - Rp. {{ number_format($jobData['step3']['maximum_salary'], 0, ',', '.') }}
+                        @endif
+                    </div>
+                @endif
 
-                <!-- Deskripsi Pekerjaan -->
+                <!-- Job Description -->
                 <div>
                     <h4 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Pekerjaan</h4>
                     <div
-                        class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
+                        class="prose max-w-none text-gray-700 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:pl-5 [&>ol]:pl-5 [&>li]:mb-2">
                         {!! App\Helpers\HtmlHelper::cleanJobHtml(
-                            $jobData['step3']['job_description'] ?? 'Detail deskripsi pekerjaan...',
+                            $jobData['step3']['job_description'] ?? '<p>Detail deskripsi pekerjaan...</p>',
                         ) !!}
                     </div>
                 </div>
 
-                <!-- Persyaratan Pekerjaan -->
+                <!-- Job Requirements -->
                 <div class="mt-6">
                     <h4 class="text-lg font-bold text-gray-900 mb-3">Persyaratan Pekerjaan</h4>
                     <div
-                        class="prose max-w-none text-sm text-gray-700 [&>div]:whitespace-pre-wrap [&>p]:whitespace-pre-wrap">
+                        class="prose max-w-none text-gray-700 [&>ul]:list-disc [&>ol]:list-decimal [&>ul]:pl-5 [&>ol]:pl-5 [&>li]:mb-2">
                         {!! App\Helpers\HtmlHelper::cleanJobHtml(
-                            $jobData['step3']['job_requirements'] ?? 'Detail persyaratan pekerjaan...',
+                            $jobData['step3']['job_requirements'] ?? '<p>Detail persyaratan pekerjaan...</p>',
                         ) !!}
                     </div>
                 </div>
 
-                <!-- Info Perusahaan -->
+                <!-- Company Info -->
                 <div class="bg-yellow-50 rounded-2xl p-6 mt-8">
                     <table class="w-full text-sm text-gray-800">
                         @php
@@ -113,13 +120,22 @@
                         @foreach ($info as $label => $value)
                             <tr class="border-t border-gray-200">
                                 <td class="font-semibold py-2 w-1/3">{{ $label }}</td>
-                                <td class="py-2">: {{ $value }}</td>
+                                <td class="py-2">
+                                    @if (filter_var($value, FILTER_VALIDATE_URL))
+                                        <a href="{{ $value }}" target="_blank" rel="noopener noreferrer"
+                                            class="text-blue-600 hover:underline break-all">
+                                            {{ $value }}
+                                        </a>
+                                    @else
+                                        {{ $value }}
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>
                 </div>
 
-                <!-- Navigasi -->
+                <!-- Navigation -->
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
                     <a href="{{ url()->previous() }}"
                         class="w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-black font-semibold px-6 py-3 rounded-full text-center transition">
@@ -128,19 +144,27 @@
 
                     <div class="flex gap-4 mt-4 sm:mt-0">
                         <button @click="showApplyModal = true"
-                            class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition">
+                            class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full transition flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
                             Lamar Sekarang
                         </button>
                         <button onclick="shareJob()"
-                            class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition">
-                            <i class="fas fa-share-alt mr-2"></i> Bagikan
+                            class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                            </svg>
+                            Bagikan
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Apply -->
+        <!-- Apply Modal -->
         <div x-cloak x-show="showApplyModal" x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
@@ -148,7 +172,7 @@
             class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/30">
             <div @click.away="showApplyModal = false"
                 class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 mx-4 sm:mx-auto relative">
-                <!-- Header Modal -->
+                <!-- Modal Header -->
                 <div class="flex items-start space-x-4 mb-6">
                     <div class="flex-shrink-0">
                         <div class="h-10 w-10 flex items-center justify-center rounded-full bg-green-100">
@@ -165,28 +189,46 @@
                     </div>
                 </div>
 
-                <!-- Kontak -->
+                <!-- Contact Methods -->
                 <div class="space-y-3">
-                    <a href="mailto:{{ $jobData['step5']['email_company'] }}"
-                        class="flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                        </svg>
-                        Email: {{ $jobData['step5']['email_company'] }}
-                    </a>
-                    <a href="https://wa.me/{{ $jobData['step5']['no_wa_company'] }}"
-                        class="flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-green-600 text-white hover:bg-green-700 transition">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        WhatsApp: {{ $jobData['step5']['no_wa_company'] }}
-                    </a>
+                    @if (!empty($jobData['step5']['email_company']))
+                        <a href="mailto:{{ $jobData['step5']['email_company'] }}"
+                            class="flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                            Email: {{ $jobData['step5']['email_company'] }}
+                        </a>
+                    @endif
+
+                    @if (!empty($jobData['step5']['no_wa_company']))
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $jobData['step5']['no_wa_company']) }}"
+                            class="flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium bg-green-600 text-white hover:bg-green-700 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            WhatsApp: {{ $jobData['step5']['no_wa_company'] }}
+                        </a>
+                    @endif
+
+                    @if (!empty($jobData['step5']['social_media_company']))
+                        <a href="{{ $jobData['step5']['social_media_company'] }}" target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center justify-center px-4 py-3 rounded-md text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Formulir Online
+                        </a>
+                    @endif
                 </div>
 
-                <!-- Tombol Tutup -->
+                <!-- Close Button -->
                 <div class="mt-6 text-right">
                     <button @click="showApplyModal = false"
                         class="text-gray-500 hover:text-gray-800 font-medium text-sm">Tutup</button>
@@ -195,16 +237,22 @@
         </div>
     </div>
 
-    <!-- Script Share -->
+    <!-- Share Script -->
     <script>
         function shareJob() {
             if (navigator.share) {
                 navigator.share({
-                    title: document.title,
+                    title: '{{ $jobData['step1']['job_name'] ?? 'Lowongan Kerja' }} - {{ $jobData['step4']['company_name'] ?? '' }}',
+                    text: 'Lihat lowongan kerja ini: {{ $jobData['step1']['job_name'] ?? '' }}',
                     url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
                 });
             } else {
-                alert('Fitur share tidak didukung oleh browser Anda.');
+                // Fallback for browsers that don't support Web Share API
+                const shareUrl =
+                    `whatsapp://send?text=Lihat lowongan kerja ini: ${encodeURIComponent(window.location.href)}`;
+                window.open(shareUrl, '_blank');
             }
         }
     </script>
