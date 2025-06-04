@@ -1,9 +1,10 @@
 @php
-    $navLinks = [
-        ['name' => 'Overview', 'route' => 'overview'],
-        ['name' => 'Cari Loker', 'route' => 'find_job'],
-        ['name' => 'Pasang Loker', 'route' => 'post_job'],
-    ];
+$navLinks = [
+['name' => 'Overview', 'route' => 'overview'],
+['name' => 'Cari Loker', 'route' => 'find_job'],
+['name' => 'Pasang Loker', 'route' => 'post_job'],
+['name' => 'Job Fair', 'route' => 'jobfair.index'],
+];
 @endphp
 
 <nav x-data="{ open: false }" class="sticky top-0 z-50 bg-white shadow-sm transition-all duration-300 px-4 md:px-6 py-5">
@@ -18,14 +19,14 @@
         <div
             class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex space-x-6 text-sm font-semibold font-poppins">
             @foreach ($navLinks as $link)
-                <a href="{{ route($link['route']) }}"
-                    class="relative transition duration-300 pb-1
+            <a href="{{ route($link['route']) }}"
+                class="relative transition duration-300 pb-1
                         {{ request()->routeIs($link['route'])
                             ? 'text-black after:scale-x-100'
                             : 'text-gray-600 hover:text-black hover:after:scale-x-100' }}
                         after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:bg-black after:w-full after:transform after:scale-x-0 after:transition-transform after:duration-300 after:origin-left">
-                    {{ $link['name'] }}
-                </a>
+                {{ $link['name'] }}
+            </a>
             @endforeach
         </div>
 
@@ -50,12 +51,12 @@
         x-transition:leave-end="opacity-0 -translate-y-2" x-cloak
         class="md:hidden px-4 pt-4 pb-2 space-y-2 text-sm bg-white shadow-sm border-t">
         @foreach ($navLinks as $link)
-            <a href="{{ route($link['route']) }}"
-                class="block px-3 py-2 rounded-md transition {{ request()->routeIs($link['route'])
+        <a href="{{ route($link['route']) }}"
+            class="block px-3 py-2 rounded-md transition {{ request()->routeIs($link['route'])
                     ? 'text-black font-semibold bg-gray-100'
                     : 'text-gray-700 hover:bg-gray-100 hover:font-medium' }}">
-                {{ $link['name'] }}
-            </a>
+            {{ $link['name'] }}
+        </a>
         @endforeach
     </div>
 </nav>

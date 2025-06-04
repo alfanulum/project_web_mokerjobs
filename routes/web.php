@@ -7,6 +7,10 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProcessedController;
 use App\Http\Controllers\Admin\RejectedController;
+use App\Http\Controllers\JobfairController;
+use App\Http\Controllers\Admin\JobfairEventController;
+use App\Http\Controllers\Admin\JobfairCompanyController;
+
 
 Route::get('/', [JobController::class, 'overview'])->name('overview');
 
@@ -59,6 +63,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
+//Rute Jobfair
+Route::get('/jobfairs', [JobfairController::class, 'index'])->name('jobfair.index');
+Route::get('/jobfairs/{event:slug}', [JobfairController::class, 'showEvent'])->name('jobfair.event');
+Route::get('/jobfairs/{event:slug}/companies/{company:slug}', [JobfairController::class, 'showCompany'])->name('jobfair.company');
+Route::get('jobfairs/{event:slug}/companies/{company:slug}/jobs/{job}', [JobfairController::class, 'show'])->name('job.show');
+
 
 
 // Rute Autentikasi Admin
@@ -77,6 +87,34 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('rejected', [RejectedController::class, 'index'])->name('rejected');
         Route::patch('lowongan/{lowongan}/update-status', [ProcessedController::class, 'updateStatus'])->name('processed.update_status');
         Route::get('lowongan/{lowongan}/detail', [ProcessedController::class, 'show'])->name('lowongan.show_detail');
+
+        //Admin Jobfair
+        Route::prefix('jobfairs')->name('jobfairs.')->group(function () {
+            Route::get('/', [JobfairEventController::class, 'index'])->name('index');
+            Route::get('/create', [JobfairEventController::class, 'create'])->name('create');
+            Route::get('/{jobfair}/edit', [JobfairEventController::class, 'edit'])->name('edit');
+            Route::post('/', [JobfairEventController::class, 'store'])->name('store');
+            Route::put('/{jobfair}', [JobfairEventController::class, 'update'])->name('update');
+            Route::delete('/{jobfair}', [JobfairEventController::class, 'destroy'])->name('destroy');
+            Route::get('/{jobfair}/companies', [JobfairCompanyController::class, 'index'])->name('companies.index');
+        });
+
+        Route::prefix('jobfairs/{jobfair}')->group(function () {
+            Route::get('/companies', [\App\Http\Controllers\Admin\JobfairCompanyController::class, 'index'])->name('jobfairs.companies.index');
+            Route::get('/companies/create', [\App\Http\Controllers\Admin\JobfairCompanyController::class, 'create'])->name('jobfairs.companies.create');
+            Route::post('/companies', [\App\Http\Controllers\Admin\JobfairCompanyController::class, 'store'])->name('jobfairs.companies.store');
+            Route::delete('/companies/{company}', [\App\Http\Controllers\Admin\JobfairCompanyController::class, 'destroy'])->name('jobfairs.companies.destroy');
+        });
+
+        Route::prefix('companies/{company}')->group(function () {
+            Route::get('/jobs', [\App\Http\Controllers\Admin\JobController::class, 'index'])->name('jobs.index');
+            Route::get('/jobs/create', [\App\Http\Controllers\Admin\JobController::class, 'create'])->name('jobs.create');
+            Route::post('/jobs', [\App\Http\Controllers\Admin\JobController::class, 'store'])->name('jobs.store');
+        });
+
+        Route::get('/jobs/{job}/edit', [\App\Http\Controllers\Admin\JobController::class, 'edit'])->name('jobs.edit');
+        Route::put('/jobs/{job}', [\App\Http\Controllers\Admin\JobController::class, 'update'])->name('jobs.update');
+        Route::delete('/jobs/{job}', [\App\Http\Controllers\Admin\JobController::class, 'destroy'])->name('jobs.destroy');
     });
 });
 

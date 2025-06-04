@@ -19,14 +19,17 @@
             width: 6px;
             height: 6px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.4);
             border-radius: 10px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.6);
         }
@@ -37,11 +40,13 @@
                 transform: translateX(-100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
+
         .sidebar-animate {
             animation: slideInFromLeft 0.3s ease-out forwards;
         }
@@ -49,12 +54,16 @@
         /* Styling untuk active nav item */
         .nav-item.active {
             background-color: white !important;
-            color: #F97316 !important; /* Tailwind orange-500 */
-            font-weight: 600; /* semibold */
+            color: #F97316 !important;
+            /* Tailwind orange-500 */
+            font-weight: 600;
+            /* semibold */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
         .nav-item.active svg {
-            color: #F97316 !important; /* Tailwind orange-500 */
+            color: #F97316 !important;
+            /* Tailwind orange-500 */
         }
     </style>
     @stack('styles') {{-- Untuk menambahkan CSS spesifik per halaman --}}
@@ -85,19 +94,26 @@
                     </svg>
                     <span>Processed</span>
                 </a>
-                <a href="{{ route('admin.approved') }}" id="nav-approved" 
+                <a href="{{ route('admin.approved') }}" id="nav-approved"
                     class="nav-item group flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200 transform hover:scale-[1.02]">
                     <svg class="w-5 h-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                     </svg>
                     <span>Approved</span>
                 </a>
-                <a href="{{ route('admin.rejected') }}" id="nav-rejected" 
+                <a href="{{ route('admin.rejected') }}" id="nav-rejected"
                     class="nav-item group flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200 transform hover:scale-[1.02]">
                     <svg class="w-5 h-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                     <span>Rejected</span>
+                </a>
+                <a href="{{ route('admin.jobfairs.index') }}" id="nav-jobfair"
+                    class="nav-item group flex items-center space-x-3 px-4 py-2.5 rounded-lg text-sm font-medium text-orange-100 hover:bg-white hover:text-orange-500 hover:shadow-md transition-all duration-200 transform hover:scale-[1.02]">
+                    <svg class="w-5 h-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Jobfair</span>
                 </a>
                 {{-- Tambahkan link navigasi admin lainnya di sini --}}
             </nav>
@@ -126,4 +142,5 @@
 
     @stack('scripts') {{-- Pastikan ini ada dan hanya satu kali sebelum </body> --}}
 </body>
+
 </html>
