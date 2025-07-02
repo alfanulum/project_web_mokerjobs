@@ -33,7 +33,7 @@ class JobController extends Controller
             'requirements' => 'required|string',
             'education_level' => 'required|string',
             'experience_years' => 'required|integer',
-            'salary' => 'required|string',
+            'salary' => 'required|numeric|min:0',
             'type' => 'required|string',
             'expired_at' => 'required|date',
             'apply_link' => 'required|url',
@@ -55,7 +55,22 @@ class JobController extends Controller
 
     public function update(Request $request, Job $job)
     {
-        $job->update($request->all());
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'location' => 'required|string',
+            'description' => 'required|string',
+            'requirements' => 'required|string',
+            'education_level' => 'required|string',
+            'experience_years' => 'required|integer|min:0',
+            'salary' => 'required|numeric|min:0',
+            'type' => 'required|string',
+            'posted_at' => 'required|date',
+            'expired_at' => 'required|date|after:posted_at',
+            'apply_link' => 'required|url',
+        ]);
+
+        $job->update($validated);
+
         return redirect()->route('admin.jobs.index', $job->company_id)->with('success', 'Lowongan diperbarui');
     }
 

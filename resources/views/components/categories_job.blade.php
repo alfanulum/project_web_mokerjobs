@@ -1,7 +1,7 @@
 @php
     use App\Http\Controllers\JobController;
     use App\Models\Lowongan;
-    $categories = Lowongan::select('category_job')->distinct()->get();
+    $categories = Lowongan::where('status', 'accept')->select('category_job')->distinct()->get();
     $currentCategory = request('kategori');
 @endphp
 
@@ -43,7 +43,7 @@
                             </span>
                         </div>
                         <span class="text-xs text-gray-400 font-semibold shrink-0">
-                            {{ Lowongan::where('category_job', $category->category_job)->count() }} Jobs
+                            {{ Lowongan::where('status', 'accept')->where('category_job', $category->category_job)->count() }}
                         </span>
                     </a>
                 </li>

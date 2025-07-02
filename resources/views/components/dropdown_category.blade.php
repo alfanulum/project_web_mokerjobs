@@ -1,6 +1,7 @@
 @php
     use App\Models\Lowongan;
-    $categories = Lowongan::select('category_job')
+    $categories = Lowongan::where('status', 'accept')
+        ->select('category_job')
         ->distinct()
         ->get()
         ->unique(fn($item) => strtolower($item->category_job)); // Case-insensitive unique
@@ -60,7 +61,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-orange-50 px-3 py-3 rounded-b-md">
             @foreach ($categories as $category)
                 @php
-                    $count = Lowongan::where('category_job', $category->category_job)->count();
+                    $count = Lowongan::where('status', 'accept')
+                        ->where('category_job', $category->category_job)
+                        ->count();
                 @endphp
                 <label
                     class="flex justify-between items-center text-sm text-gray-800 hover:bg-orange-200 px-3 py-2 rounded cursor-pointer transition">

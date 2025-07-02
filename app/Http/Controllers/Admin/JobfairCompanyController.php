@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\JobfairEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class JobfairCompanyController extends Controller
 {
@@ -24,7 +25,7 @@ class JobfairCompanyController extends Controller
 
     public function store(Request $request, JobfairEvent $jobfair)
     {
-        // Validasi untuk field perusahaan BARU
+        // Validasi data
         $validatedCompanyData = $request->validate([
             'name' => 'required|string|max:255',
             'industry' => 'required|string|max:255',
@@ -34,8 +35,10 @@ class JobfairCompanyController extends Controller
             'whatsapp' => 'nullable|string|max:50',
             'description' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'logo_removed' => 'sometimes|in:0,1',
         ]);
 
+        // Buat instansi perusahaan baru
         $company = new Company();
         $company->name = $validatedCompanyData['name'];
 
@@ -56,26 +59,24 @@ class JobfairCompanyController extends Controller
         $company->whatsapp = $validatedCompanyData['whatsapp'] ?? null;
         $company->description = $validatedCompanyData['description'];
 
-        // Upload logo jika ada
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('logos', 'public');
-            $company->logo_path = $path; // Pastikan kolom `logo_path` ada di tabel companies
+        // --- LOGIKA UPLOAD LOGO ala step 4 ---
+        if ($request->logo_removed == '1') {
+            $company->logo_path = null;
+        } elseif ($request->hasFile('logo')) {
+            if (!empty($company->logo_path)) {
+                Storage::disk('public')->delete($company->logo_path);
+            }
+            $path = $request->file('logo')->store('company_logos', 'public');
+            $company->logo_path = $path;
         }
 
+        // Simpan data
         $company->save();
 
-        // Asosiasikan perusahaan baru dengan job fair
+        // Asosiasikan ke event job fair
         $jobfair->companies()->attach($company->id);
 
         return redirect()->route('admin.jobfairs.companies.index', $jobfair)
             ->with('success', 'Perusahaan baru berhasil dibuat dan ditambahkan ke job fair.');
-    }
-
-
-
-    public function destroy(JobfairEvent $jobfair, Company $company)
-    {
-        $jobfair->companies()->detach($company->id);
-        return redirect()->back()->with('success', 'Perusahaan dihapus dari event');
     }
 }
